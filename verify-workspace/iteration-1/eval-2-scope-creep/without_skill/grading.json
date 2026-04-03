@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "scope-creep",
+  "configuration": "without_skill",
+  "expectations": [
+    {"text": "Passes core requirement (reads JSON, returns parsed object)", "passed": true, "evidence": "'Core requirement met: Yes'"},
+    {"text": "Flags try/catch error handling as EXTRA", "passed": true, "evidence": "Listed in Extras table: 'try/catch error handling wrapper'"},
+    {"text": "Flags input validation as EXTRA", "passed": true, "evidence": "Two rows: 'Input validation: check that filePath is a non-empty string' and 'check that file extension is .json'"},
+    {"text": "Flags console.log debugging as EXTRA", "passed": true, "evidence": "Listed: 'console.log debugging statements (3 instances)'"},
+    {"text": "Has Unrequested additions section", "passed": true, "evidence": "'Extras Identified' table with 8 rows — equivalent section"},
+    {"text": "Labels extras with severity judgment", "passed": true, "evidence": "'Severity: Moderate. The extras don't break anything, but they contradict the user's explicit request for simplicity.' — single blanket severity, not per-item"}
+  ]
+}

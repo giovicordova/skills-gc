@@ -1,0 +1,42 @@
+{
+  "eval_id": 1,
+  "eval_name": "partial-compliance",
+  "prompt": "Create a card component: rounded corners (12px), subtle box shadow, padding 24px, max-width 400px, and a hover effect that scales up slightly.\n\n/verify",
+  "assertions": [
+    {
+      "id": "catches-missing-hover",
+      "text": "Report identifies the missing hover effect as FAIL or PARTIAL — not PASS",
+      "type": "critical"
+    },
+    {
+      "id": "passes-border-radius",
+      "text": "Report marks rounded corners (12px) as PASS with evidence",
+      "type": "content"
+    },
+    {
+      "id": "passes-box-shadow",
+      "text": "Report marks box shadow as PASS with evidence",
+      "type": "content"
+    },
+    {
+      "id": "passes-padding",
+      "text": "Report marks padding 24px as PASS with evidence",
+      "type": "content"
+    },
+    {
+      "id": "passes-max-width",
+      "text": "Report marks max-width 400px as PASS with evidence",
+      "type": "content"
+    },
+    {
+      "id": "accurate-score",
+      "text": "Score reflects the missing requirement (not a perfect score like 5/5)",
+      "type": "critical"
+    },
+    {
+      "id": "offers-to-fix",
+      "text": "Report ends with an offer to fix the failing requirements",
+      "type": "structural"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "skill_name": "verify",
+  "evals": [
+    {
+      "id": 0,
+      "name": "html-styles",
+      "prompt": "Build me a landing page with a dark background (#1a1a2e), white text, a hero section with a centered heading in Inter font, and a CTA button in coral (#ff6b6b). Mobile-first.\n\n[After Claude builds it, user says:]\n/verify",
+      "expected_output": "A structured compliance report that checks each style requirement (background color, text color, hero section, centered heading, Inter font, coral button, mobile-first) against the generated HTML/CSS, with PASS/FAIL verdicts and line-number evidence.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "partial-compliance",
+      "prompt": "Create a card component: rounded corners (12px), subtle box shadow, padding 24px, max-width 400px, and a hover effect that scales up slightly.\n\n[After Claude builds it, user says:]\n/verify",
+      "expected_output": "A compliance report that identifies each requirement and catches any missing ones (especially hover effect if omitted), with specific CSS property evidence for each verdict.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "scope-creep",
+      "prompt": "Write a simple Node.js function that reads a JSON file and returns the parsed object.\n\n[After Claude builds it, user says:]\n/verify",
+      "expected_output": "A compliance report that passes the core requirement (reads JSON, returns parsed object) but flags any unrequested additions (error handling, validation, logging, type checking) as EXTRA with appropriate severity.",
+      "files": []
+    }
+  ]
+}

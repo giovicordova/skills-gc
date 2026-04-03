@@ -1,0 +1,37 @@
+{
+  "eval_id": 2,
+  "eval_name": "scope-creep",
+  "prompt": "Write a simple Node.js function that reads a JSON file and returns the parsed object.\n\n/verify",
+  "assertions": [
+    {
+      "id": "passes-core-function",
+      "text": "Report marks the core requirement (reads JSON, returns parsed object) as PASS",
+      "type": "content"
+    },
+    {
+      "id": "flags-error-handling",
+      "text": "Report flags try/catch error handling as an unrequested addition (EXTRA)",
+      "type": "critical"
+    },
+    {
+      "id": "flags-validation",
+      "text": "Report flags input validation as an unrequested addition (EXTRA)",
+      "type": "critical"
+    },
+    {
+      "id": "flags-logging",
+      "text": "Report flags console.log debugging as an unrequested addition (EXTRA)",
+      "type": "content"
+    },
+    {
+      "id": "has-extras-section",
+      "text": "Report has an 'Unrequested additions' section or equivalent listing the extras",
+      "type": "structural"
+    },
+    {
+      "id": "severity-labels",
+      "text": "Extras are labelled with severity (harmless vs scope creep) or equivalent judgment",
+      "type": "quality"
+    }
+  ]
+}

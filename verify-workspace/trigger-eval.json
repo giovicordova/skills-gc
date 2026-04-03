@@ -1,0 +1,82 @@
+[
+  {
+    "query": "ok I just got the HTML back from you, can you verify it actually has everything I asked for? I specifically said no gradients and I want to make sure",
+    "should_trigger": true
+  },
+  {
+    "query": "verify",
+    "should_trigger": true
+  },
+  {
+    "query": "hold on, before we move on — check your work against what I originally asked. I had like 6 requirements and I want to make sure nothing got dropped",
+    "should_trigger": true
+  },
+  {
+    "query": "did you actually follow my request? I asked for a minimal setup and this looks like it has a ton of stuff I never mentioned",
+    "should_trigger": true
+  },
+  {
+    "query": "run a compliance check on what you just built. I want to see requirement by requirement whether it matches my spec",
+    "should_trigger": true
+  },
+  {
+    "query": "audit this — I gave you a pretty specific brief for the dashboard layout and I need to know if you hit every point before I show it to the client",
+    "should_trigger": true
+  },
+  {
+    "query": "so I asked for dark theme, Inter font, 8px border radius on cards, and a sticky nav. did you actually do all of that or did you improvise?",
+    "should_trigger": true
+  },
+  {
+    "query": "I told you mobile-first with no JavaScript. Can you go back and check whether the page you made actually respects those two constraints?",
+    "should_trigger": true
+  },
+  {
+    "query": "check your work",
+    "should_trigger": true
+  },
+  {
+    "query": "wait — I think you added error handling and logging that I never asked for. can you audit what you delivered vs what I actually requested?",
+    "should_trigger": true
+  },
+  {
+    "query": "can you review this pull request? it's PR #47 on our repo, there are some changes to the auth middleware I want a second pair of eyes on",
+    "should_trigger": false
+  },
+  {
+    "query": "I need you to verify that this API endpoint is returning the right JSON schema. Here's the curl command: curl -s https://api.example.com/v2/users | jq .",
+    "should_trigger": false
+  },
+  {
+    "query": "can you check if this code has any security vulnerabilities? I'm worried about SQL injection in the login handler at src/auth/login.ts",
+    "should_trigger": false
+  },
+  {
+    "query": "proofread the copy on this landing page — fix any grammar issues, awkward phrasing, or typos. The file is at public/index.html",
+    "should_trigger": false
+  },
+  {
+    "query": "run the test suite and tell me if anything fails. I just refactored the payment module and I'm nervous about regressions",
+    "should_trigger": false
+  },
+  {
+    "query": "can you verify my SSL certificate is configured correctly? the site is at example.com and I'm getting mixed content warnings",
+    "should_trigger": false
+  },
+  {
+    "query": "I wrote this function myself — can you check it for bugs? It's supposed to debounce API calls but sometimes fires twice",
+    "should_trigger": false
+  },
+  {
+    "query": "check if the docker-compose.yml has the right port mappings. I keep getting connection refused on port 3000",
+    "should_trigger": false
+  },
+  {
+    "query": "verify that our .gitignore covers all the sensitive files — I don't want .env or credentials.json ending up in the repo",
+    "should_trigger": false
+  },
+  {
+    "query": "can you do a code review on the changes I made today? I touched about 5 files across the billing module",
+    "should_trigger": false
+  }
+]

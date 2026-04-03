@@ -1,0 +1,47 @@
+{
+  "eval_id": 0,
+  "eval_name": "html-styles",
+  "prompt": "Build me a landing page with a dark background (#1a1a2e), white text, a hero section with a centered heading in Inter font, and a CTA button in coral (#ff6b6b). Mobile-first.\n\n/verify",
+  "assertions": [
+    {
+      "id": "has-requirement-table",
+      "text": "Report contains a requirements table or checklist with individual verdicts per requirement",
+      "type": "structural"
+    },
+    {
+      "id": "checks-background-color",
+      "text": "Report specifically checks #1a1a2e background color with a PASS/FAIL verdict",
+      "type": "content"
+    },
+    {
+      "id": "checks-text-color",
+      "text": "Report specifically checks white text color with a PASS/FAIL verdict",
+      "type": "content"
+    },
+    {
+      "id": "checks-inter-font",
+      "text": "Report specifically checks Inter font with a PASS/FAIL verdict",
+      "type": "content"
+    },
+    {
+      "id": "checks-coral-button",
+      "text": "Report specifically checks #ff6b6b coral CTA button with a PASS/FAIL verdict",
+      "type": "content"
+    },
+    {
+      "id": "checks-mobile-first",
+      "text": "Report specifically checks mobile-first approach with a PASS/FAIL verdict",
+      "type": "content"
+    },
+    {
+      "id": "cites-evidence",
+      "text": "Report includes specific evidence (file names, CSS property values, or line references) — not just 'looks good'",
+      "type": "quality"
+    },
+    {
+      "id": "has-score",
+      "text": "Report includes a score summary (e.g. X/Y requirements met)",
+      "type": "structural"
+    }
+  ]
+}

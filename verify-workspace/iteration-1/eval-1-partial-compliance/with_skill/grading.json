@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "partial-compliance",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "Catches missing hover effect as FAIL or PARTIAL", "passed": true, "evidence": "Row 5: FAIL — 'No :hover pseudo-class exists anywhere in the file. No transform, scale, or transition property is present.'"},
+    {"text": "Marks rounded corners (12px) as PASS with evidence", "passed": true, "evidence": "Row 1: PASS — card.html:24, border-radius: 12px"},
+    {"text": "Marks box shadow as PASS with evidence", "passed": true, "evidence": "Row 2: PASS — card.html:25, box-shadow with low opacity, qualifies as subtle"},
+    {"text": "Marks padding 24px as PASS with evidence", "passed": true, "evidence": "Row 3: PASS — card.html:26, padding: 24px"},
+    {"text": "Marks max-width 400px as PASS with evidence", "passed": true, "evidence": "Row 4: PASS — card.html:27, max-width: 400px"},
+    {"text": "Score reflects missing requirement (not perfect)", "passed": true, "evidence": "Score: 4/5 requirements met"},
+    {"text": "Offers to fix failing requirements", "passed": true, "evidence": "Ends with 'Want me to fix these?'"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "scope-creep",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "Passes core requirement (reads JSON, returns parsed object)", "passed": true, "evidence": "Rows 1-3 all PASS: Node.js function, fs.readFileSync, JSON.parse + return"},
+    {"text": "Flags try/catch error handling as EXTRA", "passed": true, "evidence": "Listed as 'try/catch with re-thrown custom error — scope creep. Wraps the native error in a new Error, losing the original stack trace.'"},
+    {"text": "Flags input validation as EXTRA", "passed": true, "evidence": "Two items: 'Input validation: empty/type check — scope creep' and 'Input validation: .json extension check — scope creep. Actively harmful.'"},
+    {"text": "Flags console.log debugging as EXTRA", "passed": true, "evidence": "Listed as 'console.log debug statements — scope creep. Three log statements that pollute stdout in production.'"},
+    {"text": "Has Unrequested additions section", "passed": true, "evidence": "Dedicated '### Unrequested additions' section with 8 bullet items"},
+    {"text": "Labels extras with severity judgment", "passed": true, "evidence": "Uses 'scope creep' consistently, plus 'actively harmful' for .json check and notes TOCTOU race on existsSync"}
+  ]
+}

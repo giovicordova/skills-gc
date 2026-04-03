@@ -1,0 +1,15 @@
+{
+  "eval_id": 0,
+  "eval_name": "html-styles",
+  "configuration": "with_skill",
+  "expectations": [
+    {"text": "Report contains a requirements table with individual verdicts", "passed": true, "evidence": "Markdown table with 7 rows, each with # | Requirement | Verdict | Evidence columns"},
+    {"text": "Checks #1a1a2e background color with PASS/FAIL verdict", "passed": true, "evidence": "Row 1: PASS — cites index.html:25, background-color: #1a1a2e on body"},
+    {"text": "Checks white text color with PASS/FAIL verdict", "passed": true, "evidence": "Row 2: PASS — cites index.html:26, color: #ffffff on body"},
+    {"text": "Checks Inter font with PASS/FAIL verdict", "passed": true, "evidence": "Row 5: PASS — cites Google Fonts import at line 9, font-family at line 24"},
+    {"text": "Checks #ff6b6b coral CTA button with PASS/FAIL verdict", "passed": true, "evidence": "Row 6: PASS — cites index.html:155, .btn-primary background-color: #ff6b6b"},
+    {"text": "Checks mobile-first approach with PASS/FAIL verdict", "passed": true, "evidence": "Row 7: PASS — notes base styles are mobile, min-width breakpoints at 640px and 1024px, no max-width queries"},
+    {"text": "Cites specific evidence (file names, CSS values, line numbers)", "passed": true, "evidence": "Every row has file:line references (e.g. index.html:25, index.html:155) and exact CSS property values"},
+    {"text": "Includes a score summary (X/Y requirements met)", "passed": true, "evidence": "Score: 7/7 requirements met (0 partial)"}
+  ]
+}

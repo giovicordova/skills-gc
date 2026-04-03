@@ -1,0 +1,23 @@
+{
+  "skill_name": "checkpoint",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ok I've been working on adding a dark mode toggle to the settings page. I got the toggle component wired up and it saves to localStorage but the CSS variables aren't switching yet — I need to update the theme provider. also I decided to use CSS custom properties instead of Tailwind's dark: prefix because we need runtime switching. let's checkpoint this before I close the terminal",
+      "expected_output": "A checkpoint file in logs/ that captures: what was built (toggle component, localStorage persistence), what's not done (CSS variable switching, theme provider update), the design decision (CSS custom properties over Tailwind dark:), and specific next steps about wiring up the theme provider",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "checkpoint — I spent this session trying to figure out why the API response times spiked after the last deploy. Looked at the logs, found that the new middleware is running a DB query on every request instead of caching the auth check. didn't fix it yet but I know exactly where the problem is — it's in src/middleware/auth.ts line 23 where it calls validateSession() without checking the cache first",
+      "expected_output": "A checkpoint file that accurately captures a debugging/investigation session with no code changes. Should record the root cause finding (uncached DB query in auth middleware), the specific location (src/middleware/auth.ts:23, validateSession()), and next steps focused on implementing the cache check",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "save session — I was just reviewing the project structure and reading through the docs to understand how the plugin system works. no code changes, just learning. the key thing I figured out is that plugins register via a manifest.json in their root and the loader in core/plugin-loader.ts discovers them by scanning the plugins/ directory at startup",
+      "expected_output": "A checkpoint file for a purely informational session with no code changes and no git state. Should capture what was learned (plugin registration via manifest.json, discovery via core/plugin-loader.ts scanning plugins/), omit empty sections like What changed and Decisions, and have next steps oriented toward whatever the user might do with this knowledge",
+      "files": []
+    }
+  ]
+}
