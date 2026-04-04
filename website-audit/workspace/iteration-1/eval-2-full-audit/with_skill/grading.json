@@ -1,0 +1,46 @@
+{
+  "eval_id": 2,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Report file exists matching pattern *-audit-anthropic-com.md",
+      "passed": true,
+      "evidence": "File: 2026-04-04-audit-anthropic-com.md"
+    },
+    {
+      "text": "Report contains all 5 category sections: AEO, GEO, SEO Technical, SEO On-Page, Structured Data",
+      "passed": true,
+      "evidence": "All 5 categories present with full check tables, summaries, and fix lists: AEO (77.6), GEO (46.4), SEO Technical (66.7), SEO On-Page (47.9), Structured Data (0.0)."
+    },
+    {
+      "text": "Report contains an AI Crawler Policy section with training/retrieval bot analysis and a strategy grade",
+      "passed": true,
+      "evidence": "Full bot table with 14 bots, type classification (Training/Retrieval), status per bot, and Strategy grade: B — Permissive."
+    },
+    {
+      "text": "Report includes indexability checks (noindex, soft 404, canonical)",
+      "passed": true,
+      "evidence": "IDX checks embedded in SEO Technical section results table."
+    },
+    {
+      "text": "Report shows multiple pages were crawled (not just the homepage) — at least 3 distinct URLs",
+      "passed": true,
+      "evidence": "Report states 'Pages crawled: 10'. Evidence references specific pages: /careers, /research, /news, /product/claude-code, /claude/opus, /claude/sonnet."
+    },
+    {
+      "text": "Scores and grades are present for each category and overall, following the A+/A/B+/B/C+/C/D/F scale",
+      "passed": true,
+      "evidence": "Overall: 51.5/100 (F). All 5 categories scored with letter grades matching the scale."
+    },
+    {
+      "text": "Check results include specific evidence (actual values found, not just PASS/FAIL)",
+      "passed": true,
+      "evidence": "Evidence column populated throughout: 'LCP: 8283ms (POOR)', '6 of 10 pages share identical boilerplate meta description', 'No visible author attribution on any crawled page'."
+    },
+    {
+      "text": "Report ends with a priority fix list ordered by severity",
+      "passed": true,
+      "evidence": "Per-category fix lists with Critical first, then Important, then Nice to have. Top 3 overall fixes also listed."
+    }
+  ]
+}

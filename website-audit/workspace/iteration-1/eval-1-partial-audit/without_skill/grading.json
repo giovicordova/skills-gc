@@ -1,0 +1,36 @@
+{
+  "eval_id": 1,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Report file exists matching pattern *-audit-claude-ai.md",
+      "passed": false,
+      "evidence": "File is named seo-technical-structured-data-audit.md — does not match the naming convention."
+    },
+    {
+      "text": "Report contains only SEO Technical and Structured Data sections — no AEO, GEO, or SEO On-Page category results",
+      "passed": false,
+      "evidence": "Report drifted into OG tags, Twitter cards, SSR analysis, security headers, HSTS, and two-domain architecture — well beyond the requested scope."
+    },
+    {
+      "text": "Check IDs follow naming convention: TECH-* for SEO Technical, SD-* for Structured Data",
+      "passed": false,
+      "evidence": "No check IDs used. Findings are listed as free-form bullet points."
+    },
+    {
+      "text": "Score values appear to come from score.py (category scores out of 100, letter grades matching the grading scale)",
+      "passed": false,
+      "evidence": "No deterministic scoring. Uses issue counts instead (7 critical, 9 warnings, 10 passes)."
+    },
+    {
+      "text": "Overall score reflects proportional weight redistribution across only 2 categories (not 5)",
+      "passed": false,
+      "evidence": "No scoring system at all, so no weight redistribution."
+    },
+    {
+      "text": "Priority fix list is ordered by severity (Critical first, then Important, then Nice to Have)",
+      "passed": false,
+      "evidence": "Top 4 critical issues listed but no structured priority list with severity ordering."
+    }
+  ]
+}

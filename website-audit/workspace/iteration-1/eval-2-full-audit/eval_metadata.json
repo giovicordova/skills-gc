@@ -1,0 +1,47 @@
+{
+  "eval_id": 2,
+  "eval_name": "full-audit-all-categories",
+  "prompt": "Run a full website audit on anthropic.com",
+  "assertions": [
+    {
+      "id": "report-exists",
+      "text": "Report file exists matching pattern *-audit-anthropic-com.md",
+      "type": "file_exists"
+    },
+    {
+      "id": "all-five-categories",
+      "text": "Report contains all 5 category sections: AEO, GEO, SEO Technical, SEO On-Page, Structured Data",
+      "type": "content_check"
+    },
+    {
+      "id": "ai-bot-policy",
+      "text": "Report contains an AI Crawler Policy section with training/retrieval bot analysis and a strategy grade",
+      "type": "content_check"
+    },
+    {
+      "id": "indexability-checks",
+      "text": "Report includes indexability checks (noindex, soft 404, canonical)",
+      "type": "content_check"
+    },
+    {
+      "id": "multi-page-crawl",
+      "text": "Report shows multiple pages were crawled (not just the homepage) — at least 3 distinct URLs",
+      "type": "content_check"
+    },
+    {
+      "id": "deterministic-scoring",
+      "text": "Scores and grades are present for each category and overall, following the A+/A/B+/B/C+/C/D/F scale",
+      "type": "content_check"
+    },
+    {
+      "id": "evidence-provided",
+      "text": "Check results include specific evidence (actual values found, not just PASS/FAIL)",
+      "type": "content_check"
+    },
+    {
+      "id": "fix-list-present",
+      "text": "Report ends with a priority fix list ordered by severity",
+      "type": "content_check"
+    }
+  ]
+}

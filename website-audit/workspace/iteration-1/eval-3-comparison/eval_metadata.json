@@ -1,0 +1,37 @@
+{
+  "eval_id": 3,
+  "eval_name": "comparison-mode-two-domains",
+  "prompt": "Compare docs.anthropic.com vs platform.openai.com — focus on AEO and GEO",
+  "assertions": [
+    {
+      "id": "report-exists",
+      "text": "Report file exists matching comparison naming convention *-compare-*-vs-*.md",
+      "type": "file_exists"
+    },
+    {
+      "id": "comparison-table",
+      "text": "Report contains a side-by-side comparison table with scores for both domains",
+      "type": "content_check"
+    },
+    {
+      "id": "only-aeo-geo",
+      "text": "Report focuses on AEO and GEO categories — no SEO Technical, SEO On-Page, or Structured Data scoring",
+      "type": "content_check"
+    },
+    {
+      "id": "both-sites-crawled",
+      "text": "Report contains data from both docs.anthropic.com AND platform.openai.com (not just one site)",
+      "type": "content_check"
+    },
+    {
+      "id": "top-3-fixes-per-site",
+      "text": "Report includes a top 3 fixes section for each site",
+      "type": "content_check"
+    },
+    {
+      "id": "winner-analysis",
+      "text": "Report identifies which site performs better per category with reasoning",
+      "type": "content_check"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "domain": "claude.ai",
+  "categories": {
+    "seo-technical": {
+      "score": 50.0,
+      "grade": "F",
+      "total_checks": 21,
+      "counts": {
+        "PASS": 6,
+        "WARNING": 3,
+        "FAIL": 9,
+        "N/A": 1,
+        "UNTESTABLE": 2
+      }
+    },
+    "structured-data": {
+      "score": 86.1,
+      "grade": "B+",
+      "total_checks": 13,
+      "counts": {
+        "PASS": 6,
+        "WARNING": 2,
+        "FAIL": 0,
+        "N/A": 5,
+        "UNTESTABLE": 0
+      }
+    }
+  },
+  "overall": {
+    "score": 65.5,
+    "grade": "D",
+    "category_weights_used": {
+      "seo-technical": 0.571,
+      "structured-data": 0.429
+    }
+  }
+}

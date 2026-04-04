@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "partial-audit-category-filtering",
+  "prompt": "Audit claude.ai — just SEO technical and structured data categories",
+  "assertions": [
+    {
+      "id": "report-exists",
+      "text": "Report file exists matching pattern *-audit-claude-ai.md",
+      "type": "file_exists"
+    },
+    {
+      "id": "only-requested-categories",
+      "text": "Report contains only SEO Technical and Structured Data sections — no AEO, GEO, or SEO On-Page category results",
+      "type": "content_check"
+    },
+    {
+      "id": "check-id-convention",
+      "text": "Check IDs follow naming convention: TECH-* for SEO Technical, SD-* for Structured Data",
+      "type": "content_check"
+    },
+    {
+      "id": "deterministic-scoring",
+      "text": "Score values appear to come from score.py (category scores out of 100, letter grades matching the grading scale)",
+      "type": "content_check"
+    },
+    {
+      "id": "weight-redistribution",
+      "text": "Overall score reflects proportional weight redistribution across only 2 categories (not 5)",
+      "type": "content_check"
+    },
+    {
+      "id": "fix-priority-ordered",
+      "text": "Priority fix list is ordered by severity (Critical first, then Important, then Nice to Have)",
+      "type": "content_check"
+    }
+  ]
+}

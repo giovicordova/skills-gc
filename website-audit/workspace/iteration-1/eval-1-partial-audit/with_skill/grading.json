@@ -1,0 +1,36 @@
+{
+  "eval_id": 1,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Report file exists matching pattern *-audit-claude-ai.md",
+      "passed": true,
+      "evidence": "File: 2026-04-04-audit-claude-ai.md"
+    },
+    {
+      "text": "Report contains only SEO Technical and Structured Data sections — no AEO, GEO, or SEO On-Page category results",
+      "passed": true,
+      "evidence": "Only SEO Technical and Structured Data category sections present. No AEO, GEO, or SEO On-Page sections."
+    },
+    {
+      "text": "Check IDs follow naming convention: TECH-* for SEO Technical, SD-* for Structured Data",
+      "passed": true,
+      "evidence": "TECH-C1 through TECH-N4, SD-C1 through SD-N3, IDX-C1 through IDX-I3 all present with correct prefixes."
+    },
+    {
+      "text": "Score values appear to come from score.py (category scores out of 100, letter grades matching the grading scale)",
+      "passed": true,
+      "evidence": "SEO Technical: 50.0/100 (F), Structured Data: 86.1/100 (B+), Overall: 65.5/100 (D). Separate scores JSON also saved."
+    },
+    {
+      "text": "Overall score reflects proportional weight redistribution across only 2 categories (not 5)",
+      "passed": true,
+      "evidence": "Report explicitly notes: 'Weights redistributed proportionally: SEO Technical 57.1%, Structured Data 42.9%'"
+    },
+    {
+      "text": "Priority fix list is ordered by severity (Critical first, then Important, then Nice to Have)",
+      "passed": true,
+      "evidence": "Fix list starts with TECH-C7 (Critical), then TECH-I1/I2/I4 (Important), then TECH-N1/N2/N4 (Nice to have)."
+    }
+  ]
+}

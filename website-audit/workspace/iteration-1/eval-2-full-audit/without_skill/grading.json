@@ -1,0 +1,46 @@
+{
+  "eval_id": 2,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Report file exists matching pattern *-audit-anthropic-com.md",
+      "passed": false,
+      "evidence": "File is named anthropic-com-full-audit.md — does not match the naming convention."
+    },
+    {
+      "text": "Report contains all 5 category sections: AEO, GEO, SEO Technical, SEO On-Page, Structured Data",
+      "passed": false,
+      "evidence": "No explicit AEO or GEO categories. Report is organised as Critical Issues / Warnings / Notes rather than the 5-category framework."
+    },
+    {
+      "text": "Report contains an AI Crawler Policy section with training/retrieval bot analysis and a strategy grade",
+      "passed": false,
+      "evidence": "No AI bot analysis section."
+    },
+    {
+      "text": "Report includes indexability checks (noindex, soft 404, canonical)",
+      "passed": false,
+      "evidence": "Canonical tag absence mentioned but not as structured indexability checks. No noindex or soft 404 checks."
+    },
+    {
+      "text": "Report shows multiple pages were crawled (not just the homepage) — at least 3 distinct URLs",
+      "passed": true,
+      "evidence": "Report references /research, /news/*, /careers, /learn, /product/*, /claude/*, plus homepage."
+    },
+    {
+      "text": "Scores and grades are present for each category and overall, following the A+/A/B+/B/C+/C/D/F scale",
+      "passed": false,
+      "evidence": "No scoring system. Uses issue counts and severity labels but no numerical scores or letter grades."
+    },
+    {
+      "text": "Check results include specific evidence (actual values found, not just PASS/FAIL)",
+      "passed": true,
+      "evidence": "Good detail: 'og:type=\"website\" instead of \"article\"', '302 instead of 301', 'HSTS max-age is only 1 hour', '9 H1 tags on claude-code'."
+    },
+    {
+      "text": "Report ends with a priority fix list ordered by severity",
+      "passed": false,
+      "evidence": "Has a 'top 4 critical issues' list but no structured priority fix list with severity ordering."
+    }
+  ]
+}

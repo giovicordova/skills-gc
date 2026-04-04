@@ -1,0 +1,285 @@
+{
+  "domain": "claude.ai",
+  "categories": {
+    "seo-technical": {
+      "checks": [
+        {
+          "id": "TECH-C1",
+          "description": "robots.txt exists and returns 200",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "robots.txt returns HTTP 200 with valid directives including User-Agent rules for ia_archiver, GPTBot, OAI-SearchBot, ChatGPT-User, and a wildcard section.",
+          "fix": null
+        },
+        {
+          "id": "TECH-C2",
+          "description": "robots.txt does not block important pages",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "Disallow rules block app-specific paths only: /new?*, /chat/*, /share/*, /magic-link*, /api/*, /onboarding*, /upgrade*, /lti/*, /settings*, /task*. These are all application routes, not public content pages. The root (/) is not blocked for the wildcard user-agent.",
+          "fix": null
+        },
+        {
+          "id": "TECH-C3",
+          "description": "XML sitemap exists",
+          "severity": "Critical",
+          "result": "WARNING",
+          "evidence": "Sitemap is referenced in robots.txt (Sitemap: https://claude.ai/sitemap.xml) but the URL returns a Cloudflare challenge page (403 via curl, challenge page content instead of XML). Sitemap is not accessible to crawlers.",
+          "fix": "Ensure sitemap.xml is accessible without triggering Cloudflare challenge. Whitelist the sitemap path from bot protection or serve it as a static file."
+        },
+        {
+          "id": "TECH-C4",
+          "description": "All internal links return 200",
+          "severity": "Critical",
+          "result": "UNTESTABLE",
+          "evidence": "claude.ai is behind Cloudflare bot protection. All curl requests to internal paths return 403 (challenge page). Cannot verify link status codes via automated crawl. The site is a Single Page Application \u2014 most internal links are app routes (chat, projects, artifacts) that require authentication.",
+          "fix": null
+        },
+        {
+          "id": "TECH-C5",
+          "description": "HTTPS enabled",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "http://claude.ai returns 301 redirect to https://claude.ai/. HTTPS loads successfully in browser.",
+          "fix": null
+        },
+        {
+          "id": "TECH-C6",
+          "description": "Mobile viewport configured",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "Viewport meta tag present: width=device-width,initial-scale=1,viewport-fit=cover",
+          "fix": null
+        },
+        {
+          "id": "TECH-C7",
+          "description": "Core Web Vitals pass",
+          "severity": "Critical",
+          "result": "FAIL",
+          "evidence": "Lighthouse Core Web Vitals: LCP = 21,745ms (poor, threshold <2,500ms), CLS = 0 (good, threshold <0.1), FID/Max Potential FID = 669ms (poor, threshold <100ms). LCP and FID both fail.",
+          "fix": "LCP of 21.7s is extremely poor. Investigate heavy JavaScript bundles blocking render. The SPA architecture loads all app code before paint. Consider server-side rendering for the initial landing page, code splitting, and deferring non-critical JS. Reduce main-thread blocking to fix FID."
+        },
+        {
+          "id": "TECH-I1",
+          "description": "Canonical tag present",
+          "severity": "Important",
+          "result": "FAIL",
+          "evidence": "No <link rel='canonical'> tag found on the homepage (https://claude.ai/new). The page lacks a canonical URL entirely.",
+          "fix": "Add <link rel='canonical' href='https://claude.ai/'> to the homepage. Each publicly accessible page should have a self-referencing canonical tag."
+        },
+        {
+          "id": "TECH-I2",
+          "description": "Valid sitemap XML",
+          "severity": "Important",
+          "result": "FAIL",
+          "evidence": "Sitemap URL returns Cloudflare challenge HTML instead of valid XML. No <url> entries can be parsed.",
+          "fix": "Serve sitemap.xml as a static file that bypasses Cloudflare challenge. Ensure it contains valid XML with absolute URLs for all public pages."
+        },
+        {
+          "id": "TECH-I3",
+          "description": "No duplicate titles or meta descriptions",
+          "severity": "Important",
+          "result": "WARNING",
+          "evidence": "Only one page could be crawled (homepage). The title is generic: 'Claude' (6 characters). As a SPA, all routes likely share the same initial HTML title. Cannot verify cross-page duplicates due to app architecture.",
+          "fix": "Implement dynamic title tags per route. Each public-facing page should have a unique, descriptive title (50-60 characters). Current title 'Claude' is too short and non-descriptive."
+        },
+        {
+          "id": "TECH-I4",
+          "description": "Page load under 3 seconds",
+          "severity": "Important",
+          "result": "FAIL",
+          "evidence": "Lighthouse Time to Interactive: 25,880ms (25.9 seconds). Far exceeds the 3-second threshold.",
+          "fix": "TTI of 25.9s indicates massive JavaScript payload. Implement code splitting, lazy loading of non-critical modules, and consider a lighter landing page that doesn't load the full chat application."
+        },
+        {
+          "id": "TECH-N1",
+          "description": "llms.txt present",
+          "severity": "Nice to have",
+          "result": "FAIL",
+          "evidence": "https://claude.ai/llms.txt returns HTTP 200 via curl but serves the SPA shell HTML, not an actual llms.txt file. The SPA catches all routes and renders the app. No dedicated llms.txt content exists.",
+          "fix": "Create a dedicated /llms.txt file served as static text content, bypassing the SPA router. Include guidance for AI models about Claude's purpose and usage policies."
+        },
+        {
+          "id": "TECH-N2",
+          "description": "Lighthouse performance >= 90",
+          "severity": "Nice to have",
+          "result": "FAIL",
+          "evidence": "Lighthouse performance score: 29/100.",
+          "fix": "Performance score of 29 is extremely low. Address LCP (21.7s), reduce JavaScript bundle size, implement code splitting, and optimise the critical rendering path."
+        },
+        {
+          "id": "TECH-N3",
+          "description": "Lighthouse accessibility >= 90",
+          "severity": "Nice to have",
+          "result": "PASS",
+          "evidence": "Lighthouse accessibility score: 97/100.",
+          "fix": null
+        },
+        {
+          "id": "TECH-N4",
+          "description": "Proper 404 page",
+          "severity": "Nice to have",
+          "result": "FAIL",
+          "evidence": "Non-existent URLs return HTTP 403 (Cloudflare challenge) via curl. In-browser, non-existent routes are caught by the SPA router and redirect to /new (the app). No proper 404 status code or error page is served.",
+          "fix": "Implement server-side 404 handling for unknown routes. Return HTTP 404 status code with a user-friendly error page instead of redirecting to the app."
+        },
+        {
+          "id": "IDX-C1",
+          "description": "No noindex meta tag",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "No robots meta tag with noindex found on the homepage. The meta robots attribute is null.",
+          "fix": null
+        },
+        {
+          "id": "IDX-C2",
+          "description": "No X-Robots-Tag noindex",
+          "severity": "Critical",
+          "result": "UNTESTABLE",
+          "evidence": "Cannot inspect HTTP response headers via Playwright browser automation. Cloudflare challenge prevents curl-based header inspection.",
+          "fix": null
+        },
+        {
+          "id": "IDX-C3",
+          "description": "No soft 404s",
+          "severity": "Critical",
+          "result": "WARNING",
+          "evidence": "The homepage has minimal content (app interface only \u2014 chat input box). Total words on page: very low. The site is a SPA so all content is dynamically loaded. Not a traditional content page, but search engines may interpret the thin initial HTML as a soft 404.",
+          "fix": "Consider adding server-side rendered content for the landing page that provides meaningful text content about Claude for search engines."
+        },
+        {
+          "id": "IDX-I1",
+          "description": "Canonical self-referencing",
+          "severity": "Important",
+          "result": "FAIL",
+          "evidence": "No canonical tag present on the homepage. The page cannot self-reference without one.",
+          "fix": "Add <link rel='canonical' href='https://claude.ai/'> to the homepage."
+        },
+        {
+          "id": "IDX-I2",
+          "description": "Canonical target returns 200",
+          "severity": "Important",
+          "result": "N/A",
+          "evidence": "No canonical tag present, so no target to check.",
+          "fix": null
+        },
+        {
+          "id": "IDX-I3",
+          "description": "Sitemap URLs return 200",
+          "severity": "Important",
+          "result": "FAIL",
+          "evidence": "Sitemap XML is not accessible (returns Cloudflare challenge). Cannot verify any sitemap URLs.",
+          "fix": "Fix sitemap accessibility first (see TECH-C3), then ensure all listed URLs return HTTP 200."
+        }
+      ]
+    },
+    "structured-data": {
+      "checks": [
+        {
+          "id": "SD-C1",
+          "description": "JSON-LD present on every page",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "1 JSON-LD block found on the homepage containing an @graph with WebSite and Organization types.",
+          "fix": null
+        },
+        {
+          "id": "SD-C2",
+          "description": "Valid JSON",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "JSON-LD block parses successfully as valid JSON. No parse errors.",
+          "fix": null
+        },
+        {
+          "id": "SD-C3",
+          "description": "@type matches page content",
+          "severity": "Critical",
+          "result": "PASS",
+          "evidence": "Homepage has WebSite and Organization types, which are appropriate for the homepage of a web application.",
+          "fix": null
+        },
+        {
+          "id": "SD-C4",
+          "description": "Author fields use Person or Organization",
+          "severity": "Critical",
+          "result": "N/A",
+          "evidence": "No author fields present in the structured data. WebSite and Organization types do not require author fields.",
+          "fix": null
+        },
+        {
+          "id": "SD-C5",
+          "description": "Required fields present per schema type",
+          "severity": "Critical",
+          "result": "WARNING",
+          "evidence": "WebSite: has name ('Claude') and url ('https://claude.com') \u2014 required fields present. Organization: has name ('Anthropic') and url ('https://www.anthropic.com') \u2014 required fields present. However, WebSite url points to 'https://claude.com' (not claude.ai), which may be intentional (domain redirect) but could confuse crawlers if claude.com doesn't resolve or redirect.",
+          "fix": "Verify that https://claude.com resolves correctly and redirects to claude.ai. If claude.com is the canonical domain, consider using it consistently. If not, change the WebSite url to https://claude.ai."
+        },
+        {
+          "id": "SD-I1",
+          "description": "Organization or LocalBusiness on homepage",
+          "severity": "Important",
+          "result": "PASS",
+          "evidence": "Organization schema present with name ('Anthropic'), url ('https://www.anthropic.com'), logo, and sameAs social links.",
+          "fix": null
+        },
+        {
+          "id": "SD-I2",
+          "description": "BreadcrumbList on non-homepage pages",
+          "severity": "Important",
+          "result": "N/A",
+          "evidence": "Only the homepage was crawlable. claude.ai is a SPA where all routes are app-internal. No non-homepage public content pages exist to evaluate.",
+          "fix": null
+        },
+        {
+          "id": "SD-I3",
+          "description": "Article schema on blog/article pages",
+          "severity": "Important",
+          "result": "N/A",
+          "evidence": "No blog or article pages exist on claude.ai. The site is a web application, not a content site.",
+          "fix": null
+        },
+        {
+          "id": "SD-I4",
+          "description": "FAQPage schema where FAQ exists",
+          "severity": "Important",
+          "result": "N/A",
+          "evidence": "No FAQ content detected on claude.ai. The site is a chat application interface.",
+          "fix": null
+        },
+        {
+          "id": "SD-I5",
+          "description": "Recommended fields present",
+          "severity": "Important",
+          "result": "WARNING",
+          "evidence": "WebSite: has name, url, alternateName. Missing: description, publisher. Organization: has name, url, logo, sameAs. Missing: description, contactPoint, address, foundingDate. Coverage: ~50% of recommended fields.",
+          "fix": "Add 'description' to WebSite schema. Add 'description' and 'contactPoint' to Organization schema to improve rich result eligibility."
+        },
+        {
+          "id": "SD-N1",
+          "description": "Product schema on product pages",
+          "severity": "Nice to have",
+          "result": "N/A",
+          "evidence": "No product pages exist on claude.ai.",
+          "fix": null
+        },
+        {
+          "id": "SD-N2",
+          "description": "Combined schema types",
+          "severity": "Nice to have",
+          "result": "PASS",
+          "evidence": "Homepage uses @graph with 2 schema types: WebSite and Organization. Multiple relevant types provide richer signals.",
+          "fix": null
+        },
+        {
+          "id": "SD-N3",
+          "description": "sameAs social links",
+          "severity": "Nice to have",
+          "result": "PASS",
+          "evidence": "Organization schema includes sameAs with 3 social profiles: x.com/AnthropicAI, linkedin.com/company/anthropic, youtube.com/@anthropic-ai.",
+          "fix": null
+        }
+      ]
+    }
+  }
+}

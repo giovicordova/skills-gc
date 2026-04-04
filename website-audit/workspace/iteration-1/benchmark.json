@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "skill_name": "website-audit",
+    "skill_path": "/Users/giovannicordova/Documents/02_projects/skills-gc/website-audit",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-04-04T09:05:49Z",
+    "evals_run": ["partial-audit-category-filtering", "full-audit-all-categories", "comparison-mode-two-domains"],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_name": "partial-audit-category-filtering",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 6,
+      "total": 6,
+      "time_seconds": 408.7,
+      "tokens": 64667
+    },
+    {
+      "eval_name": "partial-audit-category-filtering",
+      "configuration": "without_skill",
+      "pass_rate": 0.0,
+      "passed": 0,
+      "total": 6,
+      "time_seconds": 438.1,
+      "tokens": 74642
+    },
+    {
+      "eval_name": "full-audit-all-categories",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "total": 8,
+      "time_seconds": 775.6,
+      "tokens": 93822
+    },
+    {
+      "eval_name": "full-audit-all-categories",
+      "configuration": "without_skill",
+      "pass_rate": 0.25,
+      "passed": 2,
+      "total": 8,
+      "time_seconds": 509.7,
+      "tokens": 53608
+    },
+    {
+      "eval_name": "comparison-mode-two-domains",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 6,
+      "total": 6,
+      "time_seconds": 506.5,
+      "tokens": 105373
+    },
+    {
+      "eval_name": "comparison-mode-two-domains",
+      "configuration": "without_skill",
+      "pass_rate": 0.333,
+      "passed": 2,
+      "total": 6,
+      "time_seconds": 454.4,
+      "tokens": 65961
+    }
+  ],
+  "run_summary": {
+    "configurations": {
+      "with_skill": {
+        "mean_pass_rate": 1.0,
+        "stddev_pass_rate": 0.0,
+        "mean_time_seconds": 563.6,
+        "stddev_time_seconds": 152.7,
+        "mean_tokens": 87954,
+        "stddev_tokens": 17216
+      },
+      "without_skill": {
+        "mean_pass_rate": 0.194,
+        "stddev_pass_rate": 0.142,
+        "mean_time_seconds": 467.4,
+        "stddev_time_seconds": 31.2,
+        "mean_tokens": 64737,
+        "stddev_tokens": 8621
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.806",
+      "time_seconds": "+96.2",
+      "tokens": "+23217"
+    }
+  },
+  "notes": [
+    "With-skill achieves 100% pass rate across all 20 assertions vs 19.4% without-skill — the skill adds massive structural consistency.",
+    "Without-skill runs produce useful findings but fail on every structural assertion: naming conventions, scoring, check IDs, category discipline, fix ordering.",
+    "With-skill uses ~36% more tokens on average (87.9k vs 64.7k) and takes ~20% longer (564s vs 467s) — the cost of reference files, score.py, and the structured template.",
+    "Non-discriminating assertion: 'both-sites-crawled' passes for both configurations in eval 3.",
+    "The biggest qualitative gap is deterministic scoring. Without the skill, reports have no numerical scores or letter grades — just severity labels and issue counts."
+  ]
+}
