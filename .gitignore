@@ -1,0 +1,4 @@
+# Claude Code local state
+.claude/settings.local.json
+.bg-shell/
+logs/

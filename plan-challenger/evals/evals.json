@@ -1,0 +1,65 @@
+{
+  "skill_name": "plan-challenger",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I got this plan for adding dark mode to my portfolio site. Can you challenge it before I start? The plan is in the attached file.",
+      "expected_output": "Should identify massive over-engineering (8 steps for a CSS toggle), flag the Observer pattern, Web Components, StorageAdapter, and build pipeline as unnecessary for a 3-page static site. Should propose a ~2 step plan using CSS custom properties + prefers-color-scheme + localStorage. Verdict should be RETHINK.",
+      "files": ["evals/files/plan-overengineered.md"],
+      "expectations": [
+        "Identifies the plan as over-engineered for a static site with no framework",
+        "Recommends removing the ThemeManager class and Observer pattern",
+        "Recommends removing the StorageAdapter abstraction — localStorage directly is sufficient",
+        "Recommends against building a custom Web Component for a toggle button",
+        "Suggests using prefers-color-scheme media query for system preference detection without a priority cascade module",
+        "The revised plan has significantly fewer steps than the original (3 or fewer)",
+        "Verdict is RETHINK (not REVISE or READY)",
+        "Does NOT suggest adding a build system or framework"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here's my plan for a markdown-to-PDF CLI tool in Node.js. Review it before I start building.",
+      "expected_output": "Should catch that the plan reinvents the wheel on markdown parsing (marked/markdown-it exist), syntax highlighting (highlight.js/shiki exist), and math rendering (KaTeX exists). Research step should find these libraries. Should propose using existing tools and focusing effort on the PDF generation and CLI parts. Verdict should be REVISE or RETHINK.",
+      "files": ["evals/files/plan-missing-research.md"],
+      "expectations": [
+        "Identifies that building a custom Markdown parser is unnecessary — existing libraries like marked, markdown-it, or remark handle this",
+        "Identifies that building custom syntax highlighting grammars is unnecessary — libraries like highlight.js, shiki, or Prism exist",
+        "Performs actual web search or documentation lookup to verify library recommendations",
+        "Mentions that md-to-pdf, markdown-pdf, or similar existing tools might solve the whole problem",
+        "The revised plan eliminates the custom parser and custom syntax highlighter steps",
+        "Verdict is REVISE or RETHINK (not READY)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this auth implementation plan for my Express API. Does the ordering make sense? Anything missing?",
+      "expected_output": "Should catch that validation (Step 9) and rate limiting (Step 8) should come before the auth endpoints, not after. Tests (Step 10) should be written alongside, not at the end. Deploying (Step 7) before rate limiting and validation is risky. Should also flag missing CORS updates, missing JWT_SECRET generation guidance, and that localStorage for JWT has XSS risks.",
+      "files": ["evals/files/plan-bad-ordering.md"],
+      "expectations": [
+        "Identifies that input validation (Step 9) should come before building the auth endpoints, not after",
+        "Identifies that rate limiting (Step 8) should be implemented before or alongside auth endpoints, not after deployment",
+        "Flags that deploying (Step 7) before adding rate limiting and validation is a security risk",
+        "Flags the XSS risk of storing JWT in localStorage — recommends httpOnly cookies or alternative",
+        "Identifies that tests should be written alongside implementation, not as a final step",
+        "The revised plan reorders validation and rate limiting to come before the endpoints go live"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "We have 14 doc files and want to consolidate to 4 max. Here's the plan with 3 options — we're going with Option A. Challenge this before we start reorganising.",
+      "expected_output": "Should identify that Option A creates a 2000+ line ARCHITECTURE.md that merges unrelated concerns (API reference, deployment, security, testing, database, design system). Should flag that API.md is a living reference doc that changes with every endpoint — burying it inside a mega-file makes it unmaintainable. Should question whether 4 is the right number. Should propose an option that keeps frequently-updated docs (API.md, DATABASE.md) separate from stable docs, and forecast what happens at 100 endpoints or 5+ developers.",
+      "files": ["evals/files/plan-docs-consolidation.md"],
+      "expectations": [
+        "Flags that ARCHITECTURE.md at 2000+ lines will become unmaintainable and hard to navigate",
+        "Identifies that API reference (47 endpoints, frequently updated) should NOT be merged into a mega-file — it needs to stay separate or be auto-generated",
+        "Flags that merging unrelated concerns (deployment + testing + security + API + database + design system) into one file defeats the purpose of reducing confusion",
+        "Questions whether the arbitrary limit of 4 files is the right constraint — the real problem is outdated docs, not file count",
+        "Forecasts maintainability issues as the project grows (more endpoints, more developers, more merge conflicts on the mega-file)",
+        "Proposes a revised structure that keeps high-churn docs separate from stable docs",
+        "Identifies that Option B incorrectly drops CLAUDE.md — it has a specific purpose and tooling depends on it",
+        "The revised plan addresses the root cause (docs going stale) not just the symptom (too many files)"
+      ]
+    }
+  ]
+}

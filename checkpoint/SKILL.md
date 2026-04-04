@@ -14,31 +14,31 @@ Claude Code sessions are ephemeral. Without a checkpoint, the next session start
 
 ## How to analyse the session
 
-Before writing anything, review what actually happened. Look at:
+Before writing anything, review what actually happened:
 
-- **Tools you used** — which files were read, written, edited? That's your "what changed" section.
-- **User corrections** — anywhere the user said "no", "not that", or redirected you. These are decisions worth recording.
-- **Unfinished threads** — tasks you started but didn't complete, or things the user mentioned but you didn't get to.
-- **Blockers encountered** — errors, missing dependencies, questions you couldn't answer.
+- **Tools you used** — which files were read, written, edited? That tells you what changed.
+- **User corrections** — anywhere the user redirected you. Those are decisions worth recording.
+- **Unfinished threads** — tasks started but not completed, things mentioned but not reached.
+- **Blockers** — errors, missing dependencies, unresolved questions.
 
-The goal is accuracy. If you're unsure whether something was resolved, say so. Don't fabricate a clean narrative.
+Be accurate. If you're unsure whether something was resolved, say so. Don't fabricate a clean narrative.
 
 ## Steps
 
-### 1. Check git state (if applicable)
+### 1. Gather context
 
 Run `git rev-parse --is-inside-work-tree 2>/dev/null`.
 
 - **If git repo:** run `git branch --show-current`, `git log --oneline -5`, `git status --short`, and `git diff --stat HEAD`.
-- **If not a git repo:** skip all git commands. Set branch to `n/a` and omit the Git state section entirely.
-
-### 2. Write the checkpoint
+- **If not a git repo:** skip all git commands and omit Git state from the checkpoint.
 
 Get the timestamp: `date '+%Y-%m-%d_%H-%M'`
 
-Create the directory if needed: `mkdir -p logs`
+### 2. Write the checkpoint
 
-Write to `logs/YYYY-MM-DD_HH-MM_checkpoint.md` using this structure:
+Create `logs/` if needed (`mkdir -p logs`). Write to `logs/YYYY-MM-DD_HH-MM_checkpoint.md`.
+
+**Required sections** (always include):
 
 ```markdown
 ---
@@ -50,51 +50,59 @@ branch: <current git branch or "n/a">
 # Checkpoint: <$ARGUMENTS if provided, otherwise one-line session summary>
 
 ## What happened
-<2-3 sentences framing the session. What was the user trying to accomplish? How far did we get?>
-
-## What changed
-- <file or area>: <what changed and why>
-
-## Decisions made
-- <decision>: <why we chose this over alternatives>
-
-## Current state
-- **Done:** <what is fully complete>
-- **In progress:** <what is partially done, and how far along>
-- **Blocked:** <what can't proceed and why>
+<2-3 sentences. What was the user trying to accomplish? How far did we get?>
 
 ## Next steps
-1. <most important next action — be specific enough that a cold-start Claude can execute it>
+1. <most important action — specific enough for a cold-start Claude to execute>
 2. <second action>
 3. <third action>
+```
+
+**Optional sections** (include only when they have content worth recording):
+
+```markdown
+## What changed
+- <file or area>: <what and why>
+
+## Key findings
+- <important discovery or learning from the session>
+
+## Decisions made
+- <decision>: <rationale>
+
+## Current state
+- **Done:** <what is complete>
+- **In progress:** <what is partial, how far along>
+- **Blocked:** <what can't proceed and why>
 
 ## Git state
-- **Branch:** <branch name>
-- **Last commit:** <short hash + message>
+- **Branch:** <name>
+- **Last commit:** <hash + message>
 - **Uncommitted changes:** <summary or "none">
 ```
+
+### Choosing the right sections
+
+The template adapts to the session type:
+
+- **Coding session** (files changed): include What changed, Current state, Git state
+- **Investigation/debugging** (no code changes): skip What changed entirely — don't write "nothing changed." Include Key findings with the root cause or discovery.
+- **Informational/learning session**: skip What changed and Decisions. Use Key findings for what was learned. Keep it lean.
+- **Simple session**: What happened + Next steps might be all you need.
 
 ### Writing rules
 
 **Be specific.** File names, function names, line numbers, error messages. Not "updated the config" — instead "added `SESSION_TIMEOUT=3600` to `.env` because the default 300s was too short for long uploads."
 
-**Next steps is the most important section.** Write it as instructions to yourself starting completely fresh. Include enough context that the action is unambiguous. Bad: "Continue working on auth." Good: "Wire up the `/api/refresh` endpoint in `src/routes/auth.ts` — the token validation logic is done but the route handler isn't registered in the Express router yet (see line 45)."
+**Next steps is the most important section.** Write it as instructions to yourself starting completely fresh. Bad: "Continue working on auth." Good: "Wire up the `/api/refresh` endpoint in `src/routes/auth.ts` — the token validation logic is done but the route handler isn't registered in the Express router yet (see line 45)."
 
-**Omit empty sections.** The template is a maximum structure. If there were no decisions, no blockers, no open questions — drop those sections. A checkpoint for a simple session might only have What happened, What changed, and Next steps.
+### 3. One-time setup (skip if already done)
 
-**Omit Git state** if this isn't a git repo.
+These steps only need to happen once per project. Check first, skip if already configured.
 
-### 3. Gitignore logs/
+**Gitignore:** If git repo, ensure `.gitignore` contains `logs/`. Create the file if needed. Don't touch existing entries.
 
-If this is a git repo, ensure `.gitignore` contains a `logs/` entry. Create `.gitignore` if it doesn't exist. Don't touch existing entries.
-
-### 4. Set up auto-injection for next session
-
-The checkpoint is only useful if the next session actually sees it. Set up a SessionStart hook that automatically feeds the latest checkpoint into context.
-
-Check `.claude/settings.json` at the project root. If a `SessionStart` hook referencing `logs/` already exists (`grep -q 'logs/' .claude/settings.json 2>/dev/null`), skip this step.
-
-Otherwise, add this hook configuration:
+**SessionStart hook:** Check `.claude/settings.json` at the project root. If a hook referencing `logs/` already exists (`grep -q 'logs/' .claude/settings.json 2>/dev/null`), skip. Otherwise, add:
 
 ```json
 {
@@ -114,12 +122,9 @@ Otherwise, add this hook configuration:
 }
 ```
 
-If `.claude/settings.json` already exists with other content:
-- If a `SessionStart` key exists, append to the existing array.
-- If no `SessionStart` key, add it alongside existing keys.
-- Never modify or remove existing entries.
+If `settings.json` already has content, merge carefully — append to existing `SessionStart` array or add alongside other keys. Never remove existing entries.
 
-### 5. Confirm
+### 4. Confirm
 
 Print:
 - `Checkpoint saved: logs/<filename>`

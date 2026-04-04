@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Audits Claude's work against the user's original request in the current session. Checks whether the output precisely matches what was asked — structure, styles, content, behaviour, constraints. Use when the user says "verify", "check your work", "did you follow my request", "audit this", or "compliance check". Run this after Claude has delivered work and you want to hold it accountable.
+description: Audits Claude's own output against the user's original request in the current session — did Claude do exactly what was asked, no more, no less? Checks requirements, styles, constraints, and flags scope creep (extras the user never asked for). Use when the user says "verify", "check your work", "did you follow my request", "audit this", "compliance check", or questions whether Claude improvised, missed something, or added unrequested features. This is specifically about holding Claude accountable to the user's brief — NOT for reviewing other people's code, checking external systems, debugging config files, running tests, or verifying things Claude didn't create.
 argument-hint: "[optional: specific aspect to focus on, e.g. 'styles only' or 'responsive layout']"
 ---
 
