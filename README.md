@@ -34,6 +34,7 @@ skill-name/
   evals/
     evals.json      # Test cases for measuring skill quality
     files/           # Supporting files for evals (optional)
+  workspace/         # Eval run results — with/without skill comparisons (optional)
 ```
 
 ## Installation
@@ -55,6 +56,8 @@ Skills are picked up automatically by Claude Code on the next session.
 ## Evals
 
 Each skill includes eval cases in `evals/evals.json`. These define prompts, expected outputs, and specific expectations to measure whether the skill produces the right behaviour. They can be run with the [skill-creator](https://github.com/nichochar/skill-creator) eval framework.
+
+The `verify` skill also includes a `workspace/` directory with full eval run results — iterations comparing output with and without the skill, including grading, timing, and generated artefacts.
 
 ## License
 
