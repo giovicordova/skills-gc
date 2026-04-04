@@ -1,0 +1,37 @@
+{
+  "eval_id": 2,
+  "eval_name": "focus-area",
+  "prompt": "/perspective state management — the app uses a mix of Redux Toolkit for global state and React Context for theme/auth. Some components also use local useState for form data. I want to know if this pattern is coherent or if we've got overlapping concerns",
+  "assertions": [
+    {
+      "id": "report-exists",
+      "text": "A perspective report markdown file exists in the outputs directory",
+      "type": "structural"
+    },
+    {
+      "id": "narrowed-scope",
+      "text": "Report is narrowed to state management — does not broadly audit unrelated areas like deployment, testing, or styling",
+      "type": "quality"
+    },
+    {
+      "id": "evaluates-coherency",
+      "text": "Report evaluates the coherency of using Redux Toolkit + React Context + useState together — identifies whether responsibilities overlap or are well-separated",
+      "type": "content"
+    },
+    {
+      "id": "checks-current-docs",
+      "text": "Report references current React or Redux Toolkit documentation (via Context7 or web search) for recommended state management patterns",
+      "type": "quality"
+    },
+    {
+      "id": "clear-recommendation",
+      "text": "Report contains a clear recommendation on whether to consolidate, keep the current split, or restructure — using one of: Stay the course, Adjust, Pivot, or Adopt",
+      "type": "content"
+    },
+    {
+      "id": "specific-action-items",
+      "text": "Report contains checkbox action items specifically about state management improvements (not generic advice)",
+      "type": "quality"
+    }
+  ]
+}

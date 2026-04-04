@@ -1,0 +1,48 @@
+{
+  "skill_name": "perspective",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I've been building this Express API with Prisma and PostgreSQL for about 3 weeks — it handles invoice generation and PDF export for UK freelancers. Before I go deeper, I want to step back and check if I'm heading in the right direction. Are there existing tools that already do this? Am I using the right stack? /perspective",
+      "expected_output": "A perspective report in perspective/ directory. Should research existing invoice tools (FreshBooks, Wave, Invoice Ninja, etc.), evaluate Express+Prisma as a stack choice, audit dependencies against current docs, and give a clear recommendation (stay/adjust/pivot/adopt) with checkbox action items.",
+      "files": [],
+      "expectations": [
+        "A perspective report markdown file exists in the outputs directory",
+        "Report contains a 'What Already Exists' section naming at least 2 competing invoice tools or services",
+        "Report contains an 'Alternative Approaches' section with at least one alternative stack or strategy with trade-offs",
+        "Report contains a 'Codebase Audit' section referencing current documentation or version-specific info",
+        "Report contains a recommendation using one of: Stay the course, Adjust, Pivot, or Adopt",
+        "Report contains checkbox action items (- [ ]) specific enough to implement without further decisions",
+        "Report follows the template structure: What You're Building, What Already Exists, Alternative Approaches, Codebase Audit, Coherency, Recommendation, Action Items"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/perspective quick auth setup — we're using passport.js with local strategy and JWT stored in localStorage, wondering if that's still the recommended approach or if there's something better now",
+      "expected_output": "An inline response (no file output) covering: what the current auth setup looks like, what live docs say about passport.js / JWT / session handling best practices, and concrete recommendations.",
+      "files": [],
+      "expectations": [
+        "No perspective report file was created — quick mode should not produce file output",
+        "Response contains a summary of the current auth approach (passport.js, local strategy, JWT in localStorage)",
+        "Response mentions at least one modern alternative to passport.js",
+        "Response flags the security concern of storing JWT in localStorage and recommends a more secure alternative",
+        "Transcript shows the agent consulted live documentation (Context7 or web search)",
+        "Response is concise and conversational — uses bold text at most, not full report-style headers"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/perspective state management — the app uses a mix of Redux Toolkit for global state and React Context for theme/auth. Some components also use local useState for form data. I want to know if this pattern is coherent or if we've got overlapping concerns",
+      "expected_output": "A perspective report narrowed to state management. Should analyse coherency of mixed approach, check current React/Redux docs, and recommend whether to consolidate or keep the current split.",
+      "files": [],
+      "expectations": [
+        "A perspective report markdown file exists in the outputs directory",
+        "Report is narrowed to state management — does not broadly audit unrelated areas",
+        "Report evaluates coherency of Redux Toolkit + Context + useState together",
+        "Report references current React or Redux Toolkit documentation",
+        "Report contains a clear recommendation using one of: Stay the course, Adjust, Pivot, or Adopt",
+        "Report contains checkbox action items specifically about state management improvements"
+      ]
+    }
+  ]
+}

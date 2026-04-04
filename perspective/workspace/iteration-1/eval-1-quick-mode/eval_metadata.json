@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "quick-mode",
+  "prompt": "/perspective quick auth setup — we're using passport.js with local strategy and JWT stored in localStorage, wondering if that's still the recommended approach or if there's something better now",
+  "assertions": [
+    {
+      "id": "no-report-file",
+      "text": "No perspective report file was created — the response is inline only (quick mode should not produce file output)",
+      "type": "structural"
+    },
+    {
+      "id": "whats-there-summary",
+      "text": "Response contains a summary of the current auth approach (passport.js, local strategy, JWT in localStorage)",
+      "type": "content"
+    },
+    {
+      "id": "modern-alternatives",
+      "text": "Response mentions at least one modern alternative to passport.js (e.g. better-auth, lucia, arctic, Auth.js/NextAuth)",
+      "type": "content"
+    },
+    {
+      "id": "localstorage-security",
+      "text": "Response flags the security concern of storing JWT in localStorage (XSS vulnerability) and recommends httpOnly cookies or a more secure alternative",
+      "type": "content"
+    },
+    {
+      "id": "uses-live-docs",
+      "text": "Transcript shows the agent consulted live documentation (Context7 or web search) rather than relying solely on training data",
+      "type": "quality"
+    },
+    {
+      "id": "concise-format",
+      "text": "Response is concise and conversational — uses bold text at most, not full report-style headers or a multi-section document",
+      "type": "quality"
+    }
+  ]
+}

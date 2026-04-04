@@ -1,0 +1,42 @@
+{
+  "eval_id": 0,
+  "eval_name": "full-mode",
+  "prompt": "I've been building this Express API with Prisma and PostgreSQL for about 3 weeks — it handles invoice generation and PDF export for UK freelancers. Before I go deeper, I want to step back and check if I'm heading in the right direction. Are there existing tools that already do this? Am I using the right stack? /perspective",
+  "assertions": [
+    {
+      "id": "report-exists",
+      "text": "A perspective report markdown file exists in the outputs directory",
+      "type": "structural"
+    },
+    {
+      "id": "names-competitors",
+      "text": "Report contains a 'What Already Exists' section naming at least 2 competing invoice tools or services (e.g. Invoice Ninja, FreshBooks, Wave, Xero)",
+      "type": "content"
+    },
+    {
+      "id": "alternative-approaches",
+      "text": "Report contains an 'Alternative Approaches' section with at least one alternative stack, architecture, or strategy with trade-offs",
+      "type": "content"
+    },
+    {
+      "id": "live-docs-audit",
+      "text": "Report contains a 'Codebase Audit' section that references current documentation or version-specific info (not just general knowledge about Express/Prisma)",
+      "type": "quality"
+    },
+    {
+      "id": "clear-recommendation",
+      "text": "Report contains a recommendation section using one of the four categories: Stay the course, Adjust, Pivot, or Adopt",
+      "type": "structural"
+    },
+    {
+      "id": "actionable-items",
+      "text": "Report contains checkbox action items (- [ ]) that are specific enough to implement without further decisions",
+      "type": "quality"
+    },
+    {
+      "id": "follows-template",
+      "text": "Report follows the skill's template structure: What You're Building, What Already Exists, Alternative Approaches, Codebase Audit, Coherency, Recommendation, Action Items — in roughly that order",
+      "type": "structural"
+    }
+  ]
+}

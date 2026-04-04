@@ -1,28 +1,25 @@
 # skills-gc
 
-Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
-
-Each skill is a self-contained markdown file that gives Claude specific behaviours when invoked. They work like slash commands: type `/checkpoint` and Claude follows the skill instructions instead of improvising.
+Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Each skill gives Claude a specific behaviour when invoked as a slash command.
 
 ## Skills
 
 | Skill | What it does |
 |-------|-------------|
-| [checkpoint](checkpoint/) | Session handoff logs so the next session picks up with full context |
-| [verify](verify/) | Audits Claude's output against the user's original request |
-| [plan-challenger](plan-challenger/) | Stress-tests implementation plans before execution |
+| [checkpoint](checkpoint/SKILL.md) | Session handoff — writes a structured log so the next session starts with full context |
+| [verify](verify/SKILL.md) | Audits Claude's output against the original request. PASS/PARTIAL/FAIL per requirement |
+| [plan-challenger](plan-challenger/SKILL.md) | Stress-tests plans before execution — researches alternatives, challenges complexity |
+| [perspective](perspective/SKILL.md) | Strategic reality check — existing solutions, better approaches, live best practices |
+| [cc-audit](cc-audit/SKILL.md) | Audits a project's Claude Code setup against official Anthropic docs |
+| [website-audit](website-audit/SKILL.md) | SEO, AEO, GEO, and structured data audit with deterministic scoring |
 
-## Installation
+## Install
 
 ```bash
-# Link a single skill
-ln -s /path/to/skills-gc/checkpoint ~/.claude/skills/checkpoint
-
-# Or link all of them
-for skill in checkpoint verify plan-challenger; do
-  ln -s /path/to/skills-gc/$skill ~/.claude/skills/$skill
-done
+ln -s /path/to/skills-gc/verify ~/.claude/skills/verify
 ```
+
+Each skill directory has a `SKILL.md` with the full definition and an `evals/` folder with test cases.
 
 ## License
 

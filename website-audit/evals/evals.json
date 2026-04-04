@@ -1,0 +1,23 @@
+{
+  "skill_name": "website-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit claude.ai — just SEO technical and structured data categories",
+      "expected_output": "A report file named {date}-audit-claude-ai.md covering SEO Technical and Structured Data categories, with deterministic scores, letter grades, and a prioritised fix list. Should include robots.txt analysis, sitemap check, HTTPS verification, JSON-LD validation, and Core Web Vitals from Lighthouse.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Run a full website audit on anthropic.com",
+      "expected_output": "A comprehensive report file covering all 5 categories (AEO, GEO, SEO Technical, SEO On-Page, Structured Data) plus indexability and AI bot policy analysis. Should crawl multiple pages, run Lighthouse, check Perplexity citations if API key available, and produce a scored report with fix priorities.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Compare docs.anthropic.com vs platform.openai.com — focus on AEO and GEO",
+      "expected_output": "A comparison report file with side-by-side scores for AEO and GEO, category-by-category analysis of how each documentation site performs for answer engine and generative engine optimisation, and top 3 fixes per site.",
+      "files": []
+    }
+  ]
+}
