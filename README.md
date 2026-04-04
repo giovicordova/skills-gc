@@ -11,6 +11,7 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | [plan-challenger](plan-challenger/SKILL.md) | Stress-tests plans before execution — researches alternatives, challenges complexity |
 | [perspective](perspective/SKILL.md) | Strategic reality check — existing solutions, better approaches, live best practices |
 | [cc-audit](cc-audit/SKILL.md) | Audits a project's Claude Code setup against official Anthropic docs |
+| [coherency-check](coherency-check/SKILL.md) | Cross-document/code coherency analysis — finds contradictions, resolves interactively |
 | [website-audit](website-audit/SKILL.md) | SEO, AEO, GEO, and structured data audit with deterministic scoring |
 
 ## Install

@@ -1,0 +1,62 @@
+{
+  "skill_name": "coherency-check",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I've been putting together docs for TaskFlow and I want to make sure they're all telling the same story before I share them with the team. Can you check these three files for me? /coherency-check evals/files/test-1-project-docs/",
+      "expected_output": "A coherency report identifying multiple contradictions: Node.js version (18 vs 20), framework (Express vs Fastify), PostgreSQL version (14 vs 15), auth method (JWT vs session-based), token/session duration (24h vs 8h), workspace size limit (10 vs 25), task statuses (4-status vs 3-status vs 4-different-status), rate limits (100/min vs 60/min), auth header (Bearer vs X-API-Key), deployment target (AWS ECS vs GCP Cloud Run), IaC tool (Terraform vs Pulumi), infrastructure directory (infrastructure/ vs deploy/), and dev server port (3000 vs 8080). Should then ask the user to resolve each contradiction.",
+      "files": [
+        "evals/files/test-1-project-docs/README.md",
+        "evals/files/test-1-project-docs/SPEC.md",
+        "evals/files/test-1-project-docs/CONTRIBUTING.md"
+      ],
+      "expectations": [
+        "Report identifies the Node.js version contradiction (18 vs 20)",
+        "Report identifies the framework contradiction (Express vs Fastify)",
+        "Report identifies the authentication method contradiction (JWT vs session-based)",
+        "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+        "Report identifies the rate limit contradiction (100/min vs 60/min)",
+        "Report identifies the deployment target contradiction (AWS vs GCP)",
+        "Each contradiction includes specific file names and quoted values",
+        "Report assigns severity levels to contradictions",
+        "After the report, the skill offers to walk through resolution of each contradiction"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We've got an API spec, SDK docs, and a changelog that might have gotten out of sync. Can you cross-check them? /coherency-check evals/files/test-2-api-spec/",
+      "expected_output": "A coherency report catching: token expiry (1h vs 24h), account deletion behaviour (soft-delete with 30-day recovery vs permanent/immediate — with the changelog complicating things by showing a 14-day window), login rate limit (5 vs 10 per minute), pagination max (50 vs 100 per page with changelog confirming change), project colour format (hex-only vs any CSS value — changelog confirms hex-only as current), email verification (required vs removed per changelog), project limit (10 free-tier vs unlimited). Should flag that the changelog resolves some contradictions by showing which value is current.",
+      "files": [
+        "evals/files/test-2-api-spec/routes.md",
+        "evals/files/test-2-api-spec/sdk-docs.md",
+        "evals/files/test-2-api-spec/changelog.md"
+      ],
+      "expectations": [
+        "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+        "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+        "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+        "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+        "Report uses the changelog to inform which contradictions have a clear resolution",
+        "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+        "Each finding includes specific file references and quoted values",
+        "After the report, the skill offers to resolve contradictions interactively"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Just finished writing the vision, spec, and roadmap for Metronome. Before I hand these off, can you make sure they're all coherent? /coherency-check evals/files/test-3-clean-docs/",
+      "expected_output": "A clean bill of health — all three documents are consistent. Tempo range, time signatures, presets, and feature set align across all files. The report should confirm this without fabricating issues.",
+      "files": [
+        "evals/files/test-3-clean-docs/VISION.md",
+        "evals/files/test-3-clean-docs/SPEC.md",
+        "evals/files/test-3-clean-docs/ROADMAP.md"
+      ],
+      "expectations": [
+        "Report confirms no contradictions were found",
+        "Report does NOT fabricate issues that don't exist in the documents",
+        "Report lists the files that were checked",
+        "Report is concise — does not pad a clean result with unnecessary detail"
+      ]
+    }
+  ]
+}
