@@ -1,0 +1,100 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md with 100 lines of substantive audit content."
+    },
+    {
+      "text": "Report contains a Current State table listing all 9 areas (CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features)",
+      "passed": true,
+      "evidence": "Lines 8-19 contain a markdown table with exactly 9 rows: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each row includes Area, What it is, Status, and Findings columns."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 8 findings have a Source line containing a docs.anthropic.com URL. Examples: 'https://docs.anthropic.com/en/docs/agents/claude-code/memory' (CLAUDE.md finding), 'https://docs.anthropic.com/en/docs/agents/claude-code/skills' (skills finding), 'https://docs.anthropic.com/en/docs/agents/claude-code/permissions' (permissions finding)."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 8 Source lines include '(via MCP)' as the provenance marker. Example from line 29: '(via MCP) -- \"Every project using Claude Code benefits from a CLAUDE.md\"'. No '(via Playwright CLI)' markers appear, which is consistent with the audit header stating 'Mode: MCP'."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 8 findings use one of the three tags: [fix] x2 (No CLAUDE.md, Stale permission rules), [improve] x4 (No rules directory, Sub-agent files, No project-level settings.json, Feature mix), [good] x2 (Well-structured skills, Effective use of supporting files)."
+    },
+    {
+      "text": "Report includes a Priority Actions section with ranked recommendations",
+      "passed": true,
+      "evidence": "Lines 84-92 contain a '## Priority Actions' section with a numbered table (1-5). Actions are ranked with [fix] items first (1-2) followed by [improve] items (3-5). Each row includes type, what to do, and why it matters."
+    },
+    {
+      "text": "Report includes a Next Steps section mentioning Plan mode",
+      "passed": true,
+      "evidence": "Lines 94-100 contain a '## Next Steps' section. Line 98 explicitly states: 'Enter Plan mode (Shift+Tab or /plan)'."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 203.8,
+    "total_tokens": 95043
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md at the root, in .claude/, or in any subdirectory",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No CLAUDE.md file appears in the git status or project file listing. The project root contains checkpoint/SKILL.md but no CLAUDE.md."
+    },
+    {
+      "claim": "All 6 skills have proper YAML frontmatter with name and description fields",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from the audit report output alone -- would need to inspect each skill's SKILL.md file directly. The claim is plausible given the project structure but not independently confirmed."
+    },
+    {
+      "claim": "settings.local.json contains 4 permission allow rules referencing /Users/giovannicordova/Documents/02_projects/minimal-framework/",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from the audit report output alone -- would need to read settings.local.json directly. The specificity of the claim (4 rules, exact path) suggests it was read during the audit."
+    },
+    {
+      "claim": "The cc-audit skill has 5 specialist instruction files in agents/",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from output alone. The report names 5 files (instructions-specialist.md, components-specialist.md, automation-specialist.md, integration-specialist.md, adversarial-reviewer.md) which is specific enough to suggest they were actually enumerated."
+    },
+    {
+      "claim": "This project uses 2 of 9 Claude Code features (Skills, partial Sub-agents)",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The Current State table confirms: Skills is [good], Sub-agents is [improve] (partial), and the remaining 7 areas (CLAUDE.md, Rules, Hooks, Permissions, Settings, MCP, Features) are either [fix] or [improve] with findings indicating absence or gaps."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report contains a Current State table listing all 9 areas",
+        "reason": "This assertion checks that the table exists and lists the areas, but not that the Status column uses valid values or that the Findings counts are accurate. A report with all 9 rows but random statuses would pass."
+      },
+      {
+        "assertion": "Every finding includes a Source line with a docs.anthropic.com URL",
+        "reason": "This checks URL presence but not URL validity. A fabricated URL like docs.anthropic.com/nonexistent would pass. Consider verifying that cited URLs correspond to real documentation pages, or at least that the URL path segments are plausible (/memory, /skills, /permissions, etc.)."
+      },
+      {
+        "reason": "No assertion checks the quality or accuracy of the findings themselves -- whether the audit correctly identified real issues in the project. A report with plausible-sounding but entirely fabricated findings would pass all 7 expectations. Consider adding an assertion like 'At least one finding accurately describes an actual project configuration issue' verified against the real project state."
+      },
+      {
+        "reason": "No assertion checks the Findings section heading structure (Instructions, Components, Automation, Integration). The skill may define specific sections, and verifying their presence would catch reports that dump all findings in a flat list."
+      }
+    ],
+    "overall": "Assertions cover structural completeness well but lack content verification. The 7 expectations confirm the report has the right sections, tags, and formatting, but a confidently-written report with fabricated findings about a project it never actually inspected would score 7/7. Adding one assertion that cross-checks a specific finding against real project state would significantly increase discriminating power."
+  }
+}

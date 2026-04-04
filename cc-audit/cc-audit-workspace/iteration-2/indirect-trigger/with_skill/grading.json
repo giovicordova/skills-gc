@@ -1,0 +1,97 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md with 106 lines of substantive audit content."
+    },
+    {
+      "text": "Report covers all 9 audit areas despite the indirect phrasing",
+      "passed": true,
+      "evidence": "Summary table on lines 8-19 lists all 9 areas: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each has a dedicated finding with Current/Recommendation/Project relevance structure."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 9 findings end with a Source line containing a docs.anthropic.com URL. Examples: 'https://docs.anthropic.com/en/docs/agents/claude-code/memory' (CLAUDE.md finding), 'https://docs.anthropic.com/en/docs/agents/claude-code/skills' (Skills finding), 'https://docs.anthropic.com/en/docs/agents/claude-code/permissions' (Permissions finding)."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 9 Source lines end with '(via MCP)'. No Playwright CLI markers appear, which is consistent -- the report header says 'Mode: MCP', indicating all citations were retrieved via MCP."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 9 findings use exactly one of the three tags: [fix] (2 findings: CLAUDE.md, Permissions), [improve] (3 findings: Rules, Settings, Features), [good] (4 findings: Skills, Sub-agents, Hooks, MCP)."
+    },
+    {
+      "text": "Report is written in plain language — technical terms are explained briefly",
+      "passed": true,
+      "evidence": "The summary table includes a 'What it is' column giving plain-language definitions for each area (e.g., Hooks = 'Automated actions before/after Claude acts', MCP = 'Connections to external tools and services'). Findings explain concepts in context (e.g., 'Claude starts every session on this repo with zero persistent context' explains the CLAUDE.md gap; 'parallel specialist analysis followed by adversarial review' explains sub-agents). Minor gap: terms like 'frontmatter', 'symlink', 'gitignored', and 'path-scoped rule' are used without inline definitions, though most are partially clarified by surrounding context."
+    },
+    {
+      "text": "Report specifically identifies Claude Code features not in use and suggests which would help",
+      "passed": true,
+      "evidence": "Features finding (line 84) explicitly states: 'It does not use CLAUDE.md, Rules, Hooks, Permissions (working ones), Settings (shared), MCP, or Plugins.' Then recommends: 'Prioritise CLAUDE.md... then add a shared settings.json with correct permissions, then consider a path-scoped rule for SKILL.md conventions. That takes you from 2 features to 4-5 with minimal effort.'"
+    },
+    {
+      "text": "Report includes Priority Actions section",
+      "passed": true,
+      "evidence": "Lines 89-97 contain '## Priority Actions' with a numbered table of 5 actions, each with Type (fix/improve), description, and rationale. Actions are ordered by priority: CLAUDE.md creation first, then stale permissions fix, then shared settings, rules, and feature adoption review."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": 99046,
+    "executor_duration_seconds": 354.1
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md at the root, at .claude/CLAUDE.md, or in any subdirectory",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No CLAUDE.md appears in the git status or project structure visible from the eval context. The checkpoint/SKILL.md exists but no CLAUDE.md."
+    },
+    {
+      "claim": "All 6 skills have properly formatted YAML frontmatter with name, description, and argument-hint",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from available outputs alone -- would need to inspect each skill's SKILL.md. The claim is plausible given the project structure but unverifiable from the audit report itself."
+    },
+    {
+      "claim": "settings.local.json contains 4 allow rules referencing minimal-framework paths",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from available outputs -- would need to read the actual settings.local.json file. Plausible claim but unverifiable from the report alone."
+    },
+    {
+      "claim": "The cc-audit skill uses 5 agent instruction files",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify the exact count from available outputs. The claim is specific (5 agents named: instructions-specialist, components-specialist, automation-specialist, integration-specialist, adversarial-reviewer) which suggests it was read from the filesystem."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report is written in plain language — technical terms are explained briefly",
+        "reason": "This assertion is subjective and hard to fail. The report could leave most terms unexplained and still pass if the overall tone reads as accessible. Consider a more discriminating version: 'Technical terms (frontmatter, symlink, hooks, MCP) each have a parenthetical or inline explanation on first use.' This would catch the gaps noted in this run (frontmatter, symlink, gitignored used without definition)."
+      },
+      {
+        "assertion": "Report covers all 9 audit areas despite the indirect phrasing",
+        "reason": "The 'despite the indirect phrasing' qualifier is about the eval prompt, not the output quality. The assertion reduces to 'covers all 9 areas', which is already tested. Consider splitting: one assertion for coverage (all 9 areas present) and one for indirect-trigger fidelity (the skill activated and produced a full audit without the user saying 'run an audit')."
+      },
+      {
+        "reason": "No assertion checks whether the findings are accurate -- e.g., does the CLAUDE.md really not exist, are the stale paths in settings.local.json real, do all 6 skills actually have frontmatter. The report could fabricate plausible-sounding findings and pass all 8 expectations. Consider adding: 'At least 2 factual claims in findings are verified against the actual project state.'"
+      }
+    ],
+    "overall": "Strong assertion set that covers structure, format, and content requirements well. Main gap is accuracy verification -- all assertions check that the report says the right kinds of things, but none check that what it says is true."
+  }
+}

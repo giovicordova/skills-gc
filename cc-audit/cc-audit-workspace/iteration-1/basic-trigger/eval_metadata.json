@@ -1,0 +1,55 @@
+{
+  "eval_id": 1,
+  "eval_name": "basic-trigger",
+  "prompt": "Audit my Claude Code setup",
+  "assertions": [
+    {
+      "name": "report_exists",
+      "description": "AUDIT-REPORT.md file was created in the outputs directory",
+      "type": "file_exists",
+      "check": "outputs/AUDIT-REPORT.md exists"
+    },
+    {
+      "name": "covers_all_9_areas",
+      "description": "Report mentions all 9 audit areas: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features",
+      "type": "content_check",
+      "check": "All 9 area names appear in the report body"
+    },
+    {
+      "name": "has_current_state_table",
+      "description": "Report contains a Current State summary table with status per area",
+      "type": "content_check",
+      "check": "A markdown table with area names and status indicators exists"
+    },
+    {
+      "name": "findings_have_sources",
+      "description": "Every finding block includes a Source line with a real URL from Anthropic docs",
+      "type": "content_check",
+      "check": "Each finding has a **Source**: line containing a docs.anthropic.com URL"
+    },
+    {
+      "name": "has_provenance_markers",
+      "description": "Source citations include (via MCP) or (via Playwright CLI) provenance tags",
+      "type": "content_check",
+      "check": "Source lines contain '(via MCP)' or '(via Playwright CLI)'"
+    },
+    {
+      "name": "uses_finding_tags",
+      "description": "Findings are tagged with [good], [improve], or [fix]",
+      "type": "content_check",
+      "check": "Finding headers contain good, improve, or fix tags"
+    },
+    {
+      "name": "has_priority_actions",
+      "description": "Report includes a Priority Actions section with ranked recommendations",
+      "type": "content_check",
+      "check": "A Priority Actions section with a table or numbered list exists"
+    },
+    {
+      "name": "has_next_steps",
+      "description": "Report ends with Next Steps directing user to Plan mode",
+      "type": "content_check",
+      "check": "Next Steps section mentions Plan mode or /plan"
+    }
+  ]
+}

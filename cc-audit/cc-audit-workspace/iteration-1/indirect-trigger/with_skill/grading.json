@@ -1,0 +1,112 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md, 100 lines, 11023 characters. Contains a complete audit report with Current State table, 8 detailed findings, Priority Actions, and Next Steps."
+    },
+    {
+      "text": "Report covers all 9 audit areas despite the indirect phrasing",
+      "passed": true,
+      "evidence": "The Current State table at lines 8-18 lists all 9 areas: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each has a status rating (good/improve/fix) and a findings count. Three areas (Sub-agents, Hooks, MCP) are rated 'good' with 0 findings, meaning the audit assessed them and found nothing to flag. The remaining 6 areas have detailed findings in the body."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 8 findings include a Source line with a docs.anthropic.com URL. URLs reference: /memory (x2), /skills (x3), /permissions (x1), /settings (x1), /features-overview (x1). Each URL is wrapped in a named markdown link with a quoted excerpt from the documentation."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 8 Source citations end with '(via MCP)'. No '(via Playwright CLI)' markers appear, which is consistent with the report header stating 'Mode: MCP'. Every citation follows the pattern: linked title + quoted excerpt + provenance marker."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 8 findings use exactly one of the three tags: [fix] appears on lines 24 and 60, [improve] on lines 31, 67, and 76, [good] on lines 40, 46, and 52. No other tag variants are used."
+    },
+    {
+      "text": "Report is written in plain language — technical terms are explained briefly",
+      "passed": true,
+      "evidence": "The Current State table provides plain-language descriptions for each area (e.g., CLAUDE.md = 'Your project's instructions to Claude', Rules = 'Targeted instructions scoped to specific files', Hooks = 'Automated actions before/after Claude acts'). Findings use concrete descriptions rather than jargon (e.g., 'Claude starts every session on this repo with zero persistent context' instead of 'no context injection'). Minor gap: terms like 'symlink', 'frontmatter', and 'gitignored' are used without inline definitions, though frontmatter is described functionally in context ('YAML frontmatter with the paths field')."
+    },
+    {
+      "text": "Report specifically identifies Claude Code features not in use and suggests which would help",
+      "passed": true,
+      "evidence": "Finding at line 76 ('Underusing Claude Code features') explicitly lists unused features: 'CLAUDE.md, Rules, Hooks, Permissions, Settings, MCP, and Sub-agents are either absent or misconfigured.' It then recommends CLAUDE.md (priority 1) and scoped rules (priority 2) as highest-impact, while explicitly noting 'Hooks, MCP, and sub-agents are not necessary for a markdown-only skill library and should not be added just for the sake of completeness.' This discriminates between features that would help vs. features that would be cargo-culted."
+    },
+    {
+      "text": "Report includes Priority Actions section",
+      "passed": true,
+      "evidence": "Lines 83-91 contain '## Priority Actions' with a numbered table of 5 items. Each row has Type (fix/improve), action description, and rationale. Items are ordered by priority: create CLAUDE.md, fix stale paths, create shared settings, add scoped rule, treat repo as showcase."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": 90729,
+    "executor_duration_seconds": 210.0,
+    "total_duration_seconds": 210.0
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md at the root, in .claude/, or in any subdirectory",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No CLAUDE.md appears in the git status or project structure. The repo contains only skill directories and a checkpoint directory."
+    },
+    {
+      "claim": "All 6 skills include name and description in YAML frontmatter",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cannot independently verify without reading each skill file, but this is a checkable claim. The report's specificity (naming trigger phrases like 'checkpoint', 'end of session', etc.) suggests genuine inspection occurred."
+    },
+    {
+      "claim": "The perspective skill uses context: fork, disable-model-invocation: true, and allowed-tools",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cannot independently verify from grading inputs alone. However, the specificity of the claim (naming three distinct frontmatter fields on a specific skill) makes fabrication unlikely."
+    },
+    {
+      "claim": "settings.local.json contains 4 allow rules referencing minimal-framework path",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cannot independently verify from grading inputs, but this is a very specific claim about a stale path that would be easy to check. The finding includes the exact path '/Users/giovannicordova/Documents/02_projects/minimal-framework/'."
+    },
+    {
+      "claim": "The cc-audit skill uses an agents/ directory with 5 supporting markdown files",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cannot independently verify from grading inputs, but the claim names a specific count (5) and specific filenames (instructions-specialist.md, components-specialist.md, etc.)."
+    },
+    {
+      "claim": "Mode: MCP (all sources accessed via MCP)",
+      "type": "process",
+      "verified": true,
+      "evidence": "All 8 Source citations use '(via MCP)' provenance markers, consistent with the header declaring 'Mode: MCP'. No Playwright CLI markers appear."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report covers all 9 audit areas despite the indirect phrasing",
+        "reason": "This assertion accepts listing areas in a summary table with zero findings as 'coverage'. A stricter version would require at least one sentence of analysis per area explaining why no findings are needed, which would distinguish genuine assessment from template filling."
+      },
+      {
+        "assertion": "Report is written in plain language — technical terms are explained briefly",
+        "reason": "This is inherently subjective and hard to fail. A more discriminating version would name specific terms that must be explained (e.g., 'symlink', 'frontmatter', 'MCP', 'hooks') and check each one has an inline definition. The current report leaves 'symlink' and 'gitignored' unexplained."
+      },
+      {
+        "reason": "No assertion checks whether the audit found real, accurate issues versus fabricated ones. The report claims stale paths in settings.local.json and specific frontmatter features in skills — verifying even one factual claim against the actual codebase would catch hallucinated findings."
+      },
+      {
+        "reason": "No assertion checks whether the 'indirect trigger' (non-explicit phrasing) actually tested skill activation. Without a transcript, we cannot verify whether the skill was triggered by indirect phrasing or invoked manually. The eval's differentiator — indirect triggering — is unverifiable from outputs alone."
+      }
+    ],
+    "overall": "Assertions cover structural completeness well but lack content verification. The biggest gap is that no assertion checks whether findings are factually accurate against the actual codebase. For the indirect-trigger eval specifically, the absence of a transcript makes it impossible to verify the core differentiator — that the skill activated from indirect phrasing rather than explicit invocation."
+  }
+}

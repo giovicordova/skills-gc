@@ -1,0 +1,96 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md with 93 lines of structured audit content including Current State table, 6 findings, Priority Actions, and Next Steps sections."
+    },
+    {
+      "text": "Report covers all 9 areas in the Current State table, not just Hooks and MCP",
+      "passed": true,
+      "evidence": "Current State table (lines 8-19) lists all 9 areas: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each has a status and finding count."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 6 findings contain Source lines with docs.anthropic.com URLs: /memory (CLAUDE.md finding), /skills (two skill findings), /permissions (stale paths), /settings (shared settings), /features-overview (feature coverage)."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 6 Source lines end with '(via MCP)' provenance markers. No Playwright CLI markers present, which is consistent with the report header stating 'Mode: MCP'."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 6 findings use the expected tags: [fix] No CLAUDE.md, [good] Skills well-structured, [good] Effective supporting files, [fix] Stale permission paths, [improve] No project-level settings.json, [improve] Feature coverage gap."
+    },
+    {
+      "text": "Report includes at least one finding about Hooks",
+      "passed": false,
+      "evidence": "Hooks appears in the Current State table (line 14) with status 'good' and 0 findings. The 'Automation (Hooks + Permissions + Settings)' section heading mentions Hooks, but neither of the two tagged findings under it ([fix] Stale permission paths, [improve] No project-level settings.json) actually discusses Hooks. There is no dedicated finding analyzing the project's hooks configuration or lack thereof."
+    },
+    {
+      "text": "Report includes at least one finding about MCP",
+      "passed": false,
+      "evidence": "MCP appears in the Current State table (line 18) with status 'good' and 0 findings. The 'Integration (MCP + Features)' section heading mentions MCP, but the single finding under it ([improve] Feature coverage) discusses general feature adoption, not MCP specifically. There is no dedicated finding analyzing MCP configuration or usage."
+    },
+    {
+      "text": "Report includes Priority Actions section",
+      "passed": true,
+      "evidence": "Lines 77-84 contain a '## Priority Actions' section with a 4-row table listing numbered actions with Type (fix/improve), description, and rationale columns."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  },
+  "timing": {
+    "total_tokens": 112418,
+    "total_duration_seconds": 195.0
+  },
+  "claims": [
+    {
+      "claim": "The project has 6 skills (checkpoint, verify, plan-challenger, perspective, cc-audit, website-audit)",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "Cannot verify from available outputs alone — would require listing the project directory. Plausible given the project context."
+    },
+    {
+      "claim": "settings.local.json contains stale paths referencing 'minimal-framework' instead of 'skills-gc'",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "Cannot verify from available outputs — would require reading .claude/settings.local.json directly. The claim is specific enough to be credible."
+    },
+    {
+      "claim": "No CLAUDE.md file exists at the project root or in .claude/",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "Cannot verify from available outputs. Would require checking the project directory directly."
+    },
+    {
+      "claim": "perspective and website-audit use 'context: fork' with explicit 'allowed-tools'",
+      "type": "factual",
+      "verified": "unverifiable",
+      "evidence": "Cannot verify from available outputs — would require reading those SKILL.md files."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report covers all 9 areas in the Current State table, not just Hooks and MCP",
+        "reason": "This assertion checks table presence, not substantive coverage. The report lists all 9 areas in the table but only has actual findings for 4 of them (CLAUDE.md, Skills, Permissions, Settings/Features). A stronger assertion would be: 'Report includes at least one finding or explicit rationale for every area in the Current State table.'"
+      },
+      {
+        "assertion": "Report includes at least one finding about Hooks",
+        "reason": "This eval was named 'partial-area' — presumably testing whether the skill handles prompts emphasising specific areas. The skill listed Hooks in the table with 0 findings and 'good' status but produced no actual analysis. This exposes a real gap: the skill can mark an area 'good' without producing a finding to justify why. Consider also asserting that areas marked 'good' have at least a brief rationale."
+      },
+      {
+        "reason": "No assertion checks the accuracy of Source URLs. All 6 links could be fabricated docs.anthropic.com paths that return 404. A stronger eval would verify at least one URL resolves to a real page."
+      }
+    ],
+    "overall": "The Hooks and MCP expectations correctly caught that the skill omits dedicated findings for areas with nothing actionable. The structural assertions (file exists, tags used, table present) are solid but could be tightened to check substance, not just format. The URL accuracy gap is notable — provenance markers are checked but the URLs themselves could be hallucinated."
+  }
+}

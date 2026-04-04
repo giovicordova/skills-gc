@@ -1,0 +1,55 @@
+{
+  "eval_id": 2,
+  "eval_name": "indirect-trigger",
+  "prompt": "I feel like I'm not using Claude Code properly in this project — can you check?",
+  "assertions": [
+    {
+      "name": "report_exists",
+      "description": "AUDIT-REPORT.md file was created in the outputs directory",
+      "type": "file_exists",
+      "check": "outputs/AUDIT-REPORT.md exists"
+    },
+    {
+      "name": "covers_all_9_areas",
+      "description": "Report mentions all 9 audit areas despite the indirect phrasing of the request",
+      "type": "content_check",
+      "check": "All 9 area names appear in the report body"
+    },
+    {
+      "name": "findings_have_sources",
+      "description": "Every finding block includes a Source line with a real URL",
+      "type": "content_check",
+      "check": "Each finding has a **Source**: line containing a docs.anthropic.com URL"
+    },
+    {
+      "name": "has_provenance_markers",
+      "description": "Source citations include provenance tags",
+      "type": "content_check",
+      "check": "Source lines contain '(via MCP)' or '(via Playwright CLI)'"
+    },
+    {
+      "name": "uses_finding_tags",
+      "description": "Findings are tagged with [good], [improve], or [fix]",
+      "type": "content_check",
+      "check": "Finding headers contain good, improve, or fix tags"
+    },
+    {
+      "name": "plain_language",
+      "description": "Report is written in plain language accessible to non-developers. Technical terms are explained in parentheses.",
+      "type": "qualitative",
+      "check": "No unexplained jargon — technical terms have brief explanations"
+    },
+    {
+      "name": "identifies_unused_features",
+      "description": "Report specifically calls out Claude Code features the project isn't using but could benefit from",
+      "type": "content_check",
+      "check": "Report mentions features not in use and why they'd help"
+    },
+    {
+      "name": "has_priority_actions",
+      "description": "Report includes a Priority Actions section",
+      "type": "content_check",
+      "check": "A Priority Actions section exists"
+    }
+  ]
+}

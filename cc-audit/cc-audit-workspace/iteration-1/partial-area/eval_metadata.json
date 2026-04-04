@@ -1,0 +1,55 @@
+{
+  "eval_id": 3,
+  "eval_name": "partial-area",
+  "prompt": "Check if my hooks and MCP are configured right",
+  "assertions": [
+    {
+      "name": "report_exists",
+      "description": "AUDIT-REPORT.md file was created in the outputs directory",
+      "type": "file_exists",
+      "check": "outputs/AUDIT-REPORT.md exists"
+    },
+    {
+      "name": "full_audit_despite_partial_request",
+      "description": "Report covers all 9 areas even though user only asked about hooks and MCP — the skill always does a full audit",
+      "type": "content_check",
+      "check": "All 9 area names appear in Current State table, not just Hooks and MCP"
+    },
+    {
+      "name": "findings_have_sources",
+      "description": "Every finding includes a Source line with a real URL",
+      "type": "content_check",
+      "check": "Each finding has a **Source**: line with a docs.anthropic.com URL"
+    },
+    {
+      "name": "has_provenance_markers",
+      "description": "Source citations include provenance tags",
+      "type": "content_check",
+      "check": "Source lines contain '(via MCP)' or '(via Playwright CLI)'"
+    },
+    {
+      "name": "uses_finding_tags",
+      "description": "Findings use the standard tag format",
+      "type": "content_check",
+      "check": "Finding headers contain good, improve, or fix tags"
+    },
+    {
+      "name": "has_hooks_findings",
+      "description": "Report includes specific findings about hooks (the area the user asked about)",
+      "type": "content_check",
+      "check": "Hooks section has at least one finding"
+    },
+    {
+      "name": "has_mcp_findings",
+      "description": "Report includes specific findings about MCP (the area the user asked about)",
+      "type": "content_check",
+      "check": "MCP section has at least one finding"
+    },
+    {
+      "name": "has_priority_actions",
+      "description": "Report includes Priority Actions",
+      "type": "content_check",
+      "check": "A Priority Actions section exists"
+    }
+  ]
+}

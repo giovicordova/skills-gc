@@ -1,0 +1,97 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md (19,564 bytes). Contains a full audit report with 154 lines covering Current State, Findings, Priority Actions, and Next Steps."
+    },
+    {
+      "text": "Report contains a Current State table listing all 9 areas (CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features)",
+      "passed": true,
+      "evidence": "Lines 8-18 contain a markdown table with exactly 9 rows: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each row includes Area, What it is, Status, and Findings columns."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": false,
+      "evidence": "All 15 findings include a Source line, but none contain a full docs.anthropic.com URL. They use relative markdown links like '[CLAUDE.md files](/docs/en/memory)' and '[Extend Claude with skills](/docs/en/skills)' instead of full URLs like 'https://docs.anthropic.com/en/docs/memory'. The expectation specifies 'a docs.anthropic.com URL' which these relative paths do not satisfy."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 15 Source lines end with '(via MCP)'. Examples: line 29 '(via MCP)', line 36 '(via MCP)', line 43 '(via MCP)'. No '(via Playwright CLI)' markers appear, which is expected for a baseline run without the skill -- the model used MCP consistently."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 15 findings are tagged: [fix] appears on 2 findings (lines 24, 31), [improve] appears on 9 findings (lines 38, 65, 80, 89, 99, 106, 121, 128), [good] appears on 4 findings (lines 47, 53, 59, 115). Every finding heading includes exactly one of the three required tags."
+    },
+    {
+      "text": "Report includes a Priority Actions section with ranked recommendations",
+      "passed": true,
+      "evidence": "Lines 138-147 contain a '## Priority Actions' section with a numbered markdown table (1-5) including columns for #, Type, What to do, and Why it matters. Actions are ranked from highest priority (fix: create CLAUDE.md) to lowest (improve: add rules)."
+    },
+    {
+      "text": "Report includes a Next Steps section mentioning Plan mode",
+      "passed": true,
+      "evidence": "Lines 149-154 contain a '## Next Steps' section with step 2 explicitly stating 'Enter Plan mode (Shift+Tab or /plan)' and step 3 providing a specific prompt to use in Plan mode."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 1,
+    "total": 7,
+    "pass_rate": 0.86
+  },
+  "timing": {
+    "total_tokens": 112958,
+    "executor_duration_seconds": 221.5,
+    "total_duration_seconds": 221.5
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md at the project root",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed by git status showing no CLAUDE.md in project root. The repo contains only checkpoint/SKILL.md and similar skill files."
+    },
+    {
+      "claim": "All 6 skills follow a consistent directory structure with SKILL.md and evals/",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The report lists checkpoint, verify, plan-challenger, perspective, website-audit, and cc-audit. The project structure confirms these directories exist with SKILL.md files."
+    },
+    {
+      "claim": "Skills line counts: checkpoint (132), verify (70), plan-challenger (98), perspective (219), website-audit (229), cc-audit (261)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Not independently verified from available outputs. These specific line counts could be accurate but cannot be confirmed without reading the actual SKILL.md files."
+    },
+    {
+      "claim": "settings.local.json references an outdated path (minimal-framework instead of skills-gc)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Not independently verified. The claim is plausible given the project structure but would require reading .claude/settings.local.json to confirm."
+    },
+    {
+      "claim": "Documentation was retrieved via MCP (anthropic-docs)",
+      "type": "process",
+      "verified": true,
+      "evidence": "The report header states 'Mode: MCP (anthropic-docs)' and all Source citations include '(via MCP)' provenance markers, consistent with using the anthropic-docs MCP server."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Every finding includes a Source line with a docs.anthropic.com URL",
+        "reason": "The assertion requires a full 'docs.anthropic.com URL' but the MCP tool returns relative paths like '/docs/en/memory'. The baseline model used these relative paths consistently. Consider relaxing to 'a reference to Anthropic documentation' or tightening to require the full URL format explicitly in the skill instructions. As written, this assertion penalises valid documentation references that just lack the domain prefix."
+      },
+      {
+        "reason": "No assertion checks the quality or accuracy of the findings themselves. The report could contain fabricated findings about non-existent files and still pass 6/7 expectations. Consider adding an assertion like 'Findings accurately reflect the actual project state' verified by spot-checking 2-3 claims against the real codebase."
+      },
+      {
+        "reason": "No assertion checks finding count or coverage depth. A report with 1 finding per area (9 total) would pass identically to this report's 15 detailed findings. Consider 'Report contains at least 10 findings' to ensure substantive analysis."
+      }
+    ],
+    "overall": "Assertions cover structural requirements well (table format, tags, sections) but do not verify content accuracy or analytical depth. The URL assertion is the most likely to cause baseline failures due to MCP returning relative paths rather than full URLs."
+  }
+}

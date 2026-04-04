@@ -1,0 +1,92 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md (107 lines, well-structured markdown with frontmatter header, sections, and tables)."
+    },
+    {
+      "text": "Report contains a Current State table listing all 9 areas (CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features)",
+      "passed": true,
+      "evidence": "Lines 8-18 contain a markdown table with columns Area, What it is, Status, Findings. All 9 areas are listed as rows: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each has a status tag (fix/improve/good) and a finding count."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 9 findings include a Source line with a docs.anthropic.com URL. URLs found: memory#claudemd-files, memory#organize-rules-with-clauderules, skills, sub-agents, hooks-guide#re-inject-context-after-compaction, permissions#permission-rule-syntax, settings, mcp#mcp-installation-scopes, features-overview#match-features-to-your-goal."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 9 Source lines end with '(via MCP)'. No '(via Playwright CLI)' markers appear, but the expectation requires one of the two markers, and all citations include one. Examples: '(via MCP)' on lines 29, 36, 44, 50, 59, 66, 73, 81, 88."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 9 findings use one of the three tags. Distribution: [fix] x2 (CLAUDE.md, Permissions), [improve] x4 (Rules, Hooks, Settings, Features), [good] x3 (Skills, Sub-agents, MCP). Tags appear in the heading of each finding section."
+    },
+    {
+      "text": "Report includes a Priority Actions section with ranked recommendations",
+      "passed": true,
+      "evidence": "Lines 90-98: '## Priority Actions' section contains a numbered table (1-5) with columns #, Type, What to do, Why it matters. Items are ranked with fix items first (1-2), then improve items (3-5)."
+    },
+    {
+      "text": "Report includes a Next Steps section mentioning Plan mode",
+      "passed": true,
+      "evidence": "Lines 100-106: '## Next Steps' section with 4 numbered steps. Step 2 explicitly says 'Enter Plan mode (Shift+Tab or /plan)' and step 3 instructs reading the audit report to create an implementation plan."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": 109629,
+    "duration_ms": 289517,
+    "total_duration_seconds": 289.5
+  },
+  "claims": [
+    {
+      "claim": "Project has no CLAUDE.md at the root, .claude/CLAUDE.md, or in any subdirectory",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify without checking the filesystem of the audited project. The checkpoint/ directory contains a SKILL.md (visible from git status showing 'M checkpoint/SKILL.md'), but this is not a CLAUDE.md. Claim is plausible but unverifiable from outputs alone."
+    },
+    {
+      "claim": "All 6 SKILL.md files have proper YAML frontmatter with name and description",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify without reading all 6 SKILL.md files. The claim is specific (6 skills, proper frontmatter) but unverifiable from the audit report alone."
+    },
+    {
+      "claim": "settings.local.json references 'minimal-framework' as a stale path",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify without reading the actual settings.local.json file. The claim is specific and testable but not verifiable from the report alone."
+    },
+    {
+      "claim": "The project uses only 1 of 9 Claude Code features",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The report's own Current State table shows 2 fix areas, 4 improve areas, and 3 good areas. The 'good' ratings on Skills, Sub-agents, and MCP suggest more than 1 feature is used (Skills actively, MCP referenced in skills). The claim '1 of 9' appears to undercount -- MCP tools are referenced in allowed-tools, and the agent instructions pattern is a form of sub-agent usage. However, at the project configuration level (not skill content level), only Skills directories exist as configured features, so the claim is defensible from that angle."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Every finding includes a Source line with a docs.anthropic.com URL",
+        "reason": "This checks URL presence but not URL validity. A hallucinated URL like docs.anthropic.com/en/docs/agents/claude-code/nonexistent-page would pass. Consider adding a verification step that checks URLs resolve (or at least match known doc page patterns)."
+      },
+      {
+        "assertion": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+        "reason": "All 9 sources used '(via MCP)' -- the assertion passes even if the skill never actually used MCP and just hardcoded the marker. A stronger test would check that the provenance marker matches the actual tool used to retrieve the documentation (e.g., verify MCP tool calls in a transcript)."
+      },
+      {
+        "reason": "No assertion checks the quality or accuracy of the findings themselves. The report could contain fabricated findings about non-existent configuration files and still pass all 7 expectations. Consider adding an assertion that spot-checks at least one factual claim against the actual project state."
+      }
+    ],
+    "overall": "Assertions thoroughly cover structural completeness (all sections present, all areas covered, correct tags used) but do not verify factual accuracy of the report's claims about the project. A structurally perfect but factually wrong report would score 7/7."
+  }
+}

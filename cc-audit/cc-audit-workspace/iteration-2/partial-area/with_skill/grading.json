@@ -1,0 +1,104 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md (13,535 bytes). Contains a full audit report with Current State table, 11 findings across 4 sections, Priority Actions, and Next Steps."
+    },
+    {
+      "text": "Report covers all 9 areas in the Current State table, not just Hooks and MCP",
+      "passed": true,
+      "evidence": "Current State table lists exactly 9 rows: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each has a status tag and finding count."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 11 findings include a Source line with a docs.anthropic.com URL. URLs reference: /memory, /memory#organize-rules-with-clauderules, /skills, /skills#add-supporting-files, /sub-agents, /hooks-guide, /hooks-guide#configure-hook-location, /permissions, /settings, /mcp, /features-overview."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "All 11 Source lines end with '(via MCP)'. No '(via Playwright CLI)' markers appear, which is consistent with the report header stating 'Mode: MCP'."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 11 findings use one of the three tags. Breakdown: [fix] x2 (CLAUDE.md, Permissions), [improve] x5 (Rules, Hooks x2, Settings, Features), [good] x4 (Skills x2, Sub-agents, MCP). These tags also appear as status values in the Current State table."
+    },
+    {
+      "text": "Report includes at least one finding about Hooks",
+      "passed": true,
+      "evidence": "Two hook findings: '[improve] No project-level hooks -- checkpoint skill sets one up manually' and '[improve] User-level hooks exist but are not documented in the project'. Both are under the 'Automation (Hooks + Permissions + Settings)' section."
+    },
+    {
+      "text": "Report includes at least one finding about MCP",
+      "passed": true,
+      "evidence": "One MCP finding: '[good] No project-level MCP is the right call' under the 'Integration (MCP + Features)' section. It correctly identifies that a pure markdown project needs no project-level MCP servers."
+    },
+    {
+      "text": "Report includes Priority Actions section",
+      "passed": true,
+      "evidence": "## Priority Actions section exists with a 5-row numbered table. Columns: #, Type, What to do, Why it matters. Actions are ordered by priority: two [fix] items first, then three [improve] items."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": 112706,
+    "duration_ms": 297927,
+    "total_duration_seconds": 297.9
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md at the root or at .claude/CLAUDE.md",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The checkpoint/SKILL.md is modified per git status, but no root CLAUDE.md or .claude/CLAUDE.md appears in the repo structure."
+    },
+    {
+      "claim": "All 6 skills have proper YAML frontmatter with name and description fields",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from outputs alone -- would require reading each SKILL.md file in the project. Plausible given the audit was run against the actual project."
+    },
+    {
+      "claim": "settings.local.json references /Users/giovannicordova/Documents/02_projects/minimal-framework/",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from outputs alone -- would require reading the actual settings.local.json file."
+    },
+    {
+      "claim": "The cc-audit skill has 5 agent instruction files",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from outputs alone -- would require listing the agents/ directory."
+    },
+    {
+      "claim": "User-level hooks include SessionStart, PostToolUse, and Notification events",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from outputs alone -- would require reading ~/.claude/settings.json. Plausible given the audit read the actual file."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report covers all 9 areas in the Current State table, not just Hooks and MCP",
+        "reason": "This checks for presence of 9 rows but not whether any findings exist for each area. A table listing 9 areas with empty Findings columns would pass. Consider requiring at least one finding per area, or at minimum a non-empty Status column."
+      },
+      {
+        "assertion": "Every finding includes a Source line with a docs.anthropic.com URL",
+        "reason": "Checks URL presence but not validity. A fabricated URL like docs.anthropic.com/en/docs/agents/claude-code/nonexistent-page would pass. Consider spot-checking that at least one URL resolves to an actual page."
+      },
+      {
+        "reason": "No assertion checks the quality or accuracy of the findings themselves. A report with fabricated findings (e.g., 'Your hooks are misconfigured' when they are fine) would pass all 8 expectations. Consider adding a spot-check assertion that verifies one specific finding against the actual project state."
+      }
+    ],
+    "overall": "Assertions cover structure and formatting well but do not verify content accuracy. The report could contain plausible-sounding but incorrect findings and still pass all 8 expectations. Adding one content-verification assertion would significantly increase discriminating power."
+  }
+}

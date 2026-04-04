@@ -1,0 +1,55 @@
+{
+  "skill_name": "cc-audit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "basic-trigger",
+      "prompt": "Audit my Claude Code setup",
+      "expected_output": "An AUDIT-REPORT.md covering all 9 areas with findings citing Anthropic documentation fetched during the session",
+      "files": [],
+      "expectations": [
+        "AUDIT-REPORT.md file was created",
+        "Report contains a Current State table listing all 9 areas (CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features)",
+        "Every finding includes a Source line with a docs.anthropic.com URL",
+        "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+        "Findings use [good], [improve], or [fix] tags",
+        "Report includes a Priority Actions section with ranked recommendations",
+        "Report includes a Next Steps section mentioning Plan mode"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "indirect-trigger",
+      "prompt": "I feel like I'm not using Claude Code properly in this project — can you check?",
+      "expected_output": "An AUDIT-REPORT.md that identifies unused features and suggests improvements, written in plain language for a non-developer",
+      "files": [],
+      "expectations": [
+        "AUDIT-REPORT.md file was created",
+        "Report covers all 9 audit areas despite the indirect phrasing",
+        "Every finding includes a Source line with a docs.anthropic.com URL",
+        "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+        "Findings use [good], [improve], or [fix] tags",
+        "Report is written in plain language — technical terms are explained briefly",
+        "Report specifically identifies Claude Code features not in use and suggests which would help",
+        "Report includes Priority Actions section"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "partial-area",
+      "prompt": "Check if my hooks and MCP are configured right",
+      "expected_output": "A full AUDIT-REPORT.md covering all 9 areas (not just hooks and MCP), with emphasis on the requested areas in findings",
+      "files": [],
+      "expectations": [
+        "AUDIT-REPORT.md file was created",
+        "Report covers all 9 areas in the Current State table, not just Hooks and MCP",
+        "Every finding includes a Source line with a docs.anthropic.com URL",
+        "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+        "Findings use [good], [improve], or [fix] tags",
+        "Report includes at least one finding about Hooks",
+        "Report includes at least one finding about MCP",
+        "Report includes Priority Actions section"
+      ]
+    }
+  ]
+}

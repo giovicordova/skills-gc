@@ -1,0 +1,114 @@
+{
+  "expectations": [
+    {
+      "text": "AUDIT-REPORT.md file was created",
+      "passed": true,
+      "evidence": "File exists at outputs/AUDIT-REPORT.md (17,219 bytes). Contains a complete audit report with header, summary table, 14 findings across 4 sections, priority actions, and next steps."
+    },
+    {
+      "text": "Report covers all 9 audit areas despite the indirect phrasing",
+      "passed": true,
+      "evidence": "The summary table at lines 9-18 lists all 9 areas: CLAUDE.md, Rules, Skills, Sub-agents, Hooks, Permissions, Settings, MCP, Features. Each area has at least one detailed finding in the body of the report (14 findings total across 4 grouped sections)."
+    },
+    {
+      "text": "Every finding includes a Source line with a docs.anthropic.com URL",
+      "passed": true,
+      "evidence": "All 14 findings include a **Source** line containing a docs.anthropic.com URL. Examples: finding 1 cites 'https://docs.anthropic.com/en/docs/claude-code/memory#claudemd-files', finding 8 cites 'https://docs.anthropic.com/en/docs/claude-code/hooks-guide', finding 13 cites 'https://docs.anthropic.com/en/docs/claude-code/mcp#project-scope'. No finding lacks a source citation."
+    },
+    {
+      "text": "Source citations include provenance markers: (via MCP) or (via Playwright CLI)",
+      "passed": true,
+      "evidence": "Every Source line ends with '(via MCP)'. The report header also states 'Mode: MCP (anthropic-docs)'. All 14 findings consistently use the (via MCP) provenance marker. No (via Playwright CLI) markers appear, which is expected since the baseline run used MCP, not the Playwright CLI fallback."
+    },
+    {
+      "text": "Findings use [good], [improve], or [fix] tags",
+      "passed": true,
+      "evidence": "All 14 findings are tagged: [fix] x5 (findings 1, 2, 8, 9, 12), [good] x4 (findings 3, 4, 5, 10), [improve] x5 (findings 6, 7, 11, 13, 14). No finding uses a tag outside the expected set."
+    },
+    {
+      "text": "Report is written in plain language — technical terms are explained briefly",
+      "passed": true,
+      "evidence": "The summary table explains each area in plain language (e.g. CLAUDE.md = 'Your project's instructions to Claude', Hooks = 'Automated actions before/after Claude acts', Sub-agents = 'Isolated Claude sessions for specific tasks'). Finding text uses accessible phrasing: 'Claude starts every session in this repo with zero project-specific context', 'the checkpoint skill writes logs that nobody reads unless they remember to look'. A few technical terms (frontmatter, symlink, context window) appear without explicit definitions, but their meaning is generally clear from surrounding context."
+    },
+    {
+      "text": "Report specifically identifies Claude Code features not in use and suggests which would help",
+      "passed": true,
+      "evidence": "The report identifies 6 unused features: (1) no project CLAUDE.md — recommends creating one with /init, (2) no .claude/rules/ directory — recommends two specific rule files, (3) no project-level sub-agents — suggests skill-tester and skill-reviewer agents, (4) no hooks configured — provides exact JSON for SessionStart hook, (5) no project settings.json — recommends creating with hooks and permissions, (6) no .mcp.json — provides exact JSON for anthropic-docs server. Each includes why it would help this specific project."
+    },
+    {
+      "text": "Report includes Priority Actions section",
+      "passed": true,
+      "evidence": "Lines 197-206 contain a '## Priority Actions' section with a numbered table of 5 actions, each with Type (fix/improve), 'What to do', and 'Why it matters' columns. Actions are ordered by priority: (1) Create CLAUDE.md, (2) Create settings.json with hook, (3) Fix stale paths, (4) Create rules, (5) Add .mcp.json."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": 103865,
+    "executor_duration_seconds": 179.6,
+    "total_duration_seconds": 179.6
+  },
+  "claims": [
+    {
+      "claim": "The project has no CLAUDE.md, no .claude/CLAUDE.md, and no CLAUDE.local.md",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No CLAUDE.md files found in the skills-gc project root or .claude/ directory based on available project context."
+    },
+    {
+      "claim": "The project has no .claude/rules/ directory",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No rules directory mentioned in git status or project structure. Consistent with the finding."
+    },
+    {
+      "claim": "All six skills use proper YAML frontmatter with name, description, and appropriate optional fields",
+      "type": "quality",
+      "verified": false,
+      "evidence": "Cannot verify directly from the available outputs. The report names 6 skills (checkpoint, verify, plan-challenger, perspective, cc-audit, website-audit) but the audit output alone does not include the frontmatter content of each skill."
+    },
+    {
+      "claim": "settings.local.json references minimal-framework instead of skills-gc",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from grading outputs alone. The claim is specific and testable but the settings.local.json file is not included in the outputs directory."
+    },
+    {
+      "claim": "User-level settings enable 15 plugins",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The system-reminder lists a large number of skills from plugins, which is consistent with many plugins being active, but the exact count of 15 cannot be verified from available outputs."
+    },
+    {
+      "claim": "The checkpoint skill describes a SessionStart hook that should auto-load the latest checkpoint log, but this hook does not exist",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify the checkpoint skill's content or the absence of the hook from grading outputs alone."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report covers all 9 audit areas despite the indirect phrasing",
+        "reason": "This assertion checks coverage but not depth. A report that mentions each area in a single sentence would pass. Consider adding an assertion like 'Each audit area has at least one concrete, project-specific recommendation' to ensure the coverage is substantive."
+      },
+      {
+        "assertion": "Every finding includes a Source line with a docs.anthropic.com URL",
+        "reason": "This checks URL presence but not URL validity. A hallucinated URL (e.g., docs.anthropic.com/en/docs/claude-code/nonexistent-page) would still pass. Consider spot-checking that at least 3 cited URLs resolve to real pages."
+      },
+      {
+        "assertion": "Report is written in plain language — technical terms are explained briefly",
+        "reason": "This is inherently subjective and hard to fail. A report could use jargon freely and still be judged 'mostly plain language'. Consider a more discriminating version: 'Every term from this list [frontmatter, hooks, MCP, sub-agents, symlink, context window] is either avoided or explained within the same sentence.'"
+      },
+      {
+        "reason": "No assertion checks factual accuracy of the findings. The report makes specific claims about the project state (e.g., 'settings.local.json references minimal-framework', '6 skills exist', 'no .claude/rules/ directory'). A hallucinated audit that sounds plausible would pass all 8 assertions. Adding one assertion like 'At least 3 factual claims in the report can be verified against actual project files' would catch fabricated audits."
+      }
+    ],
+    "overall": "All 8 assertions passed. The assertions cover structure, formatting, and content presence well. The main gap is verifiability — no assertion checks whether the report's factual claims about the project are actually true. For a baseline (without-skill) run, the quality is high: 14 substantive findings, all properly sourced, with actionable recommendations. The 179.6s execution time is reasonable for the scope."
+  }
+}
