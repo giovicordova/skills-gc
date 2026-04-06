@@ -1,0 +1,4 @@
+4b97c8d Checkpoint: investigate auth middleware perf regression
+9a98f62 Wire up API routes
+7f18473 Add auth middleware
+95d325f Initial project skeleton

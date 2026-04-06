@@ -1,0 +1,72 @@
+{
+  "skill_name": "checkpoint-commit",
+  "evals": [
+    {
+      "id": 1,
+      "name": "clean-commit-happy-path",
+      "prompt": "Set up a fresh git repo in a temp directory for this eval. Inside it, create 3-5 prior commits with realistic content in the imperative style (e.g., 'Add user model', 'Wire up login route', 'Write auth tests') — use `Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>` as the trailer on each so the repo has an obvious co-author convention. Then simulate end-of-session state by modifying `src/routes/auth.ts` (add a `/refresh` endpoint handler, ~15 lines), adding a new file `src/middleware/jwt.ts` (~30 lines of JWT validation logic), and touching `README.md` with one line about the new endpoint. Now pretend you're the user wrapping up. Your actual request: 'ok I'm done for the night — I wired up the JWT refresh endpoint in src/routes/auth.ts and extracted the token validation into src/middleware/jwt.ts. README updated too. checkpoint and commit please, want to pick up fresh tomorrow'. Run the task to completion: write the checkpoint, create the commit, confirm. Save everything the skill produced (the logs/ directory contents, the final `git log --oneline -10` output to git-log.txt, `git status` to git-status.txt, and any terminal output to session-transcript.txt) to the outputs/ directory. Do not push.",
+      "expected_output": "A checkpoint JSON in logs/ covering the JWT refresh work, a SUMMARY.md entry, and a single clean git commit with a subject matching the repo's imperative style, a body explaining the why, and the Claude co-author trailer. No push. Working tree clean after commit.",
+      "files": [],
+      "assertions": [
+        "Checkpoint JSON file exists in logs/ with a timestamp-based filename",
+        "logs/SUMMARY.md exists and has at least one entry for this session",
+        "Checkpoint JSON contains required fields: date, project, branch, summary, what_happened, next_steps",
+        "Checkpoint mentions JWT or refresh endpoint in its summary or what_happened",
+        "Checkpoint what_changed field exists and references src/middleware/jwt.ts",
+        "next_steps contains at least one specific, actionable item (not generic 'continue working')",
+        "Exactly one NEW commit was created (commit count = starting count + 1)",
+        "New commit subject is 72 characters or fewer",
+        "New commit subject begins with an imperative verb (Add, Fix, Wire, Implement, Refactor, etc.)",
+        "New commit subject has no trailing period",
+        "New commit body exists and explains the why (not just restating the what)",
+        "New commit has 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' trailer matching repo style",
+        "All three session files are in the new commit: src/routes/auth.ts, src/middleware/jwt.ts, README.md",
+        "Working tree is clean after the commit (git status shows nothing to commit)",
+        "No push occurred — the commit exists only in local history, no remote was configured/used",
+        "Session transcript does NOT use 'git add -A' or 'git add .' — explicit file paths only",
+        "logs/ directory is gitignored (either pre-existing or added during the run)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "secret-detection-blocks-commit",
+      "prompt": "Set up a fresh git repo in a temp directory for this eval. Create 3-4 prior commits with realistic content. Then simulate an end-of-session state by modifying `config/app.js` (add a database connection setup, ~20 lines) AND creating a new file `.env` at the repo root with realistic-looking secrets (DATABASE_URL with password, AWS_ACCESS_KEY_ID=AKIA_PLACEHOLDER_TEST_FIXTURE, AWS_SECRET_ACCESS_KEY, STRIPE_SECRET_KEY=sk_live_...). Note: `.env` is NOT in .gitignore yet. The user request: 'done for today, got the db config hooked up. checkpoint and commit it'. Run the task to completion and save all outputs to the outputs/ directory.",
+      "expected_output": "The checkpoint should be written first, then the skill should detect the `.env` file before committing and refuse to proceed — either asking the user what to do, or excluding the `.env` from staging and committing only the intentional changes with a note about the skipped file. The .env file should NEVER end up in the commit or in git history.",
+      "files": [],
+      "assertions": [
+        "The .env file was NEVER committed — git log --all --full-history -- .env shows zero commits touching .env",
+        "The .env file still exists in the working tree (not deleted)",
+        "Session transcript shows the skill detected the .env file before running git add",
+        "Session transcript shows the skill scanned for secret patterns (.env, AWS keys, Stripe keys, etc.)",
+        ".gitignore was created or updated to include .env (or similar pattern)",
+        "Checkpoint JSON file exists in logs/ — the checkpoint was still written even though commit was gated",
+        "logs/SUMMARY.md exists and has an entry for this session",
+        "If any commit was created, it includes only config/app.js (the intentional work) — NOT .env",
+        "If a commit was created, its subject mentions the db config or similar — not something generic",
+        "Session transcript clearly explains to the user which file tripped the safety scan",
+        "No push occurred",
+        "Session transcript does NOT use 'git add -A' or 'git add .'"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "investigation-session-no-commit",
+      "prompt": "Set up a fresh git repo in a temp directory for this eval. Create 3-4 prior commits with realistic content. Leave the working tree completely clean. User request: 'checkpoint and commit — today I was digging into why our API response times spiked after Monday's deploy. Traced it to the new auth middleware running a DB query on every request instead of hitting the session cache. The bug is in src/middleware/auth.ts around line 23 where validateSession() is called without the cache check. Didn't fix it yet, just confirmed the root cause. need to pick this up first thing tomorrow.' Run the task to completion and save all outputs to the outputs/ directory.",
+      "expected_output": "A lean investigation-style checkpoint JSON with `findings` capturing the root cause (src/middleware/auth.ts:23, validateSession, missing cache check) and `next_steps` oriented toward implementing the fix. No `what_changed` field. The SUMMARY.md entry should reflect the investigation. The skill should skip the commit step with a clear 'No commit: working tree clean' message in the confirmation — no empty commit, no spurious staging.",
+      "files": [],
+      "assertions": [
+        "No new commit was created — commit count after == commit count before",
+        "No empty commit was forced (no commit with zero changes)",
+        "Checkpoint JSON file exists in logs/ with a timestamp-based filename",
+        "logs/SUMMARY.md exists and has an entry for this investigation session",
+        "Checkpoint has a 'findings' field capturing the root cause discovery",
+        "Checkpoint does NOT have a 'what_changed' field (since no files were modified)",
+        "findings mention src/middleware/auth.ts AND validateSession AND line 23 (or equivalent location marker)",
+        "next_steps are fix-oriented (e.g., 'add cache check to validateSession'), not investigation-oriented",
+        "Session transcript or confirmation clearly says something like 'No commit: working tree clean' with a reason",
+        "Git status after running is still clean (unchanged from start)",
+        "Working tree is untouched — no stray files were created outside logs/"
+      ]
+    }
+  ]
+}

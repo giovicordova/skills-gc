@@ -1,0 +1,37 @@
+45a64cc78b60a887db03aec18a993b1d2edcf8a8
+Test User <test@test.local>
+Add database pool config and ignore local env files
+
+Hook up config/app.js with a pg Pool driven by process.env.DATABASE_URL
+so the same code runs against local, staging, and production without
+changes. Throws early if the URL is missing rather than deferring the
+error to the first query.
+
+Also bring in scaffolding this repo was missing: a .gitignore that
+excludes logs/ and local .env files (example/sample/template still
+allowed), and a SessionStart hook so future sessions see logs/SUMMARY.md
+at cold start.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+c9367bd34bfe1b9e502de417117ac53f5a8a09e0
+Test User <test@test.local>
+Scaffold routes directory
+
+Create src/routes/ with an index router so feature routes have
+a clear home. Not wired into the app yet — that comes next.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+c30615de04c3848e1e8b2de7ead5196476371b99
+Test User <test@test.local>
+Add Express server boilerplate
+
+Stand up a minimal Express app with JSON body parsing and a
+/health endpoint so we have something runnable to iterate on.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---

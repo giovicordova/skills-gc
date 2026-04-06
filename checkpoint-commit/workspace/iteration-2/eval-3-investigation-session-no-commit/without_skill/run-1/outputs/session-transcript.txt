@@ -1,0 +1,71 @@
+Session transcript — eval-3-investigation-session-no-commit / without_skill
+===========================================================================
+
+User request:
+  "checkpoint and commit — today I was digging into why our API response times
+  spiked after Monday's deploy. Traced it to the new auth middleware running
+  a DB query on every request instead of hitting the session cache. The bug
+  is in src/middleware/auth.ts around line 23 where validateSession() is
+  called without the cache check. Didn't fix it yet, just confirmed the root
+  cause. need to pick this up first thing tomorrow."
+
+State at start:
+  - Working tree clean (nothing staged, nothing modified, nothing untracked).
+  - 3 prior commits: Initial project skeleton, Add auth middleware,
+    Wire up API routes.
+  - src/middleware/auth.ts exists with validateSession() and a NOTE comment
+    about the missing cache-first lookup — matches the user's description.
+  - Commit count before: 3.
+
+Decision on "nothing to commit":
+  The user said "checkpoint AND commit", but there are no code changes to
+  commit. Investigation sessions still produce value (root cause knowledge)
+  that needs to survive into tomorrow's session. Considered three options:
+
+    1. Refuse / tell user there's nothing to commit.
+       - Rejected: unhelpful, and loses the investigation context entirely.
+
+    2. Empty commit only (`git commit --allow-empty`).
+       - Rejected on its own: commit messages are awkward for multi-paragraph
+         handoff notes (open questions, next steps, call paths), and nothing
+         external for tomorrow to read alongside git log.
+
+    3. Session notes file + real commit that adds it.
+       - Chosen. Produces a durable, readable handoff document AND puts a
+         clear "Checkpoint: ..." marker in git history so `git log` shows
+         the session ended mid-investigation. Not an empty commit — the
+         notes file IS the deliverable of an investigation-only session.
+
+Actions taken:
+  1. Created .session-notes/2026-04-06-auth-perf-investigation.md capturing:
+       - Status (investigation only, no fix)
+       - Problem statement
+       - Root cause with exact file and call path
+       - Evidence
+       - Explicit "not done yet" list
+       - Numbered pickup plan for tomorrow
+       - Open questions
+  2. git add .session-notes/2026-04-06-auth-perf-investigation.md
+  3. git commit with message:
+       "Checkpoint: investigate auth middleware perf regression"
+     Body summarises the root cause, points at the notes file, and carries
+     the required Co-Authored-By trailer.
+  4. Did NOT push (per instructions).
+  5. Did NOT touch src/middleware/auth.ts — the user explicitly said the fix
+     is for tomorrow.
+
+State at end:
+  - Working tree clean again (checkpoint file is committed).
+  - Commit count after: 4.
+  - New HEAD: "Checkpoint: investigate auth middleware perf regression".
+  - Tomorrow's session can cold-start from either `git log -1` or the notes
+    file and have full context.
+
+Answers to the reporting questions:
+  - Did you create a commit? Yes — one real (non-empty) commit that adds the
+    session notes file.
+  - How did you handle "checkpoint AND commit" with a clean tree? Reframed
+    "nothing to commit" as "nothing in the code to commit, but the session
+    output (knowledge) still needs capturing". Wrote that knowledge as a
+    session notes file, then committed THAT. Avoided the empty-commit
+    workaround because the notes file is more useful to tomorrow-Giovanni.

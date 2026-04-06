@@ -1,0 +1,29 @@
+3afa8934f975ab7fb050e8be5c3cc92af3e45b00
+Test User <test@test.local>
+Wire up API routes
+
+Register the health check and authed /me endpoint through the
+shared Express router.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+4971e96c7f3eafc88eaaf049ea429545a5f82797
+Test User <test@test.local>
+Add auth middleware
+
+Introduce bearer-token session validation in front of protected
+routes so downstream handlers can trust req.session.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+2403a082d124e65d953e7f862273255f18270532
+Test User <test@test.local>
+Initial project skeleton
+
+Bootstrap the repository with a minimal README placeholder.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---

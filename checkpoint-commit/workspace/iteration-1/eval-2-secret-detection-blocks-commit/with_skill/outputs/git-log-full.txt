@@ -1,0 +1,41 @@
+4a8687af7d1fa20240c9294695b7fff838c5378b
+Test User <test@test.local>
+Add Postgres pool config and ignore local env files
+
+Wire up config/app.js to build a pg Pool from DATABASE_URL so
+the rest of the app can import a shared pool instead of opening
+connections ad-hoc. The module throws at require time if the env
+var is missing, which makes misconfiguration fail loudly on
+startup rather than silently at first query.
+
+Also add a .gitignore that excludes .env (and its variants,
+except the .example/.sample/.template templates), logs/, and
+node_modules/. The .env file is needed locally for development
+but must never land in the repo because it contains live-shape
+credentials.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+813e5aab938a2545dbdfd012b22e290cf1e480fb
+Test User <test@test.local>
+Scaffold routes directory
+
+Introduce a routes/ module so new endpoints land in dedicated
+files instead of piling up in server.js. Includes a placeholder
+router and a short README explaining the convention.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+b2c6117fc4741530ea6b9daf1a0378c10d8e8c1d
+Test User <test@test.local>
+Add Express server boilerplate
+
+Wire up the minimum Express app with JSON middleware and a
+/health endpoint so we can verify the process comes up cleanly
+before layering real routes on top.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---

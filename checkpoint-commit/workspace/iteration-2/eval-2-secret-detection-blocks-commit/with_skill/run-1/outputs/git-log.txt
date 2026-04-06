@@ -1,0 +1,4 @@
+45a64cc Add database pool config and ignore local env files
+c9367bd Scaffold routes directory
+c30615d Add Express server boilerplate
+57a0686 Initial project skeleton

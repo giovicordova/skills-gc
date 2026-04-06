@@ -1,0 +1,118 @@
+Session transcript — eval-3-investigation-session-no-commit (with_skill)
+=========================================================================
+
+Setup
+-----
+- Created temp dir: /tmp/eval-3-investigation-JaZ9Qy
+- git init, configured local user (test@test.local / "Test User")
+- Seeded 3 commits, all with Co-Authored-By trailer:
+    2403a08  Initial project skeleton     (README.md)
+    4971e96  Add auth middleware          (src/middleware/auth.ts — real file
+                                            with validateSession() and a
+                                            dormant sessionCache Map)
+    3afa893  Wire up API routes           (src/routes/index.ts)
+- Confirmed working tree clean before invoking skill:
+    "On branch main / nothing to commit, working tree clean"
+- before: 3 commits
+
+User request
+------------
+"checkpoint and commit — today I was digging into why our API response times
+spiked after Monday's deploy. Traced it to the new auth middleware running a
+DB query on every request instead of hitting the session cache. The bug is in
+src/middleware/auth.ts around line 23 where validateSession() is called without
+the cache check. Didn't fix it yet, just confirmed the root cause. need to
+pick this up first thing tomorrow."
+
+Skill execution — checkpoint-commit/SKILL.md
+--------------------------------------------
+
+Phase 1 — Gather context
+  - git rev-parse --is-inside-work-tree         → true (git repo)
+  - git branch --show-current                   → main
+  - git log --oneline -5                        → 3afa893, 4971e96, 2403a08
+  - git status --short                          → (empty)  ← CLEAN TREE
+  - git diff --stat HEAD                        → (empty)
+  - git diff HEAD                               → (empty)
+  - date '+%Y-%m-%d_%H-%M'                      → 2026-04-06_09-36
+  - ls .git/MERGE_HEAD                          → absent, no merge in progress
+
+  Decision: investigation-only session. No files modified, no files staged.
+  Per SKILL.md Phase 3a, a clean tree means NO commit — but checkpoint and
+  SUMMARY.md are still written first (Phase 2 runs before Phase 3 decides).
+
+Phase 2 — Write the checkpoint JSON
+  - mkdir -p logs
+  - Wrote logs/2026-04-06_09-36_checkpoint.json
+  - Field selection per SKILL.md "Which optional fields to include":
+      "Investigation/debugging (no code changes): `findings` with root cause
+       or discovery"
+    So the checkpoint uses `findings` (3 entries) and OMITS `what_changed`
+    entirely. `state.done` records that the root cause is identified,
+    `state.in_progress` records the deferred fix, `state.blocked` is empty.
+  - `git.last_commit` = "3afa893 Wire up API routes" (the pre-skill HEAD)
+  - `git.uncommitted` = null (nothing to commit)
+  - `next_steps` are concrete, file- and line-specific instructions for
+    a cold-start Claude (check sessionCache.get(token) before db.query, add
+    regression test that counts db.query calls, re-run latency check).
+
+Phase 3 — Prepare and create the commit
+  3a. Clean tree detected (git status --short empty). Per SKILL.md:
+      "Clean tree: no commit. Jump to Phase 4 and record 'no commit —
+       working tree clean.'"
+      → SKIP commit. Do NOT run git add. Do NOT run git commit.
+      → Do NOT create an empty commit.
+  3b-3f skipped.
+
+Phase 4 — Update logs/SUMMARY.md
+  - Appended one line, no commit hash in brackets (skill rule: include the
+    short hash "only if a commit was successfully created").
+  - Final line:
+      "- **2026-04-06 09:36** (main) — Traced post-deploy API latency to
+       auth middleware bypassing sessionCache in src/middleware/auth.ts.
+       Next: add cache check in validateSession()."
+
+Phase 5 — One-time setup
+  - .gitignore did not exist; created with a single line: `logs/`
+  - No .claude/settings.json in the temp repo; left alone (this is a
+    throwaway test repo, the user will rerun the skill on the real project).
+  - Note: .gitignore is now an untracked file, but Phase 3's clean-tree
+    decision already ran before Phase 5 per the skill's phase ordering.
+    Per the skill's design, one-time-setup files sit untracked until a
+    future session commits them alongside other work. No commit here.
+
+Phase 6 — Confirmation (printed to user)
+  ────────────────────────────────────────────────────────────────────
+  Checkpoint saved: logs/2026-04-06_09-36_checkpoint.json
+  Traced post-deploy API latency to auth middleware bypassing
+  sessionCache in src/middleware/auth.ts — root cause confirmed,
+  fix deferred.
+  Next: Open src/middleware/auth.ts and change validateSession()
+  (around line 12) so it checks sessionCache.get(token) before
+  hitting db.query().
+  No commit: working tree clean — investigation session, no code
+  changes to commit.
+  ────────────────────────────────────────────────────────────────────
+
+How the "no commit needed" path was handled
+--------------------------------------------
+1. Phase 1's `git status --short` returned empty, proving the user made
+   zero file changes during the investigation.
+2. Phase 2 wrote the checkpoint BEFORE any commit decision, guaranteeing
+   the handoff log exists regardless of what Phase 3 decides.
+3. Phase 3a's first branch ("Clean tree → no commit, jump to Phase 4")
+   was taken. No `git add`, no `git commit`, no `--allow-empty`, nothing.
+4. Phase 4's SUMMARY.md line deliberately omits the trailing `[hash]`
+   marker because no commit exists.
+5. Phase 6's confirmation uses the exact "No commit: working tree clean"
+   wording from the skill, with a short parenthetical clarifying this was
+   an investigation session.
+
+Verification
+------------
+- git log --oneline        → still 3 commits, unchanged
+- after: 3 commits         (== before)
+- git status               → clean tracked tree, only .gitignore untracked
+                             from Phase 5 one-time setup
+- checkpoint JSON contains `findings` key, does NOT contain `what_changed`
+- SUMMARY.md exists, one entry, no `[hash]` suffix

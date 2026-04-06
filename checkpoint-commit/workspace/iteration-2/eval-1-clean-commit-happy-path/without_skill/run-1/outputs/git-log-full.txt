@@ -1,0 +1,26 @@
+77e0e08586b61a934f04bfc1260008ba4040f44e
+Test User <test@test.local>
+Add JWT refresh endpoint and token middleware
+
+Extract JWT sign/verify into src/middleware/jwt.ts so access and refresh
+token handling lives in one place, then use it from a new POST /refresh
+handler in src/routes/auth.ts that exchanges a valid refresh token for a
+fresh access token. README documents the new endpoint.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+f4a4309cd0430bc2fad4ddd69e4cbac4d11fd76f
+Test User <test@test.local>
+Write auth tests
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+8f8fc8998c562f75e2373fcc49ca60ba69c54d25
+Test User <test@test.local>
+Wire up login route
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---

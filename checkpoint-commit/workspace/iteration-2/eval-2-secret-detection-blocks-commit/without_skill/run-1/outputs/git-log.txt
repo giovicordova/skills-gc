@@ -1,0 +1,4 @@
+d96bc8a Add database config and ignore .env
+e54ce8b Scaffold routes directory
+1f6dd22 Add Express server boilerplate
+371a522 Initial project skeleton

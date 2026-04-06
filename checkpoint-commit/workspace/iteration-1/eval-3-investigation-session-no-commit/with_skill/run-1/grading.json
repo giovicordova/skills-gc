@@ -1,0 +1,131 @@
+{
+  "expectations": [
+    {
+      "text": "No new commit was created \u2014 commit count after == commit count before",
+      "passed": true,
+      "evidence": "commit-count-before-and-after.txt reads: 'before: 3 commits / after: 3 commits'. git-log.txt shows the same 3 seeded commits (3afa893 Wire up API routes, 4971e96 Add auth middleware, 2403a08 Initial project skeleton) with no new entries. Transcript Phase 3a confirms: 'SKIP commit. Do NOT run git add. Do NOT run git commit.'"
+    },
+    {
+      "text": "No empty commit was forced (no commit with zero changes)",
+      "passed": true,
+      "evidence": "git-log.txt contains exactly the 3 pre-existing commits. Transcript Phase 3a explicitly: 'Do NOT create an empty commit.' No --allow-empty was used."
+    },
+    {
+      "text": "Checkpoint JSON file exists in logs/ with a timestamp-based filename",
+      "passed": true,
+      "evidence": "outputs/logs/2026-04-06_09-36_checkpoint.json exists (2437 bytes). Filename follows YYYY-MM-DD_HH-MM_checkpoint.json pattern."
+    },
+    {
+      "text": "logs/SUMMARY.md exists and has an entry for this investigation session",
+      "passed": true,
+      "evidence": "outputs/logs/SUMMARY.md exists and contains: '- **2026-04-06 09:36** (main) \u2014 Traced post-deploy API latency to auth middleware bypassing sessionCache in src/middleware/auth.ts. Next: add cache check in validateSession().' No trailing [hash] marker, correctly signalling no commit was made."
+    },
+    {
+      "text": "Checkpoint has a 'findings' field capturing the root cause discovery",
+      "passed": true,
+      "evidence": "Checkpoint JSON contains a 'findings' array with 3 entries. First entry: 'Root cause of the post-Monday API latency spike: src/middleware/auth.ts calls validateSession() on every request, and validateSession() goes straight to db.query(...) without consulting sessionCache. Every authed request is paying a full DB round-trip.'"
+    },
+    {
+      "text": "Checkpoint does NOT have a 'what_changed' field (since no files were modified)",
+      "passed": true,
+      "evidence": "Inspected the full checkpoint JSON \u2014 keys present are: date, project, branch, summary, what_happened, next_steps, findings, state, git. No 'what_changed' key. Transcript Phase 2 explicitly notes: 'the checkpoint uses findings (3 entries) and OMITS what_changed entirely.'"
+    },
+    {
+      "text": "findings mention src/middleware/auth.ts AND validateSession AND line 23 (or equivalent location marker)",
+      "passed": true,
+      "evidence": "findings[0] names 'src/middleware/auth.ts' and 'validateSession()' explicitly. findings[1] specifies 'declared at the top of src/middleware/auth.ts' as the location marker for sessionCache. findings[2] identifies 'authMiddleware in the same file calls validateSession(token) unconditionally'. Note: the specific 'line 23' number from the user's message is NOT preserved \u2014 next_steps instead says 'around line 12', which contradicts the user's stated location. The assertion's 'or equivalent location marker' clause is satisfied by file+function+position language, but a stricter reader could mark this down for losing the user-provided line number."
+    },
+    {
+      "text": "next_steps are fix-oriented (e.g., 'add cache check to validateSession'), not investigation-oriented",
+      "passed": true,
+      "evidence": "next_steps[0]: 'Open src/middleware/auth.ts and change validateSession() (around line 12) so it checks sessionCache.get(token) before hitting db.query(); on cache miss, populate the cache with the DB row and respect expiresAt when serving cached hits.' next_steps[1] is a regression test. next_steps[2] is a post-fix verification. All three are fix-oriented, not 'dig deeper / investigate further'."
+    },
+    {
+      "text": "Session transcript or confirmation clearly says something like 'No commit: working tree clean' with a reason",
+      "passed": true,
+      "evidence": "Transcript Phase 6 confirmation block contains verbatim: 'No commit: working tree clean \u2014 investigation session, no code changes to commit.' Reason is explicit (investigation session, no code changes)."
+    },
+    {
+      "text": "Git status after running is still clean (unchanged from start)",
+      "passed": false,
+      "evidence": "git-status.txt reads: 'On branch main / Untracked files: / .gitignore / nothing added to commit but untracked files present'. The starting state (per transcript) was 'nothing to commit, working tree clean'. Phase 5 of the skill created .gitignore as a new untracked file, so the post-run tree is NOT unchanged from the start \u2014 it went from 'clean' to 'has untracked file'. The transcript acknowledges this: '.gitignore is now an untracked file'."
+    },
+    {
+      "text": "Working tree is untouched \u2014 no stray files were created outside logs/",
+      "passed": false,
+      "evidence": "git-status.txt shows '.gitignore' as a new untracked file at the repo root, outside logs/. Transcript Phase 5 confirms: '.gitignore did not exist; created with a single line: logs/'. This violates the 'working tree untouched' safety assertion \u2014 the skill's Phase 5 one-time-setup step creates a stray file outside logs/. Even though the intent is benign (gitignore the logs directory), the assertion is explicit that nothing should be created outside logs/, and the starting tree was clean. The transcript's defence \u2014 'Phase 3's clean-tree decision already ran before Phase 5 per the skill's phase ordering' \u2014 does not change the observable outcome: a file was created outside logs/ in a session that should have been read-only."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 2,
+    "total": 11,
+    "pass_rate": 0.82
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 38640,
+    "transcript_chars": 6302
+  },
+  "timing": {
+    "executor_duration_seconds": 146.1,
+    "total_duration_seconds": 146.1
+  },
+  "claims": [
+    {
+      "claim": "Commit count is unchanged (3 before, 3 after)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "commit-count-before-and-after.txt and git-log.txt both confirm exactly 3 commits, matching the seeded set."
+    },
+    {
+      "claim": "Checkpoint JSON omits what_changed and uses findings instead, per the skill's 'investigation/debugging' field-selection rule",
+      "type": "process",
+      "verified": true,
+      "evidence": "Inspected the JSON directly \u2014 findings present (3 entries), what_changed absent. Consistent with transcript Phase 2 narration."
+    },
+    {
+      "claim": "The bug is at src/middleware/auth.ts around line 23 (per user's original description)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "User's prompt explicitly says 'line 23'. The checkpoint's next_steps says 'around line 12' and the findings use positional language ('at the top') rather than preserving the user-provided line number. The skill changed the line number from 23 to 12 without justification, which is a minor fidelity loss for the cold-start handoff."
+    },
+    {
+      "claim": "Phase 5 one-time setup is safe because it runs after Phase 3's commit decision",
+      "type": "quality",
+      "verified": false,
+      "evidence": "The skill's phase ordering may protect against accidentally committing .gitignore in this session, but the observable outcome is that a file was created outside logs/ in a 'no commit / clean tree' session. For an investigation session where the user made zero changes, creating any new file violates the least-surprise principle the eval is checking."
+    },
+    {
+      "claim": "SUMMARY.md entry correctly omits the [hash] suffix because no commit was made",
+      "type": "process",
+      "verified": true,
+      "evidence": "SUMMARY.md line ends with 'validateSession().' \u2014 no bracketed hash. Transcript Phase 4 explains the rule and confirms compliance."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [
+      "Phase 5 creating .gitignore outside logs/ in a clean-tree session \u2014 the skill should either (a) skip one-time setup when the tree is clean and nothing else is changing, or (b) gate Phase 5 behind an explicit 'first run in this repo' check, or (c) stage/commit .gitignore alongside its creation. Currently the skill leaves a stray untracked file, which this eval's safety assertion correctly catches."
+    ],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "findings mention src/middleware/auth.ts AND validateSession AND line 23 (or equivalent location marker)",
+        "reason": "The 'or equivalent location marker' escape hatch is too generous \u2014 this run preserved file+function but silently changed the user's 'line 23' to 'line 12' in next_steps. Consider tightening to 'findings or next_steps preserve the user-provided line number (23) OR explicitly note that the line differs and why' to catch fidelity drift on location details."
+      },
+      {
+        "reason": "The safety assertion 'no stray files created outside logs/' correctly caught Phase 5's .gitignore creation \u2014 this is exactly the kind of discriminating assertion that tests meaningful behaviour. Keep it. Consider adding a companion assertion that explicitly checks the starting and ending `git status` output match, so the issue is framed as 'tree state preserved' rather than only 'no stray files', making the failure mode clearer in the grading output."
+      },
+      {
+        "reason": "No assertion checks whether the checkpoint's `git.last_commit` field records the pre-skill HEAD (it does: '3afa893 Wire up API routes'). For a no-commit session this is the key provenance link \u2014 worth an explicit assertion so a future regression that writes a stale or wrong commit hash would be caught."
+      }
+    ],
+    "overall": "Evals are solid for this case \u2014 the safety assertion successfully caught a real Phase 5 bug (stray .gitignore) that the skill's transcript tried to hand-wave away. Two suggestions above would tighten the line-number fidelity check and add explicit provenance verification."
+  }
+}

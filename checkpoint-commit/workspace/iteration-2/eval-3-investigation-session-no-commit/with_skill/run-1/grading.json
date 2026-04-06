@@ -1,0 +1,135 @@
+{
+  "expectations": [
+    {
+      "text": "No new commit was created \u2014 commit count after == commit count before",
+      "passed": true,
+      "evidence": "commit-count-before-and-after.txt shows 'before: 3 commits' and 'after: 3 commits'. git-log.txt lists the same three pre-existing commits (6f95be4, 7588c81, bf55d8f)."
+    },
+    {
+      "text": "No empty commit was forced (no commit with zero changes)",
+      "passed": true,
+      "evidence": "Commit count is unchanged (3 -> 3). Transcript Phase 4 explicitly states '4b (safety scan), 4c (stage list), 4d (draft message), 4e (create commit), 4f (hook failure handling) all SKIPPED'. git-log-full.txt contains only the three original commits with no new empty commit."
+    },
+    {
+      "text": "Checkpoint JSON file exists in logs/ with a timestamp-based filename",
+      "passed": true,
+      "evidence": "logs/2026-04-06_09-51_checkpoint.json exists (2677 bytes), filename uses YYYY-MM-DD_HH-MM timestamp format."
+    },
+    {
+      "text": "logs/SUMMARY.md exists and has an entry for this investigation session",
+      "passed": true,
+      "evidence": "logs/SUMMARY.md exists with entry: '- **2026-04-06 09:51** (main) \u2014 Root-caused post-Monday API latency spike to uncached validateSession() in src/middleware/auth.ts. Next: wire sessionCache into validateSession() before db.query.' No hash bracket (correct, since no commit was made)."
+    },
+    {
+      "text": "Checkpoint has a 'findings' field capturing the root cause discovery",
+      "passed": true,
+      "evidence": "Checkpoint JSON contains a 'findings' array with 3 entries. First entry: 'Root cause of the post-Monday API latency spike: src/middleware/auth.ts line 23 calls validateSession(sessionId), and validateSession (defined at line 32) runs db.query on every invocation with no cache check.'"
+    },
+    {
+      "text": "Checkpoint does NOT have a 'what_changed' field (since no files were modified)",
+      "passed": true,
+      "evidence": "Checkpoint JSON fields are: date, project, branch, summary, what_happened, next_steps, findings, state, git. No 'what_changed' key. Transcript Phase 2 explicitly notes: 'Optional fields deliberately OMITTED (no content): what_changed (no files changed this session)'."
+    },
+    {
+      "text": "findings mention src/middleware/auth.ts AND validateSession AND line 23 (or equivalent location marker)",
+      "passed": true,
+      "evidence": "First findings entry contains all three: 'src/middleware/auth.ts line 23 calls validateSession(sessionId)'. The user's 'line 23' reference is preserved verbatim."
+    },
+    {
+      "text": "next_steps are fix-oriented (e.g., 'add cache check to validateSession'), not investigation-oriented",
+      "passed": true,
+      "evidence": "next_steps[0]: 'Fix src/middleware/auth.ts: make validateSession() check sessionCache first (sessionCache.get(sessionId)) before hitting db.query, and populate sessionCache on DB hits.' next_steps[1] is about adding TTL/eviction to the fix. next_steps[2] is post-fix verification. All three are fix- and verification-oriented, not 'continue investigating'."
+    },
+    {
+      "text": "Session transcript or confirmation clearly says something like 'No commit: working tree clean' with a reason",
+      "passed": true,
+      "evidence": "Transcript Phase 6 confirmation ends with the exact line 'No commit: working tree clean'. Phase 4a decision table spells out the reason: 'git status --short is empty -> clean tree ... Therefore: no commit.'"
+    },
+    {
+      "text": "Git status after running is still clean (unchanged from start)",
+      "passed": true,
+      "evidence": "git-status.txt shows 'On branch main' with the only change being 'Untracked files: logs/' and 'nothing added to commit'. No tracked files were modified, staged, or deleted. State of tracked tree is identical to the pre-run clean state; the sole delta is the logs/ directory where the checkpoint is supposed to live."
+    },
+    {
+      "text": "Working tree is untouched \u2014 no stray files were created outside logs/",
+      "passed": true,
+      "evidence": "working-tree-untouched-check.txt contains '.' (no stray files found). git-status.txt lists only 'logs/' as untracked. Transcript Phase 3 confirms scaffolding was skipped: 'Did NOT create .gitignore ... Did NOT touch or create .claude/settings.json ... Did NOT modify any tracked or untracked file outside logs/'. This is the assertion that failed in iteration 1 and now passes because Phase 3 was correctly skipped on a clean tree."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 45060,
+    "transcript_chars": 6765
+  },
+  "timing": {
+    "executor_duration_seconds": 215.5,
+    "total_duration_seconds": 215.5
+  },
+  "claims": [
+    {
+      "claim": "src/middleware/auth.ts line 23 is 'const userId = await validateSession(sessionId);'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript Phase 1 verification quotes the literal line. Consistent across transcript, checkpoint findings, and next_steps. Cannot independently re-check (repo was in /tmp and is gone) but internal consistency is strong."
+    },
+    {
+      "claim": "sessionCache Map is dead code \u2014 only clearExpired() references it at line 42",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Stated in transcript Phase 1 and findings[1]. Cross-referenced with commit message of 7588c81 ('Introduce Express auth middleware ... Includes a stub in-memory sessionCache for a future optimisation pass') from git-log-full.txt, which corroborates that the cache shipped as a stub."
+    },
+    {
+      "claim": "Phase 3 (one-time setup) was skipped because the tree was clean",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript Phase 3 section explicitly says 'SKIPPED ENTIRELY' and cites the SKILL.md rule. Post-run verification confirms no .gitignore or .claude/ were created. working-tree-untouched-check.txt empty and git-status.txt shows only logs/ untracked."
+    },
+    {
+      "claim": "No commit was made because the working tree was clean and no merge was in progress",
+      "type": "process",
+      "verified": true,
+      "evidence": "commit-count-before-and-after.txt confirms 3 -> 3. Transcript Phase 4a decision table cites both clean tree and absence of MERGE_HEAD."
+    },
+    {
+      "claim": "User's 'line 23' reference is preserved verbatim in the checkpoint",
+      "type": "quality",
+      "verified": true,
+      "evidence": "findings[0] contains 'line 23' literally, matching the user's phrasing ('around line 23'). The new iteration-2 'preserve user references' rule is satisfied."
+    },
+    {
+      "claim": "SUMMARY.md entry omits the short-hash bracket because no commit was created",
+      "type": "process",
+      "verified": true,
+      "evidence": "SUMMARY.md entry ends with '...before db.query.' with no '[hash]' suffix, correctly following the SKILL rule cited in transcript Phase 5."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Git status after running is still clean (unchanged from start)",
+        "reason": "The assertion says 'still clean' but the post-run status legitimately shows 'logs/' as untracked (that's where the checkpoint lives). A future run could pass this assertion trivially by never writing the checkpoint, or fail it spuriously if a grader reads 'clean' too strictly. Consider rewording to 'No tracked files were modified, staged, or deleted \u2014 only logs/ appears as a new untracked directory' to make the intent unambiguous."
+      },
+      {
+        "reason": "No assertion checks that the checkpoint JSON is actually valid JSON and parseable. A malformed file with the right name and a 'findings' substring could pass several assertions. A lightweight jq/parse check would catch that."
+      },
+      {
+        "reason": "No assertion checks that the executor verified the user's claim against the actual source (e.g., that line 23 really is the validateSession call). The executor did this excellent verification work in Phase 1, but nothing in the assertions rewards or requires it \u2014 a skill that blindly parrots the user would pass identically."
+      }
+    ],
+    "overall": "All 11 assertions pass cleanly on this run and the iteration-2 fix (skipping Phase 3 on a clean tree) is clearly the reason the two previously-failing assertions now pass. Assertions are mostly well-targeted, but a couple could be sharpened \u2014 see suggestions."
+  }
+}

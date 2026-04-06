@@ -1,0 +1,178 @@
+{
+  "expectations": [
+    {
+      "text": "Checkpoint JSON file exists in logs/ with a timestamp-based filename",
+      "passed": true,
+      "evidence": "outputs/logs/2026-04-06_09-51_checkpoint.json exists (3461 bytes), filename follows the YYYY-MM-DD_HH-MM_checkpoint.json pattern."
+    },
+    {
+      "text": "logs/SUMMARY.md exists and has at least one entry for this session",
+      "passed": true,
+      "evidence": "outputs/logs/SUMMARY.md contains: '- **2026-04-06 09:51** (main) \u2014 Wired JWT /refresh endpoint and extracted verifyJwt() middleware. Next: add jsonwebtoken to package.json. [e862cc0]'"
+    },
+    {
+      "text": "Checkpoint JSON contains required fields: date, project, branch, summary, what_happened, next_steps",
+      "passed": true,
+      "evidence": "Checkpoint JSON contains all six required fields: date ('2026-04-06 09:51'), project ('eval-1-iter2-UgwhaF'), branch ('main'), summary, what_happened, next_steps (array of 4 items). Optional fields what_changed, findings, decisions, state, git also populated."
+    },
+    {
+      "text": "Checkpoint mentions JWT or refresh endpoint in its summary or what_happened",
+      "passed": true,
+      "evidence": "summary: 'Wired up JWT refresh endpoint and extracted token validation into a middleware module.' what_happened: 'Added a POST /refresh handler in src/routes/auth.ts... Extracted the JWT validation logic into src/middleware/jwt.ts...'"
+    },
+    {
+      "text": "Checkpoint what_changed field exists and references src/middleware/jwt.ts",
+      "passed": true,
+      "evidence": "what_changed[1]: 'src/middleware/jwt.ts: new file \u2014 verifyJwt() wraps jsonwebtoken.verify, enforces a numeric exp claim, and rejects expired tokens; exports a JwtPayload interface'"
+    },
+    {
+      "text": "next_steps contains at least one specific, actionable item (not generic 'continue working')",
+      "passed": true,
+      "evidence": "next_steps[0]: 'Add jsonwebtoken to package.json dependencies \u2014 src/middleware/jwt.ts imports it (line 1) but the package is not declared, so the build will fail. Run `npm install jsonwebtoken @types/jsonwebtoken`.' All four items are concrete, file-scoped, and cite specific symbols/lines."
+    },
+    {
+      "text": "Exactly one NEW commit was created (commit count = starting count + 1)",
+      "passed": true,
+      "evidence": "git-log.txt shows 5 commits total; starting count was 4 (f693471, 0c63cba, 17589d2, 1db2af5), and one new commit e862cc0 was added on top. Delta = +1."
+    },
+    {
+      "text": "New commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject: 'Add JWT refresh endpoint and token verification middleware' = 59 characters."
+    },
+    {
+      "text": "New commit subject begins with an imperative verb (Add, Fix, Wire, Implement, Refactor, etc.)",
+      "passed": true,
+      "evidence": "Subject begins with 'Add ...' \u2014 imperative verb matching the allowed set."
+    },
+    {
+      "text": "New commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject 'Add JWT refresh endpoint and token verification middleware' ends in 'middleware' \u2014 no trailing period."
+    },
+    {
+      "text": "New commit body exists and explains the why (not just restating the what)",
+      "passed": true,
+      "evidence": "Body explains rationale: 'Extract JWT validation into src/middleware/jwt.ts so both the new /refresh handler and future protected routes can share a single verifier.' and 'Also add the baseline repo scaffolding this project was missing: a .gitignore that keeps logs/ out of version control, and a Claude Code SessionStart hook that prints logs/SUMMARY.md on startup so future sessions cold-start with context.' Clearly explains why the extraction and why the scaffolding, not just what changed."
+    },
+    {
+      "text": "New commit has 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' trailer matching repo style",
+      "passed": true,
+      "evidence": "git-show-head.txt line 22: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' \u2014 exact match to the trailer used on the prior 4 commits."
+    },
+    {
+      "text": "All three session files are in the new commit: src/routes/auth.ts, src/middleware/jwt.ts, README.md",
+      "passed": true,
+      "evidence": "git-show-head.txt diffstat lists all three session files (README.md, src/middleware/jwt.ts, src/routes/auth.ts) plus scaffolding (.claude/settings.json, .gitignore). Per iter-2 note, bundling Phase 3 scaffolding into the session commit is the intended new behaviour; the three session files are all present."
+    },
+    {
+      "text": "Working tree is clean after the commit (git status shows nothing to commit)",
+      "passed": true,
+      "evidence": "outputs/git-status.txt: 'On branch main\\nnothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred \u2014 the commit exists only in local history, no remote was configured/used",
+      "passed": true,
+      "evidence": "Transcript confirmation: 'Not pushed. Run git push when ready.' No `git push` or `git remote add` commands appear anywhere in the transcript, and the setup only runs `git init -q` with no remote."
+    },
+    {
+      "text": "Session transcript does NOT use 'git add -A' or 'git add .' \u2014 explicit file paths only",
+      "passed": true,
+      "evidence": "Transcript line 115: 'git add README.md src/routes/auth.ts src/middleware/jwt.ts .gitignore .claude/settings.json'. Line 106 explicitly states: 'No `git add -A`, no `git add .`.'"
+    },
+    {
+      "text": "logs/ directory is gitignored (either pre-existing or added during the run)",
+      "passed": true,
+      "evidence": "outputs/repo-snapshot/.gitignore contains a single line 'logs/'. Transcript confirms it was created in Phase 3 ('.gitignore -> absent. Created with `logs/` as the first line.'), and it is committed in HEAD (visible in the git show diffstat)."
+    }
+  ],
+  "summary": {
+    "passed": 17,
+    "failed": 0,
+    "total": 17,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 6,
+    "errors_encountered": 0,
+    "output_chars": 53454,
+    "transcript_chars": 8168,
+    "note": "No metrics.json produced by executor; tool_calls/total_tool_calls unavailable. Phase count (6) inferred from transcript section headers."
+  },
+  "timing": {
+    "executor_duration_seconds": 268.4,
+    "total_duration_seconds": 268.4,
+    "note": "timing.json only exposes total_duration_seconds/duration_ms; no separate grader duration recorded in the file."
+  },
+  "claims": [
+    {
+      "claim": "Phase 3 ran because the working tree was not clean, creating .gitignore and .claude/settings.json",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript Phase 3 section states tree was not clean so Phase 3 ran; outputs/repo-snapshot/.gitignore exists with 'logs/'; git-show-head diffstat shows both files added in the commit."
+    },
+    {
+      "claim": "Phase 3 ran BEFORE Phase 4 (the iter-2 ordering fix)",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript section order is 'Phase 3 \u2014 One-time setup' (lines 73-85) followed by 'Phase 4 \u2014 Prepare and create the commit' (lines 86-127). The scaffolding files are included in the Phase 4 explicit stage list, confirming they existed before the commit."
+    },
+    {
+      "claim": "The skill wrote the checkpoint before creating the commit",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript Phase 2 (checkpoint write) precedes Phase 4 (commit). git.last_commit in the checkpoint is '1db2af5 Write auth tests' \u2014 the pre-skill HEAD, confirming it was written before the new commit existed."
+    },
+    {
+      "claim": "jsonwebtoken is imported in src/middleware/jwt.ts but missing from package.json",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript setup note: 'jsonwebtoken deliberately NOT in package.json so the skill can catch it.' The skill caught it and surfaced it as next_steps[0] + state.blocked + a finding. Confirmed by the checkpoint JSON content."
+    },
+    {
+      "claim": "Commit was created with gpg signing disabled via -c commit.gpgsign=false (not --no-gpg-sign)",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript line 116: 'git -c commit.gpgsign=false commit -m ...' \u2014 uses the -c override rather than the banned --no-gpg-sign flag."
+    },
+    {
+      "claim": "No pre-commit hook ran or failed",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript 4f: 'No pre-commit hook configured, so no hook-failure path was needed.' Consistent with a fresh git init and no hooks in the repo snapshot."
+    },
+    {
+      "claim": "Commit co-author trailer exactly matches the four prior commits",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git-log-full.txt shows the identical 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' trailer on commits 1db2af5, 17589d2 and on the new e862cc0. Byte-for-byte match."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [
+      "Write tool was sandbox-blocked from writing inside .claude/, so .claude/settings.json was written via `tee` with a heredoc. Functionally equivalent \u2014 same final bytes \u2014 but worth noting as a harness quirk, not a skill failure."
+    ]
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "All three session files are in the new commit: src/routes/auth.ts, src/middleware/jwt.ts, README.md",
+        "reason": "With iter-2's new behaviour (scaffolding bundled into the session commit), this assertion is now ambiguous: it would still pass if the commit contained the three files plus arbitrary extra files the skill shouldn't have staged. Consider tightening to: 'The new commit contains exactly {src/routes/auth.ts, src/middleware/jwt.ts, README.md} plus optionally {.gitignore, .claude/settings.json} \u2014 and nothing else.' That way a stray `node_modules/` or editor-swap file would actually fail."
+      },
+      {
+        "reason": "No assertion verifies that Phase 3 actually ran BEFORE Phase 4 in this iteration \u2014 the new ordering is the whole point of iter-2 and it's only checked implicitly (by the scaffolding files being in the commit). An explicit ordering assertion would catch a regression where the skill reverts to committing first and scaffolding second."
+      },
+      {
+        "reason": "No assertion checks that the checkpoint's `git.last_commit` field references the pre-skill HEAD (here '1db2af5 Write auth tests'), which is the cleanest proof that the checkpoint was written before the commit was made. Right now the skill could in principle write the checkpoint after committing and nothing would catch it."
+      },
+      {
+        "reason": "No assertion verifies that next_steps[0] specifically surfaces the missing `jsonwebtoken` dependency \u2014 the whole point of the setup planting that bug was to test whether the skill catches it. A content assertion like 'next_steps mentions jsonwebtoken or package.json' would lock in that discriminator."
+      }
+    ],
+    "overall": "All 17 assertions pass with strong evidence. The skill executed the iter-2 phase reordering correctly, bundled scaffolding into the session commit, produced a high-quality checkpoint (specific next_steps, caught the planted missing-dep bug), and matched the repo's commit style exactly. The suggestions above would tighten a handful of assertions so they remain discriminating after iter-2's behaviour change, but the eval as written is already solid."
+  }
+}

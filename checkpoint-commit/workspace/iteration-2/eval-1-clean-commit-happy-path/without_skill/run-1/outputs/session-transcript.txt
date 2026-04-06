@@ -1,0 +1,56 @@
+Session transcript — eval-1 clean commit happy path (without_skill)
+Date: 2026-04-06
+Repo: /tmp/eval-1-baseline-vNGTC5
+
+User request:
+"ok I'm done for the night — I wired up the JWT refresh endpoint in
+src/routes/auth.ts and extracted the token validation into
+src/middleware/jwt.ts. README updated too. checkpoint and commit please,
+want to pick up fresh tomorrow"
+
+Steps taken:
+
+1. Reviewed working tree state
+   - `git status --short` showed: modified README.md, modified
+     src/routes/auth.ts, untracked src/middleware/
+   - `git diff --stat` and `git diff src/routes/auth.ts` to confirm the
+     changes matched what the user described (no surprises, no unrelated
+     edits)
+
+2. Wrote a checkpoint log file
+   - Created logs/ directory in the repo
+   - Wrote logs/checkpoint-2026-04-06.md covering:
+     * Session summary (one-paragraph narrative)
+     * Changes in this session (per-file breakdown)
+     * State at checkpoint (branch, working-tree state)
+     * Open items for tomorrow (env-var hardening, real /login impl,
+       real tests, missing jsonwebtoken dep, refresh-token rotation)
+     * Where to pick up (explicit first action: add jsonwebtoken dep)
+
+3. Staged the session work
+   - `git add src/routes/auth.ts src/middleware/jwt.ts README.md
+     logs/checkpoint-2026-04-06.md`
+   - Used explicit file paths rather than `git add -A` to avoid
+     accidentally pulling in anything unintended.
+
+4. Committed as a single logical commit
+   - Subject: "Add JWT refresh endpoint and token middleware"
+   - Body explains the extraction-then-use structure and notes the
+     README update.
+   - Trailer: `Co-Authored-By: Claude Opus 4.6 (1M context)
+     <noreply@anthropic.com>` — matches the repo convention observed in
+     `git log`.
+   - Commit hash: 77e0e08
+
+5. Verified
+   - `git log --oneline -5` confirms the new commit sits on top of the
+     four prior commits.
+   - `git status` confirms a clean working tree.
+
+Flag raised to user:
+   While reading src/middleware/jwt.ts I noticed it imports
+   `jsonwebtoken`, which is NOT in package.json. The code will not
+   compile until that dep (and `@types/jsonwebtoken`) is added. Noted
+   in the checkpoint log as the first item to tackle tomorrow.
+
+Issues encountered: none. Clean run.

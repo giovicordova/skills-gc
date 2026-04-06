@@ -1,0 +1,29 @@
+commit e862cc0a25e12e0f8205fec0e3afe5a0f98bfa23
+Author: Test User <test@test.local>
+Date:   Mon Apr 6 09:52:56 2026 +0200
+
+    Add JWT refresh endpoint and token verification middleware
+    
+    Extract JWT validation into src/middleware/jwt.ts so both the new
+    /refresh handler and future protected routes can share a single
+    verifier. verifyJwt() checks the signature and explicitly enforces
+    the exp claim, returning the decoded payload or null.
+    
+    The new POST /refresh handler in src/routes/auth.ts takes a
+    refreshToken from the request body, delegates to verifyJwt(), and
+    responds 400/401/200 accordingly. The success branch still returns
+    a stubbed access token — real issuance is the next step.
+    
+    Also add the baseline repo scaffolding this project was missing: a
+    .gitignore that keeps logs/ out of version control, and a Claude
+    Code SessionStart hook that prints logs/SUMMARY.md on startup so
+    future sessions cold-start with context.
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+ .claude/settings.json | 15 +++++++++++++++
+ .gitignore            |  1 +
+ README.md             |  1 +
+ src/middleware/jwt.ts | 33 +++++++++++++++++++++++++++++++++
+ src/routes/auth.ts    | 16 ++++++++++++++++
+ 5 files changed, 66 insertions(+)

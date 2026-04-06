@@ -1,0 +1,37 @@
+30477f20036d7202c60f42066f7fa0ca4f9424b2
+Test User <test@test.local>
+Add JWT refresh endpoint and verifyJwt middleware
+
+Introduce a POST /refresh handler that reads a Bearer token and
+delegates validation to a new verifyJwt helper in
+src/middleware/jwt.ts. Keeping the JWT logic in middleware lets
+other protected routes reuse it without duplicating the HMAC
+signature, base64url, and expiry checks. The refresh handler
+currently returns a placeholder payload; real token issuance
+(signJwt) will land in the next session.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+8f1e81815ddd309fdbdce9a78512d3967437232b
+Test User <test@test.local>
+Write auth tests
+
+Add test stubs for loginHandler covering missing email, missing
+password, and the not-yet-implemented success path. Actual
+assertions will land once the handler is complete.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
+905f3fbf45e2cfd53a81c8a5f5fff8546cdd8675
+Test User <test@test.local>
+Wire up login route
+
+Add /login handler stub with basic input validation. Full
+authentication flow (user lookup, password verification, token
+issuance) still pending.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+---
