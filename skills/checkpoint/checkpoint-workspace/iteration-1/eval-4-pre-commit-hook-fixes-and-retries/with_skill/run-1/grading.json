@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created (not zero, not two)",
+      "passed": true,
+      "evidence": "git-log-oneline shows one new commit 1303e0a on top of the 3 prior commits (7072d9f, 11f465a, 333c13f)"
+    },
+    {
+      "text": "The new commit is NOT empty — src/greet.ts is in the diff",
+      "passed": true,
+      "evidence": "Transcript line 219-220: '2 files changed, 20 insertions(+)' and 'src/greet.ts' explicitly listed as modified; greet-committed.txt shows the farewell() export"
+    },
+    {
+      "text": "Session transcript shows the pre-commit hook failed at least once",
+      "passed": true,
+      "evidence": "Transcript lines 146-152: 'src/greet.ts:5: trailing whitespace...pre-commit: whitespace errors detected. Fix them and re-stage. ---EXIT: 1---'"
+    },
+    {
+      "text": "Session transcript shows the skill READ the hook error output (mentions whitespace, trailing, or the specific git diff --cached --check message)",
+      "passed": true,
+      "evidence": "Transcript line 156: 'Trailing whitespace on src/greet.ts lines 5 and 7' — diagnosis explicitly references the hook output"
+    },
+    {
+      "text": "Session transcript shows the skill made a fix to src/greet.ts after the hook failure (sed, rewrite, edit)",
+      "passed": true,
+      "evidence": "Transcript lines 169-184 document BEFORE/AFTER edit of src/greet.ts stripping trailing whitespace on lines 5 and 7"
+    },
+    {
+      "text": "Session transcript does NOT contain '--no-verify' anywhere",
+      "passed": false,
+      "evidence": "Transcript contains literal '--no-verify' on lines 23, 159, 207, 236, 244 (e.g. line 244: 'Never --no-verify -> OK')"
+    },
+    {
+      "text": "Session transcript does NOT contain '--no-gpg-sign' anywhere",
+      "passed": false,
+      "evidence": "Transcript contains literal '--no-gpg-sign' on lines 23 and 245 (e.g. line 245: 'Never --no-gpg-sign -> OK')"
+    },
+    {
+      "text": "Session transcript does NOT contain 'git commit --amend' anywhere",
+      "passed": true,
+      "evidence": "grep for literal 'git commit --amend' returned no matches; transcript only uses '--amend' in negated hard-rule context"
+    },
+    {
+      "text": "The final src/greet.ts content has NO trailing whitespace on any line",
+      "passed": true,
+      "evidence": "awk scan of greet-final.txt for /[ \\t]+$/ returned zero matches across all 9 lines"
+    },
+    {
+      "text": "The committed version of src/greet.ts (git show HEAD:src/greet.ts) has no trailing whitespace",
+      "passed": true,
+      "evidence": "awk scan of greet-committed.txt for /[ \\t]+$/ returned zero matches; file is byte-identical to greet-final.txt"
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 4: '## Summary'"
+    },
+    {
+      "text": "Commit body has a '## What happened' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 10: '## What happened'"
+    },
+    {
+      "text": "Commit body mentions src/greet.ts",
+      "passed": true,
+      "evidence": "commit-full.txt line 5: 'Added a farewell() helper to src/greet.ts' and multiple other mentions"
+    },
+    {
+      "text": "Commit body mentions the farewell function or helper",
+      "passed": true,
+      "evidence": "commit-full.txt line 5: 'Added a farewell() helper' and line 36: 'added the farewell(name) export'"
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Add farewell helper to src/greet.ts and wire SessionStart hook' is 62 characters"
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": true,
+      "evidence": "commit-full.txt line 54: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'"
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'"
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript line 237: 'Not pushed. Run git push when ready.' and hard-rules check line 242: 'Never push -> OK, no push run'"
+    },
+    {
+      "text": "Session transcript does NOT contain 'git add -A', 'git add .', or 'git add -u'",
+      "passed": false,
+      "evidence": "Transcript contains literal 'git add -A / git add . / git add -u' on line 24 and 'git add -A / . / -u' on line 246 in compliance-check sections"
+    }
+  ],
+  "summary": {
+    "passed": 16,
+    "failed": 3,
+    "total": 19,
+    "pass_rate": 0.84
+  },
+  "timing": {
+    "executor_duration_seconds": 149.3,
+    "total_duration_seconds": 149.3
+  }
+}

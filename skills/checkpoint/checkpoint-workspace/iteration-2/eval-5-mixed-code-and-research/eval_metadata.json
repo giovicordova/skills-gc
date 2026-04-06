@@ -1,0 +1,27 @@
+{
+  "eval_id": 5,
+  "eval_name": "mixed-code-and-research",
+  "prompt": "Set up a fresh git repo in a temp directory for this eval. Configure git user.name and user.email locally. Create 3 prior commits (e.g., 'Add OpenAPI client scaffolding', 'Wire health endpoint', 'Add request logging'). Then simulate end-of-session state by modifying `src/api/client.ts` \u2014 add a single retry-with-backoff helper function (~25 lines), but ONLY this one file changes. The user's request: 'wrap this up \u2014 most of today was reading: I went through the OpenAI, Anthropic, and Stripe SDK retry implementations to figure out the right backoff strategy. They all do exponential with jitter but the cap and base differ a lot. I picked Anthropic'\\''s pattern (base 500ms, cap 8s, full jitter) because our API rate limits are closest to theirs. Implemented it in src/api/client.ts as the retryWithBackoff helper. Other retry candidates I rejected: linear (too slow on transient blips), fixed delay (thundering herd), exponential without jitter (also thundering herd). Worth keeping the rejected options in the record so we don'\\''t re-litigate next month'. Run the task to completion. Save everything to the outputs/ directory: the final `git log -1 --format='%H%n%s%n%n%b'` to commit-full.txt, `git log --oneline -10` to git-log-oneline.txt, `git status` to git-status.txt, and the full session transcript to session-transcript.txt.",
+  "assertions": [
+    "Exactly one new commit was created",
+    "The new commit is NOT empty \u2014 src/api/client.ts is in the diff",
+    "Commit subject is 72 characters or fewer",
+    "Commit subject has no trailing period",
+    "Commit subject mentions retry, backoff, OR jitter (specific to the work)",
+    "Commit body has a '## Summary' section",
+    "Commit body has a '## What happened' section",
+    "Commit body has a '## Files touched' section",
+    "Commit body mentions src/api/client.ts",
+    "Commit body mentions the function name retryWithBackoff",
+    "Commit body mentions all three SDKs that were researched: OpenAI, Anthropic, AND Stripe",
+    "Commit body mentions the chosen parameters (base 500ms, cap 8s, OR full jitter)",
+    "Commit body mentions WHY Anthropic's pattern was chosen (rate-limit similarity)",
+    "Commit body mentions the REJECTED options (linear, fixed delay, exponential without jitter) so the next session knows what was already considered",
+    "Commit body total length is at least 600 characters (research-heavy session)",
+    "Commit has co-author trailer",
+    "Working tree is clean after the commit",
+    "No push occurred",
+    "No logs/ directory was created",
+    "No bash command in the transcript actually invoked 'git add -A', 'git add .', or 'git add -u' (mentions in compliance/rule notes do NOT count \u2014 only count actual command invocations)"
+  ]
+}

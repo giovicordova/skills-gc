@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created (commit count = starting count + 1)",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 5 commits — 4 setup commits (Add user model, Wire up login route, Issue access tokens on login, Write auth integration tests) plus the new 68631fe. Setup started with 4, now 5."
+    },
+    {
+      "text": "The new commit is NOT empty — it has a non-zero diff",
+      "passed": true,
+      "evidence": "session-transcript.txt line 395: '4 files changed, 50 insertions(+), 3 deletions(-)'"
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Wire JWT refresh endpoint and extract token validation middleware' = 64 characters (commit-full.txt line 2)"
+    },
+    {
+      "text": "Commit subject begins with an imperative verb (Add, Wire, Extract, Refactor, Implement, etc.)",
+      "passed": true,
+      "evidence": "commit-full.txt line 2 begins with 'Wire JWT refresh endpoint...'"
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "commit-full.txt line 2 ends with 'middleware' — no period"
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 4: '## Summary'"
+    },
+    {
+      "text": "Commit body has a '## What happened' section with multiple sentences (not a single line)",
+      "passed": true,
+      "evidence": "commit-full.txt line 11: '## What happened' followed by ~25 lines of multi-paragraph narrative (lines 12-39)"
+    },
+    {
+      "text": "Commit body has a '## Files touched' section listing changed files",
+      "passed": true,
+      "evidence": "commit-full.txt line 41: '## Files touched' followed by bullets for src/routes/auth.ts, src/middleware/jwt.ts, README.md, .claude/settings.json"
+    },
+    {
+      "text": "Commit body mentions all three modified paths: src/routes/auth.ts, src/middleware/jwt.ts, README.md",
+      "passed": true,
+      "evidence": "commit-full.txt lines 42, 47, 51 explicitly list 'src/routes/auth.ts', 'src/middleware/jwt.ts', and 'README.md'"
+    },
+    {
+      "text": "Commit body mentions JWT or refresh endpoint in the narrative",
+      "passed": true,
+      "evidence": "commit-full.txt line 5: 'Wired up the missing /api/refresh endpoint in src/routes/auth.ts'; 'JWT' in subject and throughout body"
+    },
+    {
+      "text": "Commit body explains WHY the middleware was extracted (mentions circular import or similar reasoning carried from the user's message)",
+      "passed": true,
+      "evidence": "commit-full.txt lines 19-23: 'created a circular import: routes/auth.ts already imports from lib/db.ts... Moved the helpers to src/middleware/jwt.ts instead, which sits on the right side of the dependency graph and breaks the cycle.'"
+    },
+    {
+      "text": "Commit body total length is at least 400 characters (rich narrative, not a one-liner)",
+      "passed": true,
+      "evidence": "Body spans lines 4-66 of commit-full.txt — well over 2000 characters of narrative including Summary, What happened, Files touched, State sections"
+    },
+    {
+      "text": "Commit has 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' trailer matching repo style",
+      "passed": true,
+      "evidence": "commit-full.txt line 66: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'"
+    },
+    {
+      "text": "All three changed files are in the new commit",
+      "passed": true,
+      "evidence": "session-transcript.txt lines 397-398: 'create mode 100644 README.md / create mode 100644 src/middleware/jwt.ts' plus modified src/routes/auth.ts in the staging output (line 319)"
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt line 2: 'nothing to commit, working tree clean'"
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "session-transcript.txt line 421: 'Not pushed. Run git push when ready.' — no git push command in the transcript"
+    },
+    {
+      "text": "No bash command in the transcript actually invoked 'git add -A', 'git add .', or 'git add -u' (mentions in compliance/rule notes do NOT count — only count actual command invocations like a bash tool call running that exact command)",
+      "passed": true,
+      "evidence": "Only git add invocation is line 311: 'git add src/routes/auth.ts src/middleware/jwt.ts README.md .claude/settings.json' — explicit paths. Line 443 is a compliance checklist mention, not an invocation."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked --no-verify, --no-gpg-sign, or git commit --amend (mentions in compliance/rule notes do NOT count — only count actual command invocations)",
+      "passed": true,
+      "evidence": "Grep finds these strings only on lines 27 (skill rule recap), 401 (post-commit summary 'No --amend, no --no-verify.'), 441-442 (compliance checklist) — never in an actual bash invocation."
+    },
+    {
+      "text": "No logs/ directory was created (this skill doesn't write parallel JSON files)",
+      "passed": true,
+      "evidence": "session-transcript.txt shows no mkdir logs or write to logs/. Only directories created were .claude/ (line 230) and the outputs/ dir for the eval (line 428)."
+    }
+  ],
+  "summary": {
+    "passed": 19,
+    "failed": 0,
+    "total": 19,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "executor_duration_seconds": 344.8,
+    "total_duration_seconds": 344.8
+  }
+}

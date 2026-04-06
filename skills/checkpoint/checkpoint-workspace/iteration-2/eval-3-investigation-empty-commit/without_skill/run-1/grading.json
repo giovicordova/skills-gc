@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created",
+      "passed": false,
+      "evidence": "git-log-oneline.txt shows only the 4 setup commits (03f0566 Deploy v1.4.2, b5738d5 Add datadog monitoring, f59e34d Wire auth middleware, 5870de8 Add session cache). HEAD is still 03f0566 Deploy v1.4.2 from setup. No new commit was created. Transcript explicitly states: 'No git mutations were performed... No commit was made.'"
+    },
+    {
+      "text": "The new commit IS empty — running 'git show --stat HEAD' shows zero files changed and zero insertions/deletions",
+      "passed": false,
+      "evidence": "commit-stat.txt shows HEAD as the pre-existing 'Deploy v1.4.2' commit with 'VERSION | 1 +, 1 file changed, 1 insertion(+)'. There is no new commit at all, let alone an empty one."
+    },
+    {
+      "text": "Commit was created with --allow-empty (verified by the empty diff above)",
+      "passed": false,
+      "evidence": "No commit was created. Transcript: 'No git mutations were performed.'"
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": false,
+      "evidence": "No new commit exists. The HEAD subject 'Deploy v1.4.2' is from setup and is not the agent's commit."
+    },
+    {
+      "text": "Commit subject uses an investigation-style verb (Investigate, Trace, Diagnose, Debug, Research, Document, Identify, Analyse, Find, etc.) — NOT a code-change verb like 'Fix' or 'Add'",
+      "passed": false,
+      "evidence": "No new commit exists. HEAD is still 'Deploy v1.4.2' from setup."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": false,
+      "evidence": "No new commit exists."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": false,
+      "evidence": "commit-full.txt body is empty (just 'Deploy v1.4.2' subject from the setup commit). No new commit, no body sections."
+    },
+    {
+      "text": "Commit body has a '## What happened' section with multiple sentences",
+      "passed": false,
+      "evidence": "No new commit and no body. commit-full.txt shows only the setup commit with empty body."
+    },
+    {
+      "text": "Commit body has a '## Findings' section",
+      "passed": false,
+      "evidence": "No new commit and no body."
+    },
+    {
+      "text": "Commit body mentions 'src/middleware/auth.ts' (the user's exact file reference is preserved)",
+      "passed": false,
+      "evidence": "No new commit body exists. The setup HEAD commit body is empty."
+    },
+    {
+      "text": "Commit body mentions 'validateSession' (the user's exact function reference is preserved)",
+      "passed": false,
+      "evidence": "No new commit body exists."
+    },
+    {
+      "text": "Commit body mentions 'line 23' or 'around line 23' (the user's exact location reference is preserved)",
+      "passed": false,
+      "evidence": "No new commit body exists."
+    },
+    {
+      "text": "Commit body mentions postgres, query, cache, OR slow query log (the trace evidence)",
+      "passed": false,
+      "evidence": "No new commit body exists."
+    },
+    {
+      "text": "Commit body total length is at least 500 characters (empty commit needs MORE body, not less)",
+      "passed": false,
+      "evidence": "No new commit body exists. commit-full.txt body length is 0 characters."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": false,
+      "evidence": "No new commit was created."
+    },
+    {
+      "text": "Working tree is clean after the commit (unchanged from start)",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main\\nnothing to commit, working tree clean'. The working tree is clean (because the agent made no changes at all)."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript explicitly states 'No git mutations were performed.' No mention or invocation of 'git push' anywhere in session-transcript.txt."
+    },
+    {
+      "text": "No logs/ directory was created",
+      "passed": true,
+      "evidence": "Transcript: 'No files were created in the target repo.' No reference to a logs/ directory anywhere in the transcript."
+    },
+    {
+      "text": "No JSON checkpoint files were created",
+      "passed": true,
+      "evidence": "Transcript: 'No files were created in the target repo.' No JSON checkpoint files mentioned anywhere; the agent declined to create artefacts."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 15,
+    "total": 19,
+    "pass_rate": 0.21
+  },
+  "timing": {
+    "executor_duration_seconds": 82.2,
+    "total_duration_seconds": 82.2
+  }
+}

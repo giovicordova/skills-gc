@@ -1,3 +1,0 @@
-3afa893 Wire up API routes
-4971e96 Add auth middleware
-2403a08 Initial project skeleton

@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows exactly one new commit (6b6b3d9) on top of the four setup commits (7e37c48, f27059b, 2513cb0, 052b4cf)."
+    },
+    {
+      "text": "The new commit IS empty — running 'git show --stat HEAD' shows zero files changed and zero insertions/deletions",
+      "passed": true,
+      "evidence": "commit-stat.txt (the git show --stat HEAD output) ends after the commit body with no diffstat footer at all — git shows no 'X files changed' line because the commit is genuinely empty. Working tree was clean before and after."
+    },
+    {
+      "text": "Commit was created with --allow-empty (verified by the empty diff above)",
+      "passed": true,
+      "evidence": "session-transcript.txt step 7 explicitly invokes 'git commit --allow-empty -m ...' and the empty diffstat in commit-stat.txt confirms the result."
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": false,
+      "evidence": "Subject 'Investigate post-Monday-deploy API latency spike — root cause in auth middleware' is 80 characters long, exceeding the 72-char limit. The transcript at step 6 explicitly acknowledges this: 'Length check: 81 characters (over the 72 target ... this is the one place I knowingly stretched the guideline.'"
+    },
+    {
+      "text": "Commit subject uses an investigation-style verb (Investigate, Trace, Diagnose, Debug, Research, Document, Identify, Analyse, Find, etc.) — NOT a code-change verb like 'Fix' or 'Add'",
+      "passed": true,
+      "evidence": "Subject begins with 'Investigate', a clear investigation-style verb."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject ends with 'middleware' — no trailing period."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 7: '## Summary' followed by a multi-sentence summary."
+    },
+    {
+      "text": "Commit body has a '## What happened' section with multiple sentences",
+      "passed": true,
+      "evidence": "commit-full.txt line 14: '## What happened' followed by four paragraphs of multi-sentence narrative (the session was a pure investigation; reading the file; confirmed by tailing; did not write the fix)."
+    },
+    {
+      "text": "Commit body has a '## Findings' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 37: '## Findings' followed by two concrete bullets."
+    },
+    {
+      "text": "Commit body mentions 'src/middleware/auth.ts' (the user's exact file reference is preserved)",
+      "passed": true,
+      "evidence": "Appears verbatim in 'What happened' (line 20), 'Findings' (line 38), and 'State / Blocked' (line 57) sections."
+    },
+    {
+      "text": "Commit body mentions 'validateSession' (the user's exact function reference is preserved)",
+      "passed": true,
+      "evidence": "Appears as 'validateSession()' in 'What happened' (line 21), 'Findings' (line 38), and 'State / Blocked' (line 57)."
+    },
+    {
+      "text": "Commit body mentions 'line 23' or 'around line 23' (the user's exact location reference is preserved)",
+      "passed": true,
+      "evidence": "Appears as 'around line 23' in 'What happened' (line 20), 'Findings' (line 38), and 'State / Blocked' (line 57)."
+    },
+    {
+      "text": "Commit body mentions postgres, query, cache, OR slow query log (the trace evidence)",
+      "passed": true,
+      "evidence": "All four are present: 'Postgres' (lines 9, 23, 27, 39, 58), 'session cache' / 'cache check' (lines 10, 21, 39, 56), 'slow query log' (lines 27, 41, 49), 'query' (multiple)."
+    },
+    {
+      "text": "Commit body total length is at least 500 characters (empty commit needs MORE body, not less)",
+      "passed": true,
+      "evidence": "Total commit-full.txt is 2779 characters; the body alone (## Summary through Co-Authored-By trailer) is roughly 2500 characters — well over the 500-char minimum."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": true,
+      "evidence": "Final line of body (line 61): 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'."
+    },
+    {
+      "text": "Working tree is clean after the commit (unchanged from start)",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript step 7 compliance check: 'No git push. Confirmed — I never ran push.' No push command appears anywhere in the transcript."
+    },
+    {
+      "text": "No logs/ directory was created",
+      "passed": true,
+      "evidence": "Transcript shows only outputs/ files written (commit-full.txt, commit-stat.txt, git-log-oneline.txt, git-status.txt, session-transcript.txt). No logs/ directory mentioned. Working tree is clean per git-status.txt."
+    },
+    {
+      "text": "No JSON checkpoint files were created",
+      "passed": true,
+      "evidence": "Transcript Phase 4 was explicitly skipped per the empty-tree skip rule: '.claude/settings.json was not created or modified'. No JSON files written. Working tree confirmed clean."
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "failed": 1,
+    "total": 19,
+    "pass_rate": 0.95
+  },
+  "timing": {
+    "executor_duration_seconds": 138.0,
+    "total_duration_seconds": 138.0
+  }
+}

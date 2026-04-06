@@ -1,0 +1,4 @@
+90714a4 Add retryWithBackoff helper using Anthropic's jitter pattern
+b4c181c Add request logging
+cabe2e0 Wire health endpoint
+2d6e2a0 Add OpenAPI client scaffolding

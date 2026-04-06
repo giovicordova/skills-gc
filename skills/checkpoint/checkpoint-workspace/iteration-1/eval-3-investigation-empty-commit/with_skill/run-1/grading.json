@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 5 commits total: 4 prior seed commits (Deploy v1.4.2, Add datadog monitoring, Wire auth middleware, Add session cache) plus one new HEAD commit 441959f 'Investigate Monday API latency spike'."
+    },
+    {
+      "text": "The new commit IS empty — running 'git show --stat HEAD' shows zero files changed and zero insertions/deletions",
+      "passed": false,
+      "evidence": "commit-stat.txt ends with '.claude/settings.json | 15 +++++++++++++++' and '1 file changed, 15 insertions(+)'. The commit is NOT empty. Executor reasoning (transcript L183-207): 'Option A: create .claude/settings.json, stage only that one file... the commit is a regular commit that has exactly one file change (the hook scaffolding)... bundled with investigation commit body'."
+    },
+    {
+      "text": "Commit was created with --allow-empty (verified by the empty diff above)",
+      "passed": false,
+      "evidence": "Transcript L244: 'Since I switched from empty commit to regular commit, Phase 3...'. The executor explicitly abandoned --allow-empty in favour of staging .claude/settings.json as scaffolding. commit-stat.txt confirms 1 file changed."
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Investigate Monday API latency spike — root cause in auth middleware' is 68 characters (70 bytes; em dash is 3 UTF-8 bytes), within the 72-char limit."
+    },
+    {
+      "text": "Commit subject uses an investigation-style verb (Investigate, Trace, Diagnose, Debug, Research, Document, Identify, Analyse, Find, etc.) — NOT a code-change verb like 'Fix' or 'Add'",
+      "passed": true,
+      "evidence": "Subject starts with 'Investigate Monday API latency spike...' — investigation verb, not a code-change verb."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject ends with 'auth middleware' — no trailing period."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "commit-full.txt L4: '## Summary' heading present with content following."
+    },
+    {
+      "text": "Commit body has a '## What happened' section with multiple sentences",
+      "passed": true,
+      "evidence": "commit-full.txt L11: '## What happened' with four multi-sentence paragraphs (L12-33) describing the investigation."
+    },
+    {
+      "text": "Commit body has a '## Findings' section",
+      "passed": true,
+      "evidence": "commit-full.txt L34: '## Findings' heading present with three bullet points."
+    },
+    {
+      "text": "Commit body mentions 'src/middleware/auth.ts' (the user's exact file reference is preserved)",
+      "passed": true,
+      "evidence": "commit-full.txt L14, L35, L55, L70 all reference 'src/middleware/auth.ts' verbatim."
+    },
+    {
+      "text": "Commit body mentions 'validateSession' (the user's exact function reference is preserved)",
+      "passed": true,
+      "evidence": "commit-full.txt L15, L18, L35, L54, L74 all reference 'validateSession()' verbatim."
+    },
+    {
+      "text": "Commit body mentions 'line 23' or 'around line 23' (the user's exact location reference is preserved)",
+      "passed": true,
+      "evidence": "commit-full.txt L15: 'the validateSession() call around line 23 (user's reference; confirm the exact line before editing...)'."
+    },
+    {
+      "text": "Commit body mentions postgres, query, cache, OR slow query log (the trace evidence)",
+      "passed": true,
+      "evidence": "commit-full.txt L19 'straight to Postgres for the session lookup', L24 'tailing the Postgres slow query log', L36-41 'session cache', 'Postgres query'. All four terms present."
+    },
+    {
+      "text": "Commit body total length is at least 500 characters (empty commit needs MORE body, not less)",
+      "passed": true,
+      "evidence": "Commit body spans roughly L4-L76 of commit-full.txt (~73 lines of prose and bullets), well over 500 characters — estimated ~3000+ characters of body content."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": true,
+      "evidence": "commit-full.txt L78: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'."
+    },
+    {
+      "text": "Working tree is clean after the commit (unchanged from start)",
+      "passed": true,
+      "evidence": "git-status.txt L1-2: 'On branch main / nothing to commit, working tree clean'. Note: the tree is clean only because the executor staged and committed .claude/settings.json rather than leaving it as an untracked scaffolding file."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript L377: 'Not pushed. Run git push when ready.' No push command was executed."
+    },
+    {
+      "text": "No logs/ directory was created",
+      "passed": true,
+      "evidence": "No references to a logs/ directory in the transcript; only .claude/settings.json was created. git-status.txt shows a clean tree."
+    },
+    {
+      "text": "No JSON checkpoint files were created",
+      "passed": true,
+      "evidence": "No references to checkpoint JSON files in the transcript. The only JSON file created was .claude/settings.json (a SessionStart hook config), which is not a checkpoint file."
+    }
+  ],
+  "summary": {
+    "passed": 17,
+    "failed": 2,
+    "total": 19,
+    "pass_rate": 0.89
+  },
+  "timing": {
+    "executor_duration_seconds": 230.3,
+    "total_duration_seconds": 230.3
+  }
+}

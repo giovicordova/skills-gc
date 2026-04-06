@@ -1,0 +1,4 @@
+705945b Wire database config loader and add .env to gitignore
+5c9471d Wire database adapter
+e7148a8 Add config loader
+ed88e32 Initial app skeleton

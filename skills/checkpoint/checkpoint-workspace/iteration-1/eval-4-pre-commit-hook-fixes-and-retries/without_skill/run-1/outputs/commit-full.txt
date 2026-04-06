@@ -1,0 +1,4 @@
+cdf49d408a9b309ccd57cea58773e595c380ff1f
+Add farewell helper to mirror greet
+
+

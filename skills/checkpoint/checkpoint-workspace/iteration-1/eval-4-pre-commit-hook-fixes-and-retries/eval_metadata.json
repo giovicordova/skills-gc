@@ -1,0 +1,26 @@
+{
+  "eval_id": 4,
+  "eval_name": "pre-commit-hook-fixes-and-retries",
+  "prompt": "Set up a fresh git repo in a temp directory for this eval. Configure git user.name and user.email locally. Create 3 prior commits (e.g., 'Initial scaffold', 'Add greet helper', 'Add greet tests'). Then install a pre-commit hook at .git/hooks/pre-commit (chmod +x) that fails with exit code 1 and an error message if any staged file contains trailing whitespace. The hook should be a small bash script: use `git diff --cached --check` (which detects trailing whitespace and other whitespace errors and exits non-zero on detection \u2014 that's a real git built-in). Now simulate end-of-session state by modifying `src/greet.ts` \u2014 add a small new exported function `farewell(name: string)` (~5 lines), but include trailing whitespace on TWO of the lines (e.g., add ' ' at the end of the function signature line and the return line). The user request: 'wrap up \u2014 added a farewell helper to src/greet.ts to mirror greet'. Run the task to completion. The skill should: stage the file, attempt the commit, see the pre-commit hook fail with a whitespace error, READ the error, fix the trailing whitespace on the source file (you can use sed or rewrite the file), re-stage, and create a new commit. NEVER use --no-verify. NEVER amend. Save outputs to outputs/: `git log -1 --format='%H%n%s%n%n%b'` to commit-full.txt, `git log --oneline -10` to git-log-oneline.txt, `git status` to git-status.txt, the final src/greet.ts content to greet-final.txt, and the full session transcript to session-transcript.txt.",
+  "assertions": [
+    "Exactly one new commit was created (not zero, not two)",
+    "The new commit is NOT empty \u2014 src/greet.ts is in the diff",
+    "Session transcript shows the pre-commit hook failed at least once",
+    "Session transcript shows the skill READ the hook error output (mentions whitespace, trailing, or the specific git diff --cached --check message)",
+    "Session transcript shows the skill made a fix to src/greet.ts after the hook failure (sed, rewrite, edit)",
+    "Session transcript does NOT contain '--no-verify' anywhere",
+    "Session transcript does NOT contain '--no-gpg-sign' anywhere",
+    "Session transcript does NOT contain 'git commit --amend' anywhere",
+    "The final src/greet.ts content has NO trailing whitespace on any line",
+    "The committed version of src/greet.ts (git show HEAD:src/greet.ts) has no trailing whitespace",
+    "Commit body has a '## Summary' section",
+    "Commit body has a '## What happened' section",
+    "Commit body mentions src/greet.ts",
+    "Commit body mentions the farewell function or helper",
+    "Commit subject is 72 characters or fewer",
+    "Commit has co-author trailer",
+    "Working tree is clean after the commit",
+    "No push occurred",
+    "Session transcript does NOT contain 'git add -A', 'git add .', or 'git add -u'"
+  ]
+}

@@ -1,0 +1,104 @@
+90714a4f1a3fe8b05a8309cb59588f813db60a0e
+Add retryWithBackoff helper using Anthropic's jitter pattern
+
+## Summary
+Most of today was reading, not writing. Went through the retry
+implementations in the OpenAI, Anthropic, and Stripe SDKs to pick
+a backoff strategy for our API client, then landed one small
+helper — retryWithBackoff — in src/api/client.ts. Settled on
+Anthropic's pattern: exponential with full jitter, base 500ms,
+cap 8s. Rejected alternatives are captured below so we don't
+re-litigate the choice next month.
+
+## What happened
+Started from the question: what backoff strategy should our API
+client use on transient failures? Rather than guess, read the
+three reference implementations we trust most.
+
+OpenAI's SDK uses exponential backoff with jitter but a shorter
+cap and different base than Anthropic. Stripe's SDK also does
+exponential-with-jitter but is tuned for their request shape
+(per-second-ish request limits with burst allowances). Anthropic's
+SDK uses base 500ms, cap 8s, full jitter — and their rate limits
+are shaped most similarly to ours (per-minute token buckets rather
+than per-second request counts), so their tuning is the closest
+match to what we'll actually hit in production. Picked Anthropic's
+numbers on that basis.
+
+"Full jitter" specifically means `sleep = random(0, min(cap,
+base * 2^attempt))` — the sleep is a uniform random draw between
+zero and the exponential bound, not the bound itself. This is the
+AWS Architecture Blog "full jitter" variant and it's the one that
+actually breaks up thundering-herd retries; the "equal jitter" and
+"decorrelated jitter" variants are also fine but full jitter is
+the simplest to reason about.
+
+Walked through the other retry shapes explicitly and rejected
+each one:
+
+- Linear backoff (sleep = attempt * constant): too slow to recover
+  from a real outage — you waste attempts on short sleeps while
+  the backend is still down.
+- Fixed delay (sleep = constant): creates a thundering herd when
+  many clients retry in lockstep after a shared failure.
+- Exponential without jitter: same thundering-herd problem — every
+  client retries at exactly t=base, 2*base, 4*base, etc., and
+  hammers the recovering service in waves.
+
+With the strategy settled, wrote the helper as a single function
+in src/api/client.ts. It takes the operation to retry and an
+isRetryable predicate so the caller decides which errors qualify
+(we don't want to retry 4xx validation errors, for example). Five
+attempts max, full jitter between them, rethrows the last error
+if everything fails.
+
+Also set up .claude/settings.json with a SessionStart hook so the
+next session starts by printing the last 5 commits — this is the
+first session-commit in this repo and the hook wasn't there yet.
+
+## Findings
+- Anthropic SDK retry pattern: base 500ms, cap 8s, full jitter,
+  5 attempts. Closest match to our rate-limit shape.
+- OpenAI and Stripe SDKs both use exponential-with-jitter but with
+  different tunings optimised for their own rate-limit shapes;
+  adopting either would have been a worse fit.
+- Full jitter formula: `sleep = random(0, min(cap, base * 2^n))`.
+  Not to be confused with "exponential + small random offset",
+  which doesn't actually break up synchronised retries.
+
+## Decisions
+- Use Anthropic's backoff tuning (base 500ms, cap 8s, full jitter,
+  5 attempts): our rate limits are per-minute token buckets, which
+  matches Anthropic's shape more than OpenAI's or Stripe's.
+- Reject linear backoff: too slow on real outages.
+- Reject fixed delay: thundering herd.
+- Reject exponential without jitter: also thundering herd.
+- Keep the rejected options documented in this commit body so the
+  decision isn't re-opened next month without new information.
+- Caller-supplied isRetryable predicate rather than a hardcoded
+  allowlist: keeps the helper generic and lets each call site
+  decide which errors are worth retrying.
+
+## Files touched
+- src/api/client.ts: new file. Exports retryWithBackoff<T>(fn,
+  isRetryable) plus a FetchLike type. Constants BASE_MS=500,
+  CAP_MS=8000, MAX_ATTEMPTS=5 at the top of the file. The
+  fullJitter(attempt) helper computes the exponential bound and
+  draws uniformly from [0, bound). Header comment explains why
+  we picked Anthropic's pattern so it's obvious from the file
+  alone, not just the commit history.
+- .claude/settings.json: new file. SessionStart hook prints
+  `git log -5` on startup so future sessions cold-start with
+  the recent commit bodies visible. First time this repo has
+  had a .claude/ dir.
+
+## State
+- Done: retryWithBackoff helper written and exported. Settings
+  hook in place.
+- In progress: nothing — the helper isn't wired into any call
+  site yet. Next session should find the places that currently
+  throw on transient failures and wrap them.
+- Blocked: nothing.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+

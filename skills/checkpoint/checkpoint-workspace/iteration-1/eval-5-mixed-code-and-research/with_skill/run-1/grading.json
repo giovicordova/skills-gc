@@ -1,0 +1,114 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 4 commits total: 90714a4 (new) plus the 3 prior (b4c181c, cabe2e0, 2d6e2a0)."
+    },
+    {
+      "text": "The new commit is NOT empty — src/api/client.ts is in the diff",
+      "passed": true,
+      "evidence": "Transcript line 180: 'create mode 100644 src/api/client.ts' and body 'Files touched - src/api/client.ts: new file.'"
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Add retryWithBackoff helper using Anthropic's jitter pattern' is 60 characters."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject ends with 'pattern' — no trailing period."
+    },
+    {
+      "text": "Commit subject mentions retry, backoff, OR jitter (specific to the work)",
+      "passed": true,
+      "evidence": "'Add retryWithBackoff helper using Anthropic's jitter pattern' contains all three: retry, Backoff, jitter."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "Line 4 of commit-full.txt: '## Summary'."
+    },
+    {
+      "text": "Commit body has a '## What happened' section",
+      "passed": true,
+      "evidence": "Line 13 of commit-full.txt: '## What happened'."
+    },
+    {
+      "text": "Commit body has a '## Files touched' section",
+      "passed": true,
+      "evidence": "Line 82 of commit-full.txt: '## Files touched'."
+    },
+    {
+      "text": "Commit body mentions src/api/client.ts",
+      "passed": true,
+      "evidence": "'landed one small helper — retryWithBackoff — in src/api/client.ts' and 'src/api/client.ts: new file.'"
+    },
+    {
+      "text": "Commit body mentions the function name retryWithBackoff",
+      "passed": true,
+      "evidence": "'Exports retryWithBackoff<T>(fn, isRetryable)' and multiple other mentions."
+    },
+    {
+      "text": "Commit body mentions all three SDKs that were researched: OpenAI, Anthropic, AND Stripe",
+      "passed": true,
+      "evidence": "'Went through the retry implementations in the OpenAI, Anthropic, and Stripe SDKs'."
+    },
+    {
+      "text": "Commit body mentions the chosen parameters (base 500ms, cap 8s, OR full jitter)",
+      "passed": true,
+      "evidence": "'Settled on Anthropic's pattern: exponential with full jitter, base 500ms, cap 8s.'"
+    },
+    {
+      "text": "Commit body mentions WHY Anthropic's pattern was chosen (rate-limit similarity)",
+      "passed": true,
+      "evidence": "'their rate limits are shaped most similarly to ours (per-minute token buckets...), so their tuning is the closest match'."
+    },
+    {
+      "text": "Commit body mentions the REJECTED options (linear, fixed delay, exponential without jitter) so the next session knows what was already considered",
+      "passed": true,
+      "evidence": "'- Linear backoff ... - Fixed delay ... - Exponential without jitter' all explicitly listed with rejection reasons."
+    },
+    {
+      "text": "Commit body total length is at least 600 characters (research-heavy session)",
+      "passed": true,
+      "evidence": "commit-full.txt is 4888 bytes total; body alone is ~4750 chars, far exceeding 600."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": true,
+      "evidence": "Line 103: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'."
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript line 211: 'No push performed.' and final confirmation 'Not pushed. Run git push when ready.'"
+    },
+    {
+      "text": "No logs/ directory was created",
+      "passed": true,
+      "evidence": "Files changed in commit are only .claude/settings.json and src/api/client.ts; no logs/ directory mentioned anywhere in transcript or diff."
+    },
+    {
+      "text": "Session transcript does NOT contain 'git add -A', 'git add .', or 'git add -u'",
+      "passed": false,
+      "evidence": "Transcript line 214 contains the literal substring 'git add -A': '- No git add -A, ., or -u — both paths passed explicitly.' Strict literal match fails even though the sentence is a negation/compliance note; the actual staging command used was 'git add src/api/client.ts .claude/settings.json' (line 166)."
+    }
+  ],
+  "summary": {
+    "passed": 19,
+    "failed": 1,
+    "total": 20,
+    "pass_rate": 0.95
+  },
+  "timing": {
+    "executor_duration_seconds": 165.9,
+    "total_duration_seconds": 165.9
+  }
+}

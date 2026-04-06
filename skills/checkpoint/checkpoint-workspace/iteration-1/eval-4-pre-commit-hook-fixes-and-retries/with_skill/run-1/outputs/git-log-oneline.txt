@@ -1,0 +1,4 @@
+1303e0a Add farewell helper to src/greet.ts and wire SessionStart hook
+7072d9f Add greet tests
+11f465a Add greet helper
+333c13f Initial scaffold

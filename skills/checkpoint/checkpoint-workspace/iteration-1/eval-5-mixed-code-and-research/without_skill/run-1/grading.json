@@ -1,0 +1,114 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 4 commits total: d6caca2 (new) on top of the 3 prior commits (0a07416, 802ba24, 8f9eff5)."
+    },
+    {
+      "text": "The new commit is NOT empty \u2014 src/api/client.ts is in the diff",
+      "passed": true,
+      "evidence": "Commit subject 'Add retryWithBackoff helper in src/api/client.ts' and working tree clean after commit implies the file was staged and committed."
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "'Add retryWithBackoff helper in src/api/client.ts' is 49 characters."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject ends in '.ts' with no trailing period."
+    },
+    {
+      "text": "Commit subject mentions retry, backoff, OR jitter (specific to the work)",
+      "passed": true,
+      "evidence": "Subject: 'Add retryWithBackoff helper in src/api/client.ts' (mentions retry and backoff)."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": false,
+      "evidence": "No '## Summary' heading in commit body. Body uses 'Why this shape:' and 'Alternatives considered and rejected:' as section labels."
+    },
+    {
+      "text": "Commit body has a '## What happened' section",
+      "passed": false,
+      "evidence": "No '## What happened' heading present in commit-full.txt."
+    },
+    {
+      "text": "Commit body has a '## Files touched' section",
+      "passed": false,
+      "evidence": "No '## Files touched' heading present in commit-full.txt."
+    },
+    {
+      "text": "Commit body mentions src/api/client.ts",
+      "passed": true,
+      "evidence": "Subject line itself reads 'Add retryWithBackoff helper in src/api/client.ts'."
+    },
+    {
+      "text": "Commit body mentions the function name retryWithBackoff",
+      "passed": true,
+      "evidence": "Subject line: 'Add retryWithBackoff helper in src/api/client.ts'."
+    },
+    {
+      "text": "Commit body mentions all three SDKs that were researched: OpenAI, Anthropic, AND Stripe",
+      "passed": true,
+      "evidence": "'Surveyed retry implementations in the OpenAI, Anthropic, and Stripe SDKs.'"
+    },
+    {
+      "text": "Commit body mentions the chosen parameters (base 500ms, cap 8s, OR full jitter)",
+      "passed": true,
+      "evidence": "'Exponential backoff with full jitter: base 500ms, cap 8s, max 5 attempts.'"
+    },
+    {
+      "text": "Commit body mentions WHY Anthropic's pattern was chosen (rate-limit similarity)",
+      "passed": true,
+      "evidence": "'Picked Anthropic's pattern (500ms / 8s / full jitter) because our upstream rate limits are shaped most like theirs \u2014 per-minute token buckets rather than strict RPS'."
+    },
+    {
+      "text": "Commit body mentions the REJECTED options (linear, fixed delay, exponential without jitter) so the next session knows what was already considered",
+      "passed": true,
+      "evidence": "'- Linear backoff: too slow...' '- Fixed delay: causes thundering-herd...' '- Exponential without jitter: same thundering-herd problem'."
+    },
+    {
+      "text": "Commit body total length is at least 600 characters (research-heavy session)",
+      "passed": true,
+      "evidence": "commit-full.txt is 1057 bytes; subject+blank+hash overhead ~60 bytes, body is roughly 990+ characters."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": false,
+      "evidence": "commit-full.txt contains no 'Co-Authored-By:' trailer."
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "No 'git push' found in session-transcript.txt."
+    },
+    {
+      "text": "No logs/ directory was created",
+      "passed": true,
+      "evidence": "No 'logs/' references found in session-transcript.txt."
+    },
+    {
+      "text": "Session transcript does NOT contain 'git add -A', 'git add .', or 'git add -u'",
+      "passed": true,
+      "evidence": "Only 'git add src/api/client.ts' appears in the transcript; no bulk-add forms."
+    }
+  ],
+  "summary": {
+    "passed": 16,
+    "failed": 4,
+    "total": 20,
+    "pass_rate": 0.8
+  },
+  "timing": {
+    "executor_duration_seconds": 89.251,
+    "total_duration_seconds": 89.3
+  }
+}

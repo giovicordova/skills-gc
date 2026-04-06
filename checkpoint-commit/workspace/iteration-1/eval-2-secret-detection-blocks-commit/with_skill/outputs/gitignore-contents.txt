@@ -1,9 +1,0 @@
-.env
-.env.*
-!.env.example
-!.env.sample
-!.env.template
-
-logs/
-
-node_modules/

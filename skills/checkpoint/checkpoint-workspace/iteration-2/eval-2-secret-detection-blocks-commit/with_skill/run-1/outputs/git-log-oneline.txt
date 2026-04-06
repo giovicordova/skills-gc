@@ -1,0 +1,4 @@
+b613997 Wire database pool through config loader and lock secrets out of git
+32e91e3 Wire database adapter
+ce82abb Add config loader
+b9b969b Initial app skeleton

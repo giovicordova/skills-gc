@@ -1,0 +1,99 @@
+d9a110a5b94d22df18f7ec64e740e702f1b09aa4
+Add retryWithBackoff helper using Anthropic-style full jitter
+
+## Summary
+Added a small retry-with-backoff helper to the new API client after
+spending most of the session reading how OpenAI, Anthropic, and Stripe
+implement retries in their official SDKs. Settled on Anthropic's
+pattern (exponential, full jitter, base 500ms, cap 8s) because our
+upstream rate limits look most like theirs.
+
+## What happened
+Most of today was reading, not writing. The goal was to pick a retry
+strategy for the new API client (src/api/client.ts) that wouldn't
+either thrash the upstream during transient blips or pile on during
+a real outage. Rather than guess, we walked through three reference
+implementations to see what production SDKs actually do.
+
+OpenAI's SDK uses exponential backoff with jitter, but with a longer
+base and a higher cap tuned to their request-per-second style limits.
+Anthropic's SDK uses exponential backoff with full jitter, base around
+500ms and a cap around 8s, which fits their per-minute token-bucket
+rate limits. Stripe's SDK also uses exponential with jitter but caps
+lower and is conservative about retrying anything non-idempotent.
+The shared shape across all three is "exponential with jitter" — the
+disagreements are entirely about base, cap, and what counts as
+retryable.
+
+We picked Anthropic's pattern because the upstream API this client
+talks to has per-minute token-bucket limits, not per-second RPS
+limits, so the failure mode it's hedging against is the same one
+Anthropic's SDK is tuned for. Translating that into code: BASE_MS
+500, CAP_MS 8000, MAX_ATTEMPTS 5, full jitter computed as
+floor(random() * min(cap, base * 2^attempt)). The helper takes the
+function to run and an isRetryable predicate so callers decide what
+counts as a transient error — the helper itself doesn't try to be
+clever about HTTP status codes.
+
+The other retry shapes we considered and rejected, in case this comes
+up again next month and we don't want to re-litigate it:
+
+- Linear backoff: too slow to recover from a long outage and offers
+  no real protection against thundering herd. Easy to implement, not
+  worth it.
+- Fixed delay: every retrying client wakes up at the same offset
+  after a failure, which is exactly the thundering-herd problem.
+  Rejected.
+- Exponential without jitter: spreads retries over time but every
+  client still wakes at the same exponential moments, so the herd
+  just lands in fewer, larger waves. Rejected for the same reason
+  as fixed delay.
+
+Implementation lives entirely in src/api/client.ts as the exported
+retryWithBackoff function plus a private fullJitter helper. No
+existing code calls it yet — that wiring is the next session's job.
+
+## Findings
+- All three reference SDKs (OpenAI, Anthropic, Stripe) converge on
+  "exponential with jitter" as the retry shape. The interesting
+  differences are in base, cap, max attempts, and idempotency rules,
+  not in the algorithm itself.
+- Anthropic's parameters (base 500ms, cap 8s, full jitter) are the
+  closest match to our upstream's per-minute token-bucket limits.
+- Full jitter (random in [0, exp_backoff)) gives better herd
+  protection than "equal jitter" (half fixed + half random) for
+  workloads where retries are uncoordinated.
+
+## Decisions
+- Use Anthropic's retry parameters (base 500ms, cap 8s, full
+  jitter, max 5 attempts): rate-limit shape of our upstream is the
+  closest match, and copying a battle-tested set of numbers beats
+  hand-tuning from scratch.
+- Caller supplies isRetryable predicate, helper does not inspect
+  errors itself: keeps the helper generic and pushes the
+  HTTP-status-vs-network-error judgement to the layer that actually
+  knows what kind of call it just made.
+- Record rejected alternatives (linear, fixed delay, exponential
+  without jitter) in this commit body so the next session can see
+  why they were ruled out without re-doing the reading.
+
+## Files touched
+- src/api/client.ts: new file. Adds the retryWithBackoff<T> helper
+  plus a fullJitter(attempt) private function and the BASE_MS /
+  CAP_MS / MAX_ATTEMPTS constants. ~30 lines. Header comment
+  explains the parameter choice and which SDK it was copied from.
+- .claude/settings.json: new file. SessionStart hook so future
+  Claude sessions read the last 5 commit bodies on startup and pick
+  up context without needing the user to re-explain anything.
+
+## State
+- Done: retryWithBackoff helper implemented and exported from
+  src/api/client.ts with the chosen parameters.
+- In progress: nothing — the helper compiles standalone, but no
+  caller is wired to it yet.
+- Blocked: nothing. Next session can start wiring real API calls
+  through retryWithBackoff with whatever isRetryable predicate
+  fits the upstream's error shape.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+

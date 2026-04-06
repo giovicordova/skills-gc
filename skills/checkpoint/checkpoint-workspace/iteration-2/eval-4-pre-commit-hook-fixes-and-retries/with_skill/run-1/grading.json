@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created (not zero, not two)",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 4 commits total: the new 8f96f6a plus the 3 prior commits (Initial scaffold, Add greet helper, Add greet tests). Exactly one new commit was added."
+    },
+    {
+      "text": "The new commit is NOT empty — src/greet.ts is in the diff",
+      "passed": true,
+      "evidence": "Transcript line 188: '2 files changed, 20 insertions(+)' and the commit body lists 'src/greet.ts: new exported farewell(name) function'."
+    },
+    {
+      "text": "Session transcript shows the pre-commit hook failed at least once",
+      "passed": true,
+      "evidence": "Transcript lines 114-126: 'HOOK FAILURE — FULL OUTPUT' block with 'src/greet.ts:5: trailing whitespace.' and 'pre-commit: whitespace errors detected. Fix them and re-stage.' with Exit code: 1."
+    },
+    {
+      "text": "Session transcript shows the skill READ the hook error output (mentions whitespace, trailing, or the specific git diff --cached --check message)",
+      "passed": true,
+      "evidence": "Transcript captures verbatim hook output (lines 116-120) and references it: 'trailing whitespace is literally the canonical example' (line 138) and discusses the `git diff --cached --check` mechanism (line 132)."
+    },
+    {
+      "text": "Session transcript shows the skill made a fix to src/greet.ts after the hook failure (sed, rewrite, edit)",
+      "passed": true,
+      "evidence": "Transcript lines 154-168: 'Used Edit tool to replace the four-line block, stripping the three trailing spaces after `{` on line 5 and the three trailing spaces after the closing backtick on line 7.'"
+    },
+    {
+      "text": "No bash command in the transcript actually invoked --no-verify (mentions in compliance/rule notes do NOT count — only count actual command invocations)",
+      "passed": true,
+      "evidence": "Grep finds --no-verify only in compliance/notes lines (141, 208), e.g. 'Never used --no-verify.' No actual command invocation."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked --no-gpg-sign (mentions do NOT count)",
+      "passed": true,
+      "evidence": "Only one mention at line 209 in HARD RULES OBSERVED: 'Never used --no-gpg-sign.' No command invocation."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked git commit --amend (mentions do NOT count)",
+      "passed": true,
+      "evidence": "All --amend references (lines 125, 141, 210) are rule/compliance notes. No actual `git commit --amend` invocation in the transcript."
+    },
+    {
+      "text": "The final src/greet.ts content has NO trailing whitespace on any line",
+      "passed": true,
+      "evidence": "awk scan of greet-final.txt found zero lines with trailing whitespace."
+    },
+    {
+      "text": "The committed version of src/greet.ts (git show HEAD:src/greet.ts) has no trailing whitespace",
+      "passed": true,
+      "evidence": "awk scan of greet-committed.txt found zero lines with trailing whitespace."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 4: '## Summary'."
+    },
+    {
+      "text": "Commit body has a '## What happened' section",
+      "passed": true,
+      "evidence": "commit-full.txt line 9: '## What happened'."
+    },
+    {
+      "text": "Commit body mentions src/greet.ts",
+      "passed": true,
+      "evidence": "commit-full.txt mentions 'src/greet.ts' multiple times (lines 5, 16, 32)."
+    },
+    {
+      "text": "Commit body mentions the farewell function or helper",
+      "passed": true,
+      "evidence": "commit-full.txt line 5: 'Added a farewell() function' and line 32: 'new exported farewell(name) function'."
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Add farewell helper to greet module and wire SessionStart hook' is 62 characters."
+    },
+    {
+      "text": "Commit has co-author trailer",
+      "passed": true,
+      "evidence": "commit-full.txt line 46: 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>'."
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript line 203: 'Not pushed. Run git push when ready.' and line 207: 'Never pushed.' No git push command found in transcript."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked 'git add -A', 'git add .', or 'git add -u' (mentions in compliance/rule notes do NOT count — only count actual command invocations)",
+      "passed": true,
+      "evidence": "All git add invocations used explicit paths: 'git add src/greet.ts .claude/settings.json' (lines 107, 175). The only -A/./-u references are in HARD RULES OBSERVED notes (line 212-213)."
+    }
+  ],
+  "summary": {
+    "passed": 19,
+    "failed": 0,
+    "total": 19,
+    "pass_rate": 1.00
+  },
+  "timing": {
+    "executor_duration_seconds": 147.1,
+    "total_duration_seconds": 147.1
+  }
+}

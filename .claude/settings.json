@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cat logs/SUMMARY.md 2>/dev/null || true"
+            "command": "git log -5 --format='%h %ad%n%s%n%n%b%n---' --date=short 2>/dev/null || true"
           }
         ]
       }

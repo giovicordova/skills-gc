@@ -1,0 +1,4 @@
+dba54cb Wire db config into app bootstrap and block .env from git
+1c51393 Wire database adapter
+98cb70f Add config loader
+e68c30d Initial app skeleton

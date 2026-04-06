@@ -1,4 +1,0 @@
-4a8687a Add Postgres pool config and ignore local env files
-813e5aa Scaffold routes directory
-b2c6117 Add Express server boilerplate
-47269d6 Initial project skeleton

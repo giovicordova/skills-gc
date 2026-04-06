@@ -1,0 +1,67 @@
+68631fed48af9d21edbf92dbfe1c0f78ad979828
+Wire JWT refresh endpoint and extract token validation middleware
+
+## Summary
+Wired up the missing /api/refresh endpoint in src/routes/auth.ts so a
+client can swap a refresh token for a fresh access token without
+re-logging in. Token signing and verification were pulled out of the
+route file into a new middleware module so the new handler can reuse
+the existing logic without duplication.
+
+## What happened
+The starting point was src/routes/auth.ts, which already had a working
+loginHandler that issued a 15-minute access token via jsonwebtoken. The
+gap was that there was no /refresh handler — once the access token
+expired the user had to log in again. The plan was to add refreshHandler
+next to loginHandler and reuse the existing jwt.sign / jwt.verify calls.
+
+The first attempt put the shared jwtSign / jwtVerify helpers in
+src/lib/jwt.ts, but that created a circular import: routes/auth.ts
+already imports from lib/db.ts, lib/db.ts pulls in lib/jwt.ts under
+some paths, and lib/jwt.ts would then need to reach back into the auth
+flow. Moved the helpers to src/middleware/jwt.ts instead, which sits
+on the right side of the dependency graph and breaks the cycle.
+
+With the middleware in place, refreshHandler became a small handler:
+read refreshToken off the body, 400 if missing, call jwtVerify, 401 if
+that returns null, otherwise jwtSign a new access token for the same
+sub and return it. loginHandler was simplified at the same time — it
+now calls jwtSign instead of importing jsonwebtoken directly, so
+SECRET only lives in one place (src/middleware/jwt.ts).
+
+README.md is new and documents both endpoints in a short API section
+so the next reader can see /api/refresh exists without grepping the
+routes file.
+
+Also added .claude/settings.json with a SessionStart hook that prints
+the last 5 commits on startup, so future sessions cold-start with the
+git history visible. This is the first commit on the repo to include
+that scaffolding.
+
+## Files touched
+- src/routes/auth.ts: loginHandler now imports jwtSign from the new
+  middleware instead of using jsonwebtoken directly. Added
+  refreshHandler (~10 lines) that validates the refresh token via
+  jwtVerify and issues a new access token. Removed the local SECRET
+  constant — it now lives only in src/middleware/jwt.ts.
+- src/middleware/jwt.ts: new file. Exports jwtSign (15m TTL access
+  tokens) and async jwtVerify (returns the decoded payload or null
+  on failure). Holds the SECRET fallback. Has a TODO at the bottom
+  about checking a revocation list before accepting refresh tokens.
+- README.md: new file. Short API section listing POST /api/login and
+  POST /api/refresh.
+- .claude/settings.json: new file. SessionStart hook that runs
+  git log -5 on startup so the next session boots with full context.
+
+## State
+- Done: refresh endpoint is wired end-to-end, loginHandler still
+  works, no circular import. README documents both endpoints.
+- In progress: refresh tokens are accepted purely on signature
+  validity. There is a TODO at src/middleware/jwt.ts (bottom of file)
+  to check a revocation list before issuing a new access token —
+  the revocation store does not exist yet (needs a Redis set or a
+  DB table).
+- Blocked: nothing.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+

@@ -1,0 +1,109 @@
+{
+  "expectations": [
+    {
+      "text": "Exactly one new commit was created (commit count = starting count + 1)",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 5 commits total: starting state had 4 (bed71d3, b8df0b3, 14d68ab, 373031f) and one new commit 3d0fb1e was added."
+    },
+    {
+      "text": "The new commit is NOT empty — it has a non-zero diff",
+      "passed": true,
+      "evidence": "Transcript: '[main 3d0fb1e] Add JWT refresh endpoint and extract token helpers / 3 files changed, 35 insertions(+), 3 deletions(-)'"
+    },
+    {
+      "text": "Commit subject is 72 characters or fewer",
+      "passed": true,
+      "evidence": "Subject 'Add JWT refresh endpoint and extract token helpers' is 50 characters."
+    },
+    {
+      "text": "Commit subject begins with an imperative verb (Add, Wire, Extract, Refactor, Implement, etc.)",
+      "passed": true,
+      "evidence": "Subject begins with 'Add': 'Add JWT refresh endpoint and extract token helpers'."
+    },
+    {
+      "text": "Commit subject has no trailing period",
+      "passed": true,
+      "evidence": "Subject ends with 'helpers' — no trailing period."
+    },
+    {
+      "text": "Commit body has a '## Summary' section",
+      "passed": false,
+      "evidence": "commit-full.txt body contains only bullet points ('- Add POST /refresh handler...'); no '## Summary' header is present."
+    },
+    {
+      "text": "Commit body has a '## What happened' section with multiple sentences (not a single line)",
+      "passed": false,
+      "evidence": "No '## What happened' header exists in commit-full.txt body."
+    },
+    {
+      "text": "Commit body has a '## Files touched' section listing changed files",
+      "passed": false,
+      "evidence": "No '## Files touched' header exists in commit-full.txt body."
+    },
+    {
+      "text": "Commit body mentions all three modified paths: src/routes/auth.ts, src/middleware/jwt.ts, README.md",
+      "passed": true,
+      "evidence": "Body mentions all three: 'POST /refresh handler in src/routes/auth.ts', 'Move jwtSign/jwtVerify into src/middleware/jwt.ts', 'Document both /login and /refresh in README.md'."
+    },
+    {
+      "text": "Commit body mentions JWT or refresh endpoint in the narrative",
+      "passed": true,
+      "evidence": "Body: 'Add POST /refresh handler in src/routes/auth.ts that validates a refresh token and issues a new 15m access token.'"
+    },
+    {
+      "text": "Commit body explains WHY the middleware was extracted (mentions circular import or similar reasoning carried from the user's message)",
+      "passed": true,
+      "evidence": "Body: 'Move jwtSign/jwtVerify into src/middleware/jwt.ts to avoid a circular import between routes/auth.ts and lib/db.'"
+    },
+    {
+      "text": "Commit body total length is at least 400 characters (rich narrative, not a one-liner)",
+      "passed": false,
+      "evidence": "Body length is approximately 342 characters (4 bullet points only), under the 400-character minimum."
+    },
+    {
+      "text": "Commit has 'Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>' trailer matching repo style",
+      "passed": false,
+      "evidence": "commit-full.txt contains no Co-Authored-By trailer. Transcript explicitly states: 'No Co-Authored-By trailer was added because (a) the user did not ask for a commit with a trailer...'"
+    },
+    {
+      "text": "All three changed files are in the new commit",
+      "passed": true,
+      "evidence": "Transcript: '3 files changed, 35 insertions(+), 3 deletions(-) / create mode 100644 README.md / create mode 100644 src/middleware/jwt.ts' plus modified src/routes/auth.ts."
+    },
+    {
+      "text": "Working tree is clean after the commit",
+      "passed": true,
+      "evidence": "git-status.txt: 'On branch main / nothing to commit, working tree clean'."
+    },
+    {
+      "text": "No push occurred",
+      "passed": true,
+      "evidence": "Transcript explicitly: 'Did NOT push. User didn't ask; per git safety rules I don't push without explicit instruction.' No 'git push' command appears in the transcript."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked 'git add -A', 'git add .', or 'git add -u' (mentions in compliance/rule notes do NOT count — only count actual command invocations like a bash tool call running that exact command)",
+      "passed": true,
+      "evidence": "Only staging command in transcript: 'git add src/routes/auth.ts src/middleware/jwt.ts README.md' — explicit paths, no -A/./-u flag."
+    },
+    {
+      "text": "No bash command in the transcript actually invoked --no-verify, --no-gpg-sign, or git commit --amend (mentions in compliance/rule notes do NOT count — only count actual command invocations)",
+      "passed": true,
+      "evidence": "No --no-verify, --no-gpg-sign, or --amend in any executed commands. Commit was 'git commit -m \"$(cat <<'EOF' ... EOF)\"'."
+    },
+    {
+      "text": "No logs/ directory was created (this skill doesn't write parallel JSON files)",
+      "passed": true,
+      "evidence": "Transcript shows only outputs/ directory writes (commit-full.txt, git-log-oneline.txt, git-status.txt, session-transcript.txt). No logs/ directory was mkdir'd or written to."
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 5,
+    "total": 19,
+    "pass_rate": 0.74
+  },
+  "timing": {
+    "executor_duration_seconds": 104.2,
+    "total_duration_seconds": 104.2
+  }
+}
