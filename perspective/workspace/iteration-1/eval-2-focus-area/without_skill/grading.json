@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "A perspective report markdown file exists in the outputs directory",
+      "passed": true,
+      "evidence": "response.md exists in outputs/ (4708 bytes). Contains a full state management assessment with verdict, analysis, decision framework, and checklist."
+    },
+    {
+      "text": "Report is narrowed to state management — does not broadly audit unrelated areas like deployment, testing, or styling",
+      "passed": true,
+      "evidence": "The entire report focuses exclusively on Redux Toolkit, React Context, and useState. No mention of deployment, testing pipelines, CI/CD, styling, performance, accessibility, or any other unrelated concern."
+    },
+    {
+      "text": "Report evaluates the coherency of using Redux Toolkit + React Context + useState together — identifies whether responsibilities overlap or are well-separated",
+      "passed": true,
+      "evidence": "Verdict section states 'The pattern is coherent.' 'Why This Works' table maps each tool to its scope. 'Where Overlap Actually Creeps In' section identifies 4 specific overlap risks: (1) auth state in both Context and Redux, (2) form state leaking into Redux, (3) theme/UI state fragmenting, (4) derived state duplication."
+    },
+    {
+      "text": "Report references current React or Redux Toolkit documentation (via Context7 or web search) for recommended state management patterns",
+      "passed": false,
+      "evidence": "The report claims 'The React team, Redux maintainers (Mark Erikson specifically), and the Redux Toolkit documentation all explicitly recommend this exact combination' but provides no URLs, no linked sources, and no evidence of Context7 or web search usage. The transcript confirms the analysis 'drew on established React ecosystem conventions' — i.e., training data, not verified current documentation. No tool calls to Context7 or web search appear in the transcript."
+    },
+    {
+      "text": "Report contains a clear recommendation on whether to consolidate, keep the current split, or restructure — using one of: Stay the course, Adjust, Pivot, or Adopt",
+      "passed": false,
+      "evidence": "The report recommends keeping the current pattern ('Your architecture is standard and correct'), which is a clear recommendation. However, it does not use any of the required labels: 'Stay the course', 'Adjust', 'Pivot', or 'Adopt'. The expectation explicitly requires one of these terms and none appears in the output."
+    },
+    {
+      "text": "Report contains checkbox action items specifically about state management improvements (not generic advice)",
+      "passed": true,
+      "evidence": "The 'Quick Audit Checklist' section contains 6 markdown checkboxes: (1) No Redux slice stores form input values, (2) Auth Context and Redux user slice do not store overlapping fields, (3) No component reads same data from useSelector and useContext, (4) Theme Context does not contain business logic, (5) No useState holds data multiple siblings need, (6) Redux selectors use createSelector for derived values. All are state-management-specific and actionable."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "pass_rate": 0.67
+  },
+  "execution_metrics": {
+    "output_chars": 4708,
+    "transcript_chars": 1931
+  },
+  "timing": {
+    "executor_duration_seconds": 64.3,
+    "total_duration_seconds": 64.3
+  },
+  "claims": [
+    {
+      "claim": "The React team, Redux maintainers (Mark Erikson specifically), and the Redux Toolkit documentation all explicitly recommend this exact combination",
+      "type": "factual",
+      "verified": false,
+      "evidence": "No documentation was fetched or cited. This claim is plausible based on general knowledge of the ecosystem, but the report presents it as verified fact without providing sources. Mark Erikson has indeed written extensively about this pattern, but the report does not link to any specific post or doc page."
+    },
+    {
+      "claim": "No codebase was provided, so this was treated as a general architecture assessment question",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript confirms this. The output is a general assessment with no codebase-specific analysis, consistent with the claim."
+    },
+    {
+      "claim": "Auth state duplication is the most common violation",
+      "type": "quality",
+      "verified": false,
+      "evidence": "The report asserts 'This is the most common violation' about auth state living in both Context and Redux. No data or source supports this ranking — it may be correct based on practitioner experience but is presented as established fact without evidence."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "A perspective report markdown file exists in the outputs directory",
+        "reason": "Checks file existence but not whether the file is specifically named as a 'perspective report.' The output is called response.md — any markdown file in outputs/ would pass. Consider checking for a specific filename pattern or for structural markers that distinguish a perspective report from a generic response."
+      },
+      {
+        "assertion": "Report references current React or Redux Toolkit documentation (via Context7 or web search) for recommended state management patterns",
+        "reason": "Good discriminating assertion — it correctly caught that the executor relied on training data rather than verifying against current docs. However, it could be strengthened by specifying what counts as a valid reference (e.g., 'contains at least one URL to official React or Redux Toolkit documentation')."
+      },
+      {
+        "reason": "No assertion checks whether the report addresses the specific codebase or project in question versus producing generic advice. This run produced a purely theoretical assessment ('No codebase was provided') — if the eval intended codebase-specific analysis, an assertion should verify references to actual files, components, or code patterns from the target project."
+      }
+    ],
+    "overall": "The assertions are well-targeted at the focus-area constraint. The two failures are genuine — the executor skipped documentation lookup and did not use the required recommendation labels. The main gap is that nothing distinguishes a codebase-specific perspective report from a generic architecture essay, which is what this run produced."
+  }
+}

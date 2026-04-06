@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+      "passed": true,
+      "evidence": "Contradiction #1: 'expires_in: 3600 (1 hour)' vs 'Token is valid for 24 hours'"
+    },
+    {
+      "text": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+      "passed": true,
+      "evidence": "Contradiction #2: 'Soft-deletes the user account with 30-day recovery window' vs 'permanent and immediate, cannot be undone'"
+    },
+    {
+      "text": "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+      "passed": true,
+      "evidence": "Contradiction #6: '5 attempts per minute' vs 'max 10 per minute'"
+    },
+    {
+      "text": "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+      "passed": false,
+      "evidence": "Not found in report. The 7 contradictions cover token expiry, deletion behaviour, recovery window, pagination (x2), rate limit, and colour field — but the free-tier project limit (10 vs unlimited) was missed."
+    },
+    {
+      "text": "Report uses the changelog to inform which contradictions have a clear resolution",
+      "passed": true,
+      "evidence": "Detailed analysis for each contradiction references changelog versions. E.g., #3: 'The API spec appears to reflect the v2.2.0 state and was not updated when v2.3.0 shortened the window to 14 days.' Resolution section notes changelog as authority."
+    },
+    {
+      "text": "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+      "passed": true,
+      "evidence": "Contradiction #7: 'Colour must be a valid hex code' vs 'accepts any CSS color value'. Also identifies colour/color spelling as terminology drift."
+    },
+    {
+      "text": "Each finding includes specific file references and quoted values",
+      "passed": true,
+      "evidence": "Every contradiction in the table includes file name, section reference, and quoted values"
+    },
+    {
+      "text": "After the report, the skill offers to resolve contradictions interactively",
+      "passed": true,
+      "evidence": "Full Resolution section walks through all 7 contradictions with Option A/B, recommends likely source of truth, asks 'Which should we go with?'"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "expectations": [
+    {"text": "Report confirms no contradictions were found", "passed": true, "evidence": "'0 contradictions' in header. 'No contradictions. No terminology drift. No stale references.'"},
+    {"text": "Report does NOT fabricate issues that don't exist in the documents", "passed": true, "evidence": "Two overlaps flagged are genuine (preset underselling, mobile responsiveness). No fabricated contradictions."},
+    {"text": "Report lists the files that were checked", "passed": true, "evidence": "Header: 'Metronome — VISION.md, SPEC.md, ROADMAP.md'"},
+    {"text": "Report is concise — does not pad a clean result with unnecessary detail", "passed": true, "evidence": "Concise opening paragraph, 2 overlaps, 2 notes. Summary is 2 sentences. Proportionate to findings."}
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0}
+}

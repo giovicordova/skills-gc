@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the Node.js version contradiction (18 vs 20)",
+      "passed": true,
+      "evidence": "Item #2: 'Node.js 18' vs 'Node.js 20' vs 'Node.js 18+'"
+    },
+    {
+      "text": "Report identifies the framework contradiction (Express vs Fastify)",
+      "passed": true,
+      "evidence": "Item #3: 'Express' vs 'Fastify'"
+    },
+    {
+      "text": "Report identifies the authentication method contradiction (JWT vs session-based)",
+      "passed": true,
+      "evidence": "Item #5: 'JWT with Bearer token, 24-hour token expiry' vs 'Session-based authentication with 8-hour session duration; API key via X-API-Key header'"
+    },
+    {
+      "text": "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+      "passed": true,
+      "evidence": "Item #6 identifies all three: open/in_progress/review/done, todo/doing/review/complete, open/in_progress/done"
+    },
+    {
+      "text": "Report identifies the rate limit contradiction (100/min vs 60/min)",
+      "passed": true,
+      "evidence": "Item #7: '100 requests/min per user' vs '60 requests/min per API key'"
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (AWS vs GCP)",
+      "passed": true,
+      "evidence": "Item #8: 'AWS ECS Fargate + Terraform + infrastructure/' vs 'Google Cloud Run + Pulumi + deploy/'"
+    },
+    {
+      "text": "Each contradiction includes specific file names and quoted values",
+      "passed": true,
+      "evidence": "Each item has a table with Document and Claim columns showing exact values"
+    },
+    {
+      "text": "Report assigns severity levels to contradictions",
+      "passed": true,
+      "evidence": "Summary table has severity column: High, Medium, Low"
+    },
+    {
+      "text": "After the report, the skill offers to walk through resolution of each contradiction",
+      "passed": false,
+      "evidence": "No interactive resolution offered. Report ends with a summary and observation that SPEC.md is the outlier, but does not walk through each contradiction or ask the user to choose."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.89
+  }
+}

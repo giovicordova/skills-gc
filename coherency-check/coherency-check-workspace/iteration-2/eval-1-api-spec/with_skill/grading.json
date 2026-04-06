@@ -1,0 +1,13 @@
+{
+  "expectations": [
+    {"text": "Report identifies the token expiry contradiction (1 hour vs 24 hours)", "passed": true, "evidence": "Contradiction #1: expires_in: 3600 (1 hour) vs 'Token is valid for 24 hours'"},
+    {"text": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)", "passed": true, "evidence": "Contradiction #2: soft-delete with 30-day vs permanent/immediate"},
+    {"text": "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)", "passed": true, "evidence": "Contradiction #4: 5 attempts per minute vs max 10 per minute"},
+    {"text": "Report identifies the project limit contradiction (10 free-tier vs unlimited)", "passed": true, "evidence": "Contradiction #6: 'Max 10 projects per free-tier user' vs 'Free tier: unlimited projects'"},
+    {"text": "Report uses the changelog to inform which contradictions have a clear resolution", "passed": true, "evidence": "Dedicated 'Temporal resolution using the changelog' section resolves 4/7 contradictions with version references. Notes 2 remain ambiguous (no changelog entry)."},
+    {"text": "Report identifies the colour/color format contradiction (hex-only vs any CSS value)", "passed": true, "evidence": "Contradiction #7: hex codes only vs any CSS color value. Changelog confirms hex-only is current."},
+    {"text": "Each finding includes specific file references and quoted values", "passed": true, "evidence": "Table with file:section and exact quotes for all 7 contradictions"},
+    {"text": "After the report, the skill offers to resolve contradictions interactively", "passed": true, "evidence": "Full resolution section: 7 contradictions with Option A/B/C, recommendations, and 'Which is correct?'"}
+  ],
+  "summary": {"passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0}
+}

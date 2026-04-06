@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Report confirms no contradictions were found",
+      "passed": true,
+      "evidence": "Report says 'No contradictions found.' Verdict: 'The three documents are well-aligned.'"
+    },
+    {
+      "text": "Report does NOT fabricate issues that don't exist in the documents",
+      "passed": true,
+      "evidence": "Flagged items (numerator range vagueness, first-beat accent rule) are genuine edge cases found in the documents, not fabrications."
+    },
+    {
+      "text": "Report lists the files that were checked",
+      "passed": true,
+      "evidence": "Title includes 'VISION / SPEC / ROADMAP'. Consistency matrix shows all three files."
+    },
+    {
+      "text": "Report is concise — does not pad a clean result with unnecessary detail",
+      "passed": true,
+      "evidence": "Report is structured and ends with a 2-item summary. 5 findings are listed but 3 are explicitly marked as 'None/expected' severity."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

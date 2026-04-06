@@ -1,0 +1,187 @@
+{
+  "metadata": {
+    "skill_name": "coherency-check",
+    "skill_path": "/Users/giovannicordova/Documents/02_projects/skills-gc/coherency-check",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-04-04T14:05:00Z",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "eval_name": "Project Docs (heavy contradictions)",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 182.7,
+        "tokens": 26605,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report identifies the Node.js version contradiction (18 vs 20)", "passed": true, "evidence": "Contradiction #1"},
+        {"text": "Report identifies the framework contradiction (Express vs Fastify)", "passed": true, "evidence": "Contradiction #1"},
+        {"text": "Report identifies the authentication method contradiction (JWT vs session-based)", "passed": true, "evidence": "Contradiction #4"},
+        {"text": "Report identifies the task status values contradiction", "passed": true, "evidence": "Contradiction #3 and #3a"},
+        {"text": "Report identifies the rate limit contradiction (100/min vs 60/min)", "passed": true, "evidence": "Contradiction #5"},
+        {"text": "Report identifies the deployment target contradiction (AWS vs GCP)", "passed": true, "evidence": "Contradiction #6"},
+        {"text": "Each contradiction includes specific file names and quoted values", "passed": true, "evidence": "Table format with file:section and quoted values"},
+        {"text": "Report assigns severity levels to contradictions", "passed": true, "evidence": "High/Medium/Low severity in table"},
+        {"text": "After the report, the skill offers to walk through resolution", "passed": true, "evidence": "7 numbered contradictions with Option A/B"}
+      ]
+    },
+    {
+      "eval_id": 0,
+      "eval_name": "Project Docs (heavy contradictions)",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.89,
+        "passed": 8,
+        "failed": 1,
+        "total": 9,
+        "time_seconds": 172.4,
+        "tokens": 23643,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report identifies the Node.js version contradiction (18 vs 20)", "passed": true, "evidence": "Item #2"},
+        {"text": "Report identifies the framework contradiction (Express vs Fastify)", "passed": true, "evidence": "Item #3"},
+        {"text": "Report identifies the authentication method contradiction (JWT vs session-based)", "passed": true, "evidence": "Item #5"},
+        {"text": "Report identifies the task status values contradiction", "passed": true, "evidence": "Item #6"},
+        {"text": "Report identifies the rate limit contradiction (100/min vs 60/min)", "passed": true, "evidence": "Item #7"},
+        {"text": "Report identifies the deployment target contradiction (AWS vs GCP)", "passed": true, "evidence": "Item #8"},
+        {"text": "Each contradiction includes specific file names and quoted values", "passed": true, "evidence": "Tables with Document and Claim columns"},
+        {"text": "Report assigns severity levels to contradictions", "passed": true, "evidence": "Summary table has severity"},
+        {"text": "After the report, the skill offers to walk through resolution", "passed": false, "evidence": "No interactive resolution. Ends with observation but no user prompts."}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "API Spec Drift (changelog-aware)",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.875,
+        "passed": 7,
+        "failed": 1,
+        "total": 8,
+        "time_seconds": 175.2,
+        "tokens": 26977,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report identifies the token expiry contradiction (1h vs 24h)", "passed": true, "evidence": "Contradiction #1"},
+        {"text": "Report identifies the account deletion behaviour contradiction", "passed": true, "evidence": "Contradiction #2"},
+        {"text": "Report identifies the login rate limit contradiction (5 vs 10)", "passed": true, "evidence": "Contradiction #6"},
+        {"text": "Report identifies the project limit contradiction (10 vs unlimited)", "passed": false, "evidence": "Not found in report — missed this contradiction"},
+        {"text": "Report uses the changelog to inform resolutions", "passed": true, "evidence": "Detailed changelog version references throughout"},
+        {"text": "Report identifies the colour format contradiction (hex vs CSS)", "passed": true, "evidence": "Contradiction #7"},
+        {"text": "Each finding includes specific file references and quoted values", "passed": true, "evidence": "Table with file:section and quotes"},
+        {"text": "After the report, the skill offers to resolve interactively", "passed": true, "evidence": "Full resolution walkthrough with options"}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "API Spec Drift (changelog-aware)",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.875,
+        "passed": 7,
+        "failed": 1,
+        "total": 8,
+        "time_seconds": 158.2,
+        "tokens": 23662,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report identifies the token expiry contradiction (1h vs 24h)", "passed": true, "evidence": "Item #1"},
+        {"text": "Report identifies the account deletion behaviour contradiction", "passed": true, "evidence": "Item #2 — three-way conflict"},
+        {"text": "Report identifies the login rate limit contradiction (5 vs 10)", "passed": true, "evidence": "Item #7"},
+        {"text": "Report identifies the project limit contradiction (10 vs unlimited)", "passed": true, "evidence": "Item #6 — notes no changelog entry"},
+        {"text": "Report uses the changelog to inform resolutions", "passed": true, "evidence": "Summary identifies stale documents using changelog"},
+        {"text": "Report identifies the colour format contradiction (hex vs CSS)", "passed": true, "evidence": "Item #5"},
+        {"text": "Each finding includes specific file references and quoted values", "passed": true, "evidence": "Tables with exact values"},
+        {"text": "After the report, the skill offers to resolve interactively", "passed": false, "evidence": "No interactive resolution. Summary only."}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Clean Docs (no contradictions)",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 168.0,
+        "tokens": 26325,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report confirms no contradictions were found", "passed": true, "evidence": "'No contradictions found.'"},
+        {"text": "Report does NOT fabricate issues", "passed": true, "evidence": "Observations are genuine gaps, not fabricated contradictions"},
+        {"text": "Report lists the files that were checked", "passed": true, "evidence": "Header lists all 3 files, consistency matrix included"},
+        {"text": "Report is concise for a clean result", "passed": true, "evidence": "Proportionate detail for 2 genuine observations"}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Clean Docs (no contradictions)",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 146.4,
+        "tokens": 22998,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Report confirms no contradictions were found", "passed": true, "evidence": "'No contradictions found.'"},
+        {"text": "Report does NOT fabricate issues", "passed": true, "evidence": "Flagged items are genuine edge cases"},
+        {"text": "Report lists the files that were checked", "passed": true, "evidence": "Title and matrix list all 3"},
+        {"text": "Report is concise for a clean result", "passed": true, "evidence": "Structured, ends with 2-item summary"}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 0.958, "stddev": 0.059, "min": 0.875, "max": 1.0},
+      "time_seconds": {"mean": 175.3, "stddev": 6.0, "min": 168.0, "max": 182.7},
+      "tokens": {"mean": 26636, "stddev": 266, "min": 26325, "max": 26977}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.922, "stddev": 0.053, "min": 0.875, "max": 1.0},
+      "time_seconds": {"mean": 159.0, "stddev": 10.7, "min": 146.4, "max": 172.4},
+      "tokens": {"mean": 23434, "stddev": 275, "min": 22998, "max": 23662}
+    },
+    "delta": {
+      "pass_rate": "+0.036",
+      "time_seconds": "+16.3",
+      "tokens": "+3202"
+    }
+  },
+  "notes": [
+    "The skill's main advantage is the interactive resolution workflow (Step 5) — both baselines missed this entirely, while all 3 with-skill runs included it",
+    "Detection of contradictions is comparable: Claude catches most issues without the skill. The skill missed the free-tier project limit in eval 1.",
+    "The skill adds ~16s and ~3.2k tokens compared to baseline — modest overhead for structured output and resolution workflow",
+    "Clean docs test (eval 2) shows no difference: both configurations correctly report no contradictions and avoid fabrication",
+    "The skill's structured table format (with severity) is more consistent than the baseline's varying formats"
+  ]
+}

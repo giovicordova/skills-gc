@@ -1,0 +1,103 @@
+{
+  "expectations": [
+    {
+      "text": "No perspective report file was created — the response is inline only (quick mode should not produce file output)",
+      "passed": true,
+      "evidence": "The outputs directory contains only response.md and transcript.md, both of which are harness-captured artifacts (the inline response and the execution log). No separate perspective report file (e.g. perspective-report.md or similar) was written to the project directory. The response.md appears to be the harness's capture of the inline reply, not a file the agent explicitly created on disk."
+    },
+    {
+      "text": "Response contains a summary of the current auth approach (passport.js, local strategy, JWT in localStorage)",
+      "passed": true,
+      "evidence": "The response title is 'Passport.js + JWT in localStorage: Still Recommended?' and discusses both components throughout. The transcript task statement references 'Passport.js with local strategy and JWT stored in localStorage'. The response covers 'JWT in localStorage is a known security risk' and 'Passport.js has maintenance concerns' as two distinct problems. However, the local strategy is not explicitly mentioned in the response body — only passport.js and JWT in localStorage are discussed."
+    },
+    {
+      "text": "Response mentions at least one modern alternative to passport.js (e.g. better-auth, lucia, arctic, Auth.js/NextAuth)",
+      "passed": true,
+      "evidence": "The response lists four alternatives in a table: Better Auth ('Full-stack TypeScript apps'), Auth.js ('formerly NextAuth'), Arctic + Oslo ('Lightweight OAuth 2.0'), and managed services (Auth0, WorkOS, Firebase Auth)."
+    },
+    {
+      "text": "Response flags the security concern of storing JWT in localStorage (XSS vulnerability) and recommends httpOnly cookies or a more secure alternative",
+      "passed": true,
+      "evidence": "Response states: 'localStorage is fully accessible to any JavaScript running on your page. If an attacker injects a malicious script (XSS attack), they can read the token and impersonate the user.' It recommends three alternatives ranked by security: BFF pattern (best), Memory + HttpOnly cookie (good), and HttpOnly cookie only (acceptable)."
+    },
+    {
+      "text": "Transcript shows the agent consulted live documentation (Context7 or web search) rather than relying solely on training data",
+      "passed": true,
+      "evidence": "Transcript documents 6 web search queries across Steps 1-6, including 'JWT localStorage security risks 2025 2026 authentication best practices', 'passport.js alternatives 2025 2026', 'httponly cookie vs localStorage JWT token security 2025', 'passport.js maintenance status 2025 2026', 'BFF pattern backend for frontend authentication SPA 2025', and 'better-auth arctic oslo auth node.js 2025 2026'. The response also includes 11 source URLs. No Context7 usage was observed — research was entirely via web search."
+    },
+    {
+      "text": "Response is concise and conversational — uses bold text at most, not full report-style headers or a multi-section document",
+      "passed": false,
+      "evidence": "The response is a 61-line structured document with a title heading ('# Passport.js + JWT in localStorage: Still Recommended?'), four level-2 headers ('## Problem 1', '## Problem 2', '## Recommended path forward', '## Sources'), three tables, horizontal rules (---), and 11 source citations. This is a full report-style document, not a concise conversational reply. Quick mode expects an inline answer with bold text at most — this output reads like a polished technical article."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 1,
+    "total": 6,
+    "pass_rate": 0.83
+  },
+  "execution_metrics": {
+    "output_chars": 4685,
+    "transcript_chars": 2768
+  },
+  "timing": {
+    "total_tokens": 23690,
+    "total_duration_seconds": 99.5
+  },
+  "claims": [
+    {
+      "claim": "Passport.js has 300+ open issues on GitHub",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from available outputs. The response and transcript both state this, and a source link to GitHub Issue #748 is provided, but actual issue counts were not captured in the outputs."
+    },
+    {
+      "claim": "Passport.js has 22,000+ GitHub stars",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Stated in response but not verifiable from available outputs. No raw search results were captured."
+    },
+    {
+      "claim": "A long-running discussion about Passport.js's future (Issue #748) has been open since 2021",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Link provided (https://github.com/jaredhanson/passport/issues/748) but the issue content was not captured in outputs. Plausible but unverifiable."
+    },
+    {
+      "claim": "BFF pattern is the emerging industry standard for SPA auth",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Transcript Step 5 confirms this was found via web search ('The BFF pattern is the emerging industry standard for SPA auth'). Multiple sources cited (Auth0, FusionAuth blogs)."
+    },
+    {
+      "claim": "6 web searches were conducted",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript documents Steps 1 through 6, each with a distinct search query and key finding."
+    },
+    {
+      "claim": "Better Auth is actively developed and TypeScript-first",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Stated in both transcript and response. A link to better-auth.com is provided but the site content was not captured in outputs."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "No perspective report file was created — the response is inline only (quick mode should not produce file output)",
+        "reason": "This assertion is ambiguous when the eval harness captures the inline response as response.md. It's impossible to distinguish 'agent wrote a file to disk' from 'harness saved the inline reply' without checking the transcript for explicit file-write tool calls. Consider tightening to: 'Transcript shows no Write/Bash file-creation tool calls for a report file.'"
+      },
+      {
+        "assertion": "Response contains a summary of the current auth approach (passport.js, local strategy, JWT in localStorage)",
+        "reason": "The response never actually mentions 'local strategy' — only passport.js and JWT in localStorage. The assertion passed because the transcript task description mentions local strategy, and the response implicitly covers the topic. If the intent is to verify the agent identified all three components, this should be stricter."
+      },
+      {
+        "reason": "No assertion checks whether the response is factually accurate. The response makes specific claims (300+ open issues, 22,000+ stars, Issue #748 from 2021) that could be wrong. A verification assertion — even a spot-check on one claim — would catch hallucinated statistics."
+      }
+    ],
+    "overall": "Assertions cover the key dimensions well (security advice, alternatives, research method, format). The main gap is verifiability of factual claims — the response looks authoritative but several statistics cannot be confirmed from available outputs. The format assertion (expectation 6) is the most discriminating and correctly caught that the agent produced a full report instead of a conversational reply."
+  }
+}

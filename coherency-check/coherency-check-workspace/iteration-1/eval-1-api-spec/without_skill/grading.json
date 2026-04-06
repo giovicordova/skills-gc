@@ -1,0 +1,50 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+      "passed": true,
+      "evidence": "Item #1: 'expires_in: 3600 (1 hour)' vs 'Token is valid for 24 hours'"
+    },
+    {
+      "text": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+      "passed": true,
+      "evidence": "Item #2: Three-way conflict documented with routes, SDK, and changelog v2.2.0/v2.3.0"
+    },
+    {
+      "text": "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+      "passed": true,
+      "evidence": "Item #7: '5 attempts per minute' vs 'max 10 per minute', changelog confirms 5"
+    },
+    {
+      "text": "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+      "passed": true,
+      "evidence": "Item #6: 'Max 10 projects per free-tier user' vs 'Free tier: unlimited projects'. Notes no changelog entry to resolve."
+    },
+    {
+      "text": "Report uses the changelog to inform which contradictions have a clear resolution",
+      "passed": true,
+      "evidence": "Summary table identifies which documents are stale. Analysis uses changelog to determine current values (e.g., 'changelog confirms the max was raised from 50 to 100 in v2.3.0')."
+    },
+    {
+      "text": "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+      "passed": true,
+      "evidence": "Item #5: 'Colour must be a valid hex code' vs 'accepts any CSS color value', changelog confirms hex-only"
+    },
+    {
+      "text": "Each finding includes specific file references and quoted values",
+      "passed": true,
+      "evidence": "Each item has tables with Document and Value columns, exact quoted values"
+    },
+    {
+      "text": "After the report, the skill offers to resolve contradictions interactively",
+      "passed": false,
+      "evidence": "No interactive resolution. Report ends with a summary table identifying stale documents but does not offer to walk through resolution or ask user for decisions."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  }
+}

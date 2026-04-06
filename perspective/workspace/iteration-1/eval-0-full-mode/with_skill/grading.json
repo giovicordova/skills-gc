@@ -1,0 +1,125 @@
+{
+  "expectations": [
+    {
+      "text": "A perspective report markdown file exists in the outputs directory",
+      "passed": true,
+      "evidence": "File exists at outputs/2026-04-04-perspective-report.md. It is 98 lines of substantive content, not a stub."
+    },
+    {
+      "text": "Report contains a 'What Already Exists' section naming at least 2 competing invoice tools or services (e.g. Invoice Ninja, FreshBooks, Wave, Xero)",
+      "passed": true,
+      "evidence": "The 'What Already Exists' section names 6 competing tools: Invoice Ninja, Crater, Stripe Invoicing, FreeAgent, Wave, and QuickFile. Each includes a description, licensing model, and relevance to the use case. The section concludes with: 'You are rebuilding something that already exists in multiple mature forms.'"
+    },
+    {
+      "text": "Report contains an 'Alternative Approaches' section with at least one alternative stack, architecture, or strategy with trade-offs",
+      "passed": true,
+      "evidence": "The 'Alternative Approaches' section lists 4 alternatives, each with explicit trade-offs: (1) Stripe Invoicing API directly — trade-off: lose data control, gain zero infrastructure; (2) Self-host Invoice Ninja — trade-off: PHP stack but years of edge cases handled; (3) Headless invoice generation library + own storage — trade-off: middle ground between full custom and SaaS; (4) Modernise the stack if continuing custom — recommends Hono/Fastify over Express with specific performance numbers."
+    },
+    {
+      "text": "Report contains a 'Codebase Audit' section that references current documentation or version-specific info (not just general knowledge about Express/Prisma)",
+      "passed": true,
+      "evidence": "The 'Codebase Audit' section references Prisma 7's removal of the Rust engine in favour of pure TypeScript, ESM-first generator, TypedSQL (preview in 5.19+, stable in 6+), and Express 5.1 breaking changes (named wildcards, removed req.param()). The transcript confirms these were sourced from Context7 live documentation queries and a web search for 'Prisma ORM 6.0 7.0 release 2025 2026 major changes'. This is version-specific, not general knowledge."
+    },
+    {
+      "text": "Report contains a recommendation section using one of the four categories: Stay the course, Adjust, Pivot, or Adopt",
+      "passed": true,
+      "evidence": "The 'Recommendation' section states: '**Adopt** — existing tools already do this well enough.' It then provides a ranked list of recommended paths (FreeAgent/Wave, Stripe Invoicing API, Invoice Ninja, or continue as learning project)."
+    },
+    {
+      "text": "Report contains checkbox action items (- [ ]) that are specific enough to implement without further decisions",
+      "passed": true,
+      "evidence": "The 'Action Items' section contains 5 checkbox items: (1) 'Evaluate whether FreeAgent (free via bank account) or Wave meets your actual invoicing needs before writing more code' (2) 'If API access is required, test Stripe Invoicing API — create a test invoice via their API quickstart' (3) 'If self-hosting is important, deploy Invoice Ninja via Docker (docker-compose up) and test its API against your requirements' (4) 'upgrade to Prisma 7 for the pure TypeScript engine and ESM-first generator' (5) 'benchmark whether Fastify or Hono would be a better fit than Express'. Items 3 and 4 are immediately actionable. Items 1, 2, and 5 are specific but still require some evaluation — however, the evaluation itself is the action, which is appropriate for a decision-making report."
+    },
+    {
+      "text": "Report follows the skill's template structure: What You're Building, What Already Exists, Alternative Approaches, Codebase Audit, Coherency, Recommendation, Action Items — in roughly that order",
+      "passed": true,
+      "evidence": "The report sections in order are: 'What You're Building' (line 3), 'What Already Exists' (line 9), 'Alternative Approaches' (line 27), 'Codebase Audit' (line 47), 'Coherency' (line 68), 'Recommendation' (line 72), 'Action Items' (line 89). This matches the template structure exactly."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "Read": 1,
+      "Bash": 2,
+      "WebSearch": 11,
+      "ToolSearch": 3,
+      "mcp__plugin_context7_context7__resolve-library-id": 2,
+      "mcp__plugin_context7_context7__query-docs": 3,
+      "Write": 2
+    },
+    "total_tool_calls": 24,
+    "total_steps": 6,
+    "errors_encountered": 0,
+    "output_chars": 5814,
+    "transcript_chars": 3371
+  },
+  "timing": {
+    "executor_duration_seconds": 209.5,
+    "total_duration_seconds": 209.5
+  },
+  "claims": [
+    {
+      "claim": "Ran 11 web searches covering different angles",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript lists 11 numbered WebSearch calls with specific queries and findings."
+    },
+    {
+      "claim": "Invoice Ninja has over 45k GitHub stars",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Cannot verify from available outputs — no GitHub API call or screenshot. The claim is plausible but unverified."
+    },
+    {
+      "claim": "Prisma 7 removed the Rust engine entirely, replaced with pure TypeScript",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The transcript shows a web search was performed and Context7 docs were queried. The claim is consistent across both sources in the transcript, but the actual search results are not included in outputs for independent verification."
+    },
+    {
+      "claim": "Hono handles 3x more requests than Express with 40% less memory",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Sourced from a web search according to transcript, but raw results not available in outputs. Performance claims vary by benchmark methodology."
+    },
+    {
+      "claim": "No actual codebase was provided",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript Stage 1: 'No actual codebase or input files provided.' The Codebase Audit and Coherency sections both acknowledge this limitation explicitly."
+    },
+    {
+      "claim": "MTD becomes mandatory April 2026 for income over £50k",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Sourced from web search per transcript. Plausible given known HMRC timelines, but raw search results not in outputs."
+    },
+    {
+      "claim": "Used Context7 MCP for live documentation on Prisma and Express",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript Stage 4 lists specific Context7 tool calls: resolve-library-id for Prisma and Express, query-docs for Prisma connection pooling, Express v5 migration, and Prisma TypedSQL."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report contains a 'Codebase Audit' section that references current documentation or version-specific info (not just general knowledge about Express/Prisma)",
+        "reason": "This eval ran without an actual codebase. The audit section is well-researched but covers generic stack guidance rather than inspecting real code. An assertion that checks whether the audit references specific files, functions, or patterns found in a real codebase would be more discriminating. As written, the assertion passes for general version-awareness, which the skill could produce without ever reading code."
+      },
+      {
+        "reason": "No assertion checks research depth — specifically whether web searches were actually performed or whether the report is based solely on LLM training data. The transcript shows 11 web searches, which is strong evidence of genuine research, but no expectation verifies this. A 'report cites at least 2 findings that post-date the model's training cutoff' assertion would be highly discriminating."
+      },
+      {
+        "reason": "No assertion checks whether the 'What Already Exists' tools are actually relevant alternatives (not just named). A report that lists 2 random SaaS tools by name would pass expectation 2. Consider requiring that listed tools include a brief explanation of why they're relevant to the specific use case."
+      }
+    ],
+    "overall": "Assertions cover the template structure and content categories well. The main gap is that most expectations check presence rather than quality or correctness. The eval also ran without a real codebase, which means expectation 4 (Codebase Audit with version-specific info) is testing a degraded scenario — the skill handled it gracefully but a stronger eval would provide a real codebase to audit."
+  }
+}

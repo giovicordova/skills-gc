@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "skill_name": "coherency-check",
+    "skill_path": "/Users/giovannicordova/Documents/02_projects/skills-gc/coherency-check",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-04-04T14:30:00Z",
+    "evals_run": [0, 1, 2],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0, "eval_name": "Project Docs (heavy contradictions)", "configuration": "with_skill", "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "time_seconds": 60.1, "tokens": 21559, "tool_calls": 6, "errors": 0}
+    },
+    {
+      "eval_id": 0, "eval_name": "Project Docs (heavy contradictions)", "configuration": "without_skill", "run_number": 1,
+      "result": {"pass_rate": 0.89, "passed": 8, "failed": 1, "total": 9, "time_seconds": 172.4, "tokens": 23643, "tool_calls": 5, "errors": 0}
+    },
+    {
+      "eval_id": 1, "eval_name": "API Spec Drift (changelog-aware)", "configuration": "with_skill", "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 8, "failed": 0, "total": 8, "time_seconds": 69.2, "tokens": 21922, "tool_calls": 6, "errors": 0}
+    },
+    {
+      "eval_id": 1, "eval_name": "API Spec Drift (changelog-aware)", "configuration": "without_skill", "run_number": 1,
+      "result": {"pass_rate": 0.875, "passed": 7, "failed": 1, "total": 8, "time_seconds": 158.2, "tokens": 23662, "tool_calls": 5, "errors": 0}
+    },
+    {
+      "eval_id": 2, "eval_name": "Clean Docs (no contradictions)", "configuration": "with_skill", "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 58.4, "tokens": 21177, "tool_calls": 6, "errors": 0}
+    },
+    {
+      "eval_id": 2, "eval_name": "Clean Docs (no contradictions)", "configuration": "without_skill", "run_number": 1,
+      "result": {"pass_rate": 1.0, "passed": 4, "failed": 0, "total": 4, "time_seconds": 146.4, "tokens": 22998, "tool_calls": 5, "errors": 0}
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 62.6, "stddev": 4.7, "min": 58.4, "max": 69.2},
+      "tokens": {"mean": 21553, "stddev": 305, "min": 21177, "max": 21922}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.922, "stddev": 0.053, "min": 0.875, "max": 1.0},
+      "time_seconds": {"mean": 159.0, "stddev": 10.7, "min": 146.4, "max": 172.4},
+      "tokens": {"mean": 23434, "stddev": 275, "min": 22998, "max": 23662}
+    },
+    "delta": {
+      "pass_rate": "+0.078",
+      "time_seconds": "-96.4",
+      "tokens": "-1881"
+    }
+  },
+  "notes": [
+    "Iteration 2: 100% pass rate with skill vs 92.2% without — key improvement is interactive resolution workflow and catching all contradictions",
+    "The skill is now faster (-96s) and uses fewer tokens (-1.9k) than baseline — likely because the structured approach is more focused",
+    "Baseline still fails on interactive resolution (the core user requirement) in both eval 0 and eval 1",
+    "Clean docs test (eval 2) passes identically in both configurations — no false positives"
+  ]
+}

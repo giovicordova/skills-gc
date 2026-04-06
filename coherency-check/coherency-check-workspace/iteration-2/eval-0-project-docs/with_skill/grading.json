@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {"text": "Report identifies the Node.js version contradiction (18 vs 20)", "passed": true, "evidence": "Contradiction #1: 'Node.js 18 with Express' vs 'Node.js 20 with Fastify'"},
+    {"text": "Report identifies the framework contradiction (Express vs Fastify)", "passed": true, "evidence": "Contradiction #1: Web framework row"},
+    {"text": "Report identifies the authentication method contradiction (JWT vs session-based)", "passed": true, "evidence": "Contradiction #3: JWT 24h vs Session-based 8h vs API key"},
+    {"text": "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)", "passed": true, "evidence": "Contradiction #4: all 3 versions listed with CONTRIBUTING.md v2.1 note"},
+    {"text": "Report identifies the rate limit contradiction (100/min vs 60/min)", "passed": true, "evidence": "Contradiction #5: 100/min/user vs 60/min/API key"},
+    {"text": "Report identifies the deployment target contradiction (AWS vs GCP)", "passed": true, "evidence": "Contradiction #7: AWS ECS/Terraform/infrastructure/ vs GCP Cloud Run/Pulumi/deploy/"},
+    {"text": "Each contradiction includes specific file names and quoted values", "passed": true, "evidence": "Table with file:section and exact quotes for all 7 contradictions"},
+    {"text": "Report assigns severity levels to contradictions", "passed": true, "evidence": "5 High, 1 Medium, 1 High in severity column"},
+    {"text": "After the report, the skill offers to walk through resolution of each contradiction", "passed": true, "evidence": "7 numbered contradictions with Option A/B/C and 'Which should we go with?'"}
+  ],
+  "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0}
+}

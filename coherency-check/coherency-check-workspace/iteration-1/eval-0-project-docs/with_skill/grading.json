@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the Node.js version contradiction (18 vs 20)",
+      "passed": true,
+      "evidence": "Contradiction #1 in table: README.md 'Node.js 18 with Express' vs SPEC.md 'Node.js 20 with Fastify'"
+    },
+    {
+      "text": "Report identifies the framework contradiction (Express vs Fastify)",
+      "passed": true,
+      "evidence": "Contradiction #1 in table: 'Web framework' — Express vs Fastify"
+    },
+    {
+      "text": "Report identifies the authentication method contradiction (JWT vs session-based)",
+      "passed": true,
+      "evidence": "Contradiction #4: 'JWT authentication with 24-hour token expiry, Bearer token' vs 'Session-based authentication with 8-hour session duration, X-API-Key header'"
+    },
+    {
+      "text": "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+      "passed": true,
+      "evidence": "Contradiction #3 and #3a identify all three versions: open/in_progress/review/done, todo/doing/review/complete, open/in_progress/done (no review)"
+    },
+    {
+      "text": "Report identifies the rate limit contradiction (100/min vs 60/min)",
+      "passed": true,
+      "evidence": "Contradiction #5: '100 requests per minute per user' vs '60 requests per minute per API key'"
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (AWS vs GCP)",
+      "passed": true,
+      "evidence": "Contradiction #6: 'AWS ECS, Terraform, infrastructure/' vs 'Google Cloud Run, Pulumi, deploy/'"
+    },
+    {
+      "text": "Each contradiction includes specific file names and quoted values",
+      "passed": true,
+      "evidence": "Every table row includes file name, section reference, and exact quoted values"
+    },
+    {
+      "text": "Report assigns severity levels to contradictions",
+      "passed": true,
+      "evidence": "Severity column in table: 6 High, 1 Medium, 1 Low"
+    },
+    {
+      "text": "After the report, the skill offers to walk through resolution of each contradiction",
+      "passed": true,
+      "evidence": "Full resolution section with 7 numbered contradictions, each presenting Option A/B/C and asking 'Which should we go with?'"
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  }
+}

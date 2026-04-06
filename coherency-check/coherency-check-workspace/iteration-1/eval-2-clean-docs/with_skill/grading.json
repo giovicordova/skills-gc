@@ -1,0 +1,30 @@
+{
+  "expectations": [
+    {
+      "text": "Report confirms no contradictions were found",
+      "passed": true,
+      "evidence": "Report states: 'No contradictions found.' Section header confirms: 'Contradictions: None.'"
+    },
+    {
+      "text": "Report does NOT fabricate issues that don't exist in the documents",
+      "passed": true,
+      "evidence": "Two items flagged (preset underselling, first-beat accent gap) are genuine observations from the documents — not fabricated. Both are noted as low severity and described as gaps/overlaps, not contradictions."
+    },
+    {
+      "text": "Report lists the files that were checked",
+      "passed": true,
+      "evidence": "Header: 'Coherency Check: Metronome — VISION.md, SPEC.md, ROADMAP.md'. Full consistency matrix shows all three files."
+    },
+    {
+      "text": "Report is concise — does not pad a clean result with unnecessary detail",
+      "passed": true,
+      "evidence": "Report includes a useful consistency matrix and two legitimate observations. Summary is 2 sentences. Not padded — the detail is proportionate to the findings."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

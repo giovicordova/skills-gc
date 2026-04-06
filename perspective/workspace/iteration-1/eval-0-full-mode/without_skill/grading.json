@@ -1,0 +1,112 @@
+{
+  "expectations": [
+    {
+      "text": "A perspective report markdown file exists in the outputs directory",
+      "passed": true,
+      "evidence": "perspective-check.md exists in the outputs directory (8566 bytes). Confirmed via ls and full read of the file."
+    },
+    {
+      "text": "Report contains a 'What Already Exists' section naming at least 2 competing invoice tools or services (e.g. Invoice Ninja, FreshBooks, Wave, Xero)",
+      "passed": true,
+      "evidence": "Section '1. Existing Tools That Already Do This' names 11 competing tools: Wave, Zoho Invoice, Invoice Ninja, QuickFile, Sighted, FreeAgent, QuickBooks Self-Employed, FreshBooks, InvoicePlane, InvoiceShelf, and Invoice-Generator API. The heading differs from the expected 'What Already Exists' but the substance clearly satisfies the intent."
+    },
+    {
+      "text": "Report contains an 'Alternative Approaches' section with at least one alternative stack, architecture, or strategy with trade-offs",
+      "passed": true,
+      "evidence": "Section 3 'Stack Assessment' includes a subsection 'Alternative stack worth considering' that proposes Supabase + Edge Functions with trade-offs (less code, no ORM needed, managed PostgreSQL vs. custom Express setup). Section 4 offers three strategic options (stop, pivot, continue as learning) with rationale. No section is literally titled 'Alternative Approaches' but the content is present."
+    },
+    {
+      "text": "Report contains a 'Codebase Audit' section that references current documentation or version-specific info (not just general knowledge about Express/Prisma)",
+      "passed": false,
+      "evidence": "No section titled 'Codebase Audit' exists. The transcript explicitly states 'No existing invoice API codebase found in this repo -- the task is advisory based on the user's description.' Section 3 'Stack Assessment' discusses Express, Prisma, and PostgreSQL in general terms (e.g., 'Express is showing its age', 'Prisma's binary engine') but does not reference any project-specific documentation, package.json versions, config files, or codebase-specific findings. The expectation requires referencing 'current documentation or version-specific info (not just general knowledge about Express/Prisma)' and this is exactly general knowledge."
+    },
+    {
+      "text": "Report contains a recommendation section using one of the four categories: Stay the course, Adjust, Pivot, or Adopt",
+      "passed": false,
+      "evidence": "Section 4 'The Real Question: What Should You Actually Do?' contains recommendations but uses custom labels: 'Option A: Stop building' (recommended), 'Option B: Pivot to a niche', 'Option C: Continue, but reframe as a learning project'. None of these match the required categories: 'Stay the course', 'Adjust', 'Pivot', or 'Adopt'. While 'Pivot' appears in Option B's title, the primary recommendation is 'Stop building' which is not one of the four specified categories."
+    },
+    {
+      "text": "Report contains checkbox action items (- [ ]) that are specific enough to implement without further decisions",
+      "passed": false,
+      "evidence": "Zero instances of '- [ ]' checkbox syntax found in perspective-check.md (confirmed via grep). The report provides strategic options and recommendations in prose/table form but no actionable checkbox items."
+    },
+    {
+      "text": "Report follows the skill's template structure: What You're Building, What Already Exists, Alternative Approaches, Codebase Audit, Coherency, Recommendation, Action Items — in roughly that order",
+      "passed": false,
+      "evidence": "The actual structure is: 'The Hard Truth' intro, '1. Existing Tools That Already Do This', '2. The MTD Elephant in the Room', '3. Stack Assessment', '4. The Real Question: What Should You Actually Do?', '5. Summary', 'Sources'. Missing from the expected template: 'What You're Building' (no section), 'Codebase Audit' (no section), 'Coherency' (no section), 'Action Items' (no section). Only 2-3 of 7 expected sections are roughly present."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 4,
+    "total": 7,
+    "pass_rate": 0.43
+  },
+  "execution_metrics": {
+    "output_chars": 11743,
+    "transcript_chars": 3177
+  },
+  "timing": {
+    "total_tokens": 25883,
+    "executor_duration_seconds": 130.0,
+    "total_duration_seconds": 130.0
+  },
+  "claims": [
+    {
+      "claim": "No existing invoice API codebase found in the repo",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript Step 1 confirms: 'No existing invoice API codebase found in this repo -- the task is advisory based on the user's description.'"
+    },
+    {
+      "claim": "The market is heavily saturated with free and paid UK freelancer invoicing tools",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Report lists 11 specific competing tools across free, paid, and open-source categories with details and sources."
+    },
+    {
+      "claim": "MTD for ITSA became mandatory April 2026 for earners over GBP 50,000",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Cited with three sources including no-worries.co.uk, startyourbusinessmag.com, and dev.to. Dates and thresholds are consistent across sources."
+    },
+    {
+      "claim": "FreeAgent is free with NatWest/RBS/Ulster Bank account",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Well-known UK banking partnership, consistent with cited sources."
+    },
+    {
+      "claim": "Wave has no feature gates on invoicing and revenue comes from payment processing fees",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Consistent with Wave's known business model. Cannot fully verify from outputs alone but aligns with public information."
+    },
+    {
+      "claim": "Supabase offers a lighter-weight alternative to Express + Prisma",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Report provides specific reasoning: managed PostgreSQL, built-in auth, typed client, no ORM needed. These are accurate Supabase features that reduce boilerplate relative to the Express + Prisma stack."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report contains a 'Codebase Audit' section that references current documentation or version-specific info",
+        "reason": "This expectation is nearly impossible to pass when the eval scenario has no actual codebase to audit. The eval prompt describes an Express + Prisma + PostgreSQL project but provides no code, package.json, or project files. Consider either providing a mock codebase in the eval fixture or splitting this into two assertions: one for when a codebase exists (audit it) and one for when it doesn't (note the absence and provide general stack assessment)."
+      },
+      {
+        "assertion": "Report contains a recommendation section using one of the four categories: Stay the course, Adjust, Pivot, or Adopt",
+        "reason": "Without the skill's template or instructions, a bare model has no way to know these four categories exist. This expectation effectively tests whether the skill's template was followed -- which is exactly its purpose as a without_skill baseline, so the failure is informative. No change needed."
+      },
+      {
+        "reason": "No assertion checks the quality or accuracy of the competitive analysis. The report could list fabricated tools and still pass expectation 2. Consider adding a spot-check: e.g., 'at least 2 named tools can be verified via their official URLs or known market presence.'"
+      },
+      {
+        "reason": "The report includes a substantial 'Sources' section with 12 URLs. No assertion checks whether the report provides citations or evidence for its claims. This is a meaningful quality signal worth testing."
+      }
+    ],
+    "overall": "The eval set is well-designed for measuring skill vs. no-skill delta. The structural expectations (5, 6, 7) correctly fail without the skill's template, which is the intended signal. Expectation 4 (Codebase Audit) has a design issue: the eval scenario lacks an actual codebase, making it structurally unfulfillable regardless of skill presence. Consider providing a minimal fixture or adjusting the expectation."
+  }
+}
