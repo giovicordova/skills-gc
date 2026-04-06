@@ -9,6 +9,16 @@ One job: write a single git commit whose body is a rich, narrative record of wha
 
 That's it. No JSON files, no SUMMARY.md, no parallel logs. **Git log is the source of truth.** If a session changed code, the body explains the diff. If a session was pure investigation, debugging, or research, the body still gets written — as an empty commit (`git commit --allow-empty`) — because the *thinking* is the work and the next session needs it.
 
+## Migrating from an older version
+
+If this project has `logs/*_checkpoint.json` files from a previous version of this skill (the one that wrote parallel JSON files), run the migration script once before your first checkpoint with the new skill:
+
+```bash
+python3 skills/checkpoint/scripts/migrate-checkpoints-to-git.py
+```
+
+It builds a single backfill commit body that imports every legacy checkpoint into a long-form git commit, then prints the exact `git commit --allow-empty -F …` line for you to run. After committing, you can delete `logs/`. The migration script never commits on your behalf — it only drafts the body and tells you what to run.
+
 ## Hard rules
 
 These exist because each one prevents a specific, painful failure mode. Don't bend them.
