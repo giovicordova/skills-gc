@@ -4,7 +4,7 @@
     {
       "id": 1,
       "name": "rich-narrative-code-session",
-      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-1/setup-1-rich-narrative.sh and cd into the directory it prints. That repo is the state at the end of a coding session. Read SESSION-NOTES.txt — it's the transcript of what the user and I did today. The user's last message was '/checkpoint please, I'm going to /clear after'. Do what the user asked.",
+      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint/checkpoint-workspace/iteration-1/setup-1-rich-narrative.sh and cd into the directory it prints. That repo is the state at the end of a coding session. Read SESSION-NOTES.txt — it's the transcript of what the user and I did today. The user's last message was '/checkpoint please, I'm going to /clear after'. Do what the user asked.",
       "expected_output": "A new git commit whose subject is a single specific one-sentence title, whose body covers what was done, the files touched, the rejected lru_cache alternative (with reasoning), the sorted() dead end, and the state of the untracked config.draft.yml. CHECKPOINTS.md created or updated with a matching dated entry. config.draft.yml NOT committed.",
       "assertions": [
         {"text": "A new checkpoint commit was created on top of the initial skeleton commit."},
@@ -22,7 +22,7 @@
     {
       "id": 2,
       "name": "pure-investigation-no-code",
-      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-1/setup-2-investigation.sh and cd into the directory it prints. Read SESSION-NOTES.txt — today's session was pure investigation, no code changes. The user's final message asks you to /checkpoint this before they /clear. Do it.",
+      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint/checkpoint-workspace/iteration-1/setup-2-investigation.sh and cd into the directory it prints. Read SESSION-NOTES.txt — today's session was pure investigation, no code changes. The user's final message asks you to /checkpoint this before they /clear. Do it.",
       "expected_output": "A new git commit capturing the investigation. Subject = one sentence naming the root cause. Body explains the diagnosis, mentions app/auth.py is fine, points at infra/nginx/staging.conf as the fix location, notes the Monday plan, and explicitly states no code was changed. CHECKPOINTS.md created with a matching entry.",
       "assertions": [
         {"text": "A new git commit was created even though no source files changed."},
@@ -40,7 +40,7 @@
     {
       "id": 3,
       "name": "fresh-session-recall",
-      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-1/setup-3-fresh-recall.sh and cd into the directory it prints. That repo has git history from several past sessions. Now the user opens a fresh session in this repo and their first message is: 'morning — can we pick up where we left off on the auth thing? I want to make the change today instead of Monday.' Respond to the user.",
+      "prompt": "Run the setup script at /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint/checkpoint-workspace/iteration-1/setup-3-fresh-recall.sh and cd into the directory it prints. That repo has git history from several past sessions. Now the user opens a fresh session in this repo and their first message is: 'morning — can we pick up where we left off on the auth thing? I want to make the change today instead of Monday.' Respond to the user.",
       "expected_output": "The response reads CHECKPOINTS.md, identifies the nginx cookie domain session as 'the auth thing' by semantic match (not keyword — 'auth' never appears in the title), fetches the full commit body via git log --grep, and summarises back: app/auth.py is fine, the fix is in infra/nginx/staging.conf via proxy_cookie_domain, originally planned for Monday. Asks for confirmation before editing anything.",
       "assertions": [
         {"text": "The response shows evidence of reading CHECKPOINTS.md (mentions it, or quotes its contents)."},
