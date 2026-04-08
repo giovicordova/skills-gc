@@ -1,0 +1,34 @@
+commit eb3a7b07580f64c29004004a7bddd36f8a9f7275
+Author: Eval <eval@example.com>
+Date:   Wed Apr 8 10:10:02 2026 +0200
+
+    Traced staging logout regression to an nginx cookie-domain mismatch in infra/nginx/staging.conf — no code change, app/auth.py is correct, fix planned for Monday's maintenance window.
+    
+    Users on staging were being logged out on every request while prod was unaffected. This session was pure investigation — no code was written, and the final decision was to defer the fix to Monday's maintenance window so Giovanni can make the nginx change himself.
+    
+    What was done:
+    Started in app/auth.py to check how the session cookie is issued. The app sets the cookie on the parent domain .example.com, which in principle should cover both staging.example.com and the production host, so the application-level behaviour looked correct on first read. Walked through the code path that builds the Set-Cookie header and confirmed there was no conditional branch doing something different on staging.
+    
+    Moved from the app to the browser. With Giovanni describing what he was seeing in devtools, we confirmed the cookie was being Set on every response but never sent back on the following request. That ruled out 'cookie never issued' and 'cookie expired instantly' and pointed at the browser silently rejecting the cookie after accepting the Set-Cookie header.
+    
+    From there the investigation moved into infra/nginx/staging.conf. The staging nginx proxies to the app upstream without rewriting the Set-Cookie domain attribute. The app emits domain=.example.com, but the staging edge is on staging.example.com and the upstream is reached via a different internal hostname, and the wildcard TLS cert plus SNI on staging don't line up cleanly with a parent-domain cookie the way prod does. Chrome's cookie jar is quietly rejecting the cookie as a result, which is exactly consistent with the 'Set but never returned' symptom seen in devtools.
+    
+    Decision taken:
+    Do NOT touch app/auth.py. The application code is correct — it works on prod with the same cookie domain, and changing it would mask the real problem and potentially break prod. The fix belongs in infra/nginx/staging.conf, specifically a proxy_cookie_domain directive that rewrites the cookie domain from the upstream internal hostname to staging.example.com so the browser accepts it on the staging origin.
+    
+    What was rejected:
+    - Patching app/auth.py to special-case staging — rejected, pollutes app code with infra concerns and the app is not where the bug lives.
+    - Making the cookie host-only on staging by dropping the domain attribute at the app layer — rejected for the same reason, and because it would require an environment-aware branch in auth code.
+    - Applying the nginx change today — rejected by Giovanni. He wants to make the infra change himself during Monday's maintenance window rather than have it land ad-hoc mid-week.
+    
+    State at end of session:
+    - Diagnosis complete, root cause identified, no files changed in the repo.
+    - app/auth.py confirmed correct — next session should NOT dig into it again.
+    - Fix location is known: infra/nginx/staging.conf, add a proxy_cookie_domain directive mapping the upstream internal hostname to staging.example.com.
+    - Owner of the fix is Giovanni, timing is Monday's maintenance window.
+    - SESSION-NOTES.txt in the working tree is a scratch transcript from this session and was intentionally not committed; it can be deleted or left untracked.
+    
+    Tomorrow-Claude: the app code is fine. The fix is an nginx config change at infra/nginx/staging.conf, planned for Monday. Do not re-investigate auth.py.
+
+ CHECKPOINTS.md | 6 ++++++
+ 1 file changed, 6 insertions(+)

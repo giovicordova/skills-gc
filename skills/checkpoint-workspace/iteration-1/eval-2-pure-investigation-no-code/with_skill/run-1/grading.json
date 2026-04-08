@@ -1,0 +1,53 @@
+{
+  "eval_id": 2,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "A new git commit was created even though no source files changed.",
+      "passed": true,
+      "evidence": "CHECKPOINTS.md was the staged diff \u2014 real commit, not --allow-empty."
+    },
+    {
+      "text": "The commit subject names the root cause (nginx/cookie/domain/staging).",
+      "passed": true,
+      "evidence": "Subject: 'Traced staging logout regression to an nginx cookie-domain mismatch in infra/nginx/staging.conf \u2014 no code change...'."
+    },
+    {
+      "text": "CHECKPOINTS.md exists and contains one dated entry matching the commit subject.",
+      "passed": true,
+      "evidence": "Entry matches the commit subject verbatim, dated 2026-04-08."
+    },
+    {
+      "text": "The commit body explains the root cause (cookie domain / nginx proxy).",
+      "passed": true,
+      "evidence": "Body explains SNI + parent-domain cookie rejection, nginx not rewriting Set-Cookie."
+    },
+    {
+      "text": "The commit body references infra/nginx/staging.conf as the fix location.",
+      "passed": true,
+      "evidence": "Named multiple times with proxy_cookie_domain."
+    },
+    {
+      "text": "The commit body states that app/auth.py is correct and was NOT changed.",
+      "passed": true,
+      "evidence": "'Do NOT touch app/auth.py. The application code is correct.'"
+    },
+    {
+      "text": "The commit body mentions the Monday maintenance window plan.",
+      "passed": true,
+      "evidence": "'defer the fix to Monday's maintenance window'."
+    },
+    {
+      "text": "The commit body is substantive: more than 400 characters.",
+      "passed": true,
+      "evidence": "Body is ~2500 chars."
+    }
+  ],
+  "pass_rate": 1.0,
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 8,
+    "failed": 0,
+    "total": 8
+  }
+}

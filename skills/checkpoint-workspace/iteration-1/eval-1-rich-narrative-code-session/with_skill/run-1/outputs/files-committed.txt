@@ -1,0 +1,67 @@
+commit 3765419daff5c03d281400cdb0b4b81347b1f59a
+Author: Eval <eval@example.com>
+Date:   Wed Apr 8 10:10:01 2026 +0200
+
+    Added newest-first sorting to list_widgets() and a separate colour filter module, after tracing a sort bug to a consumed generator in _load_from_db().
+    
+    Session goal was twofold: make list_widgets() return widgets sorted by
+    creation date newest-first, and introduce colour filtering as a separate
+    module rather than bolting it onto widgets.py.
+    
+    What was done
+    -------------
+    - src/widgets.py: list_widgets() now returns widgets ordered newest-first
+      by creation date. The call into _load_from_db() is now wrapped in list()
+      before sorting (see dead end below for why this matters).
+    - src/filters.py: new module introduced, exposing by_colour() as the first
+      filter primitive. Kept deliberately separate from widgets.py so future
+      filters (size, tag, owner) have an obvious home and widgets.py stays
+      focused on storage and retrieval.
+    - tests/test_filters.py: new test file covering by_colour().
+    
+    Dead end — sort appeared broken
+    -------------------------------
+    Roughly 15 minutes were lost chasing a phantom bug in sorted(). The output
+    looked unsorted regardless of what was passed: reversed=True on the outer
+    sorted(), reversed=True on the inner call, wrapping the whole thing in
+    reversed() — none of it changed anything. Root cause had nothing to do
+    with sorting: _load_from_db() returns a generator, and a debug print
+    statement a few lines earlier was iterating that generator to completion,
+    so sorted() was operating on an empty sequence and returning []. Fix was
+    to materialise the generator with list() before sorting (and to remove
+    the debug print). Leaving this written down explicitly so the next time
+    sort ordering looks wrong in this file, generator exhaustion is the first
+    thing to check, not sorted()'s kwargs.
+    
+    Rejected alternative — do NOT add lru_cache to _load_from_db()
+    --------------------------------------------------------------
+    Giovanni suggested wrapping _load_from_db() in @functools.lru_cache for
+    performance. We discussed it and decided against it, and he specifically
+    asked that the reasoning be recorded here so a future session doesn't
+    quietly reintroduce it: widgets are mutated in the database out-of-band
+    (other processes / manual edits), which means a cached _load_from_db()
+    would happily serve stale rows with no signal that anything was wrong.
+    A stale cache here is strictly worse than no cache — correctness beats
+    the small perf win. If caching ever comes back on the table, it needs an
+    invalidation story first (e.g. a version/etag column, or an explicit
+    cache-bust on write), not a bare lru_cache.
+    
+    State at end of session
+    -----------------------
+    - Committed: list_widgets() sort fix, src/filters.py, tests/test_filters.py,
+      CHECKPOINTS.md.
+    - Deliberately NOT committed: config.draft.yml — Giovanni is drafting the
+      DB connection config and wants to review it tomorrow before it lands.
+      It's left untracked in the working tree; do not stage it in the next
+      session without his go-ahead.
+    - SESSION-NOTES.txt is the transcript used to reconstruct this checkpoint
+      and is also left untracked.
+    - Next session pickup: review config.draft.yml with Giovanni, then decide
+      whether to add more filter primitives to src/filters.py (size / tag /
+      owner were mentioned in passing as likely next candidates).
+
+ CHECKPOINTS.md        | 6 ++++++
+ src/filters.py        | 2 ++
+ src/widgets.py        | 7 ++++++-
+ tests/test_filters.py | 3 +++
+ 4 files changed, 17 insertions(+), 1 deletion(-)

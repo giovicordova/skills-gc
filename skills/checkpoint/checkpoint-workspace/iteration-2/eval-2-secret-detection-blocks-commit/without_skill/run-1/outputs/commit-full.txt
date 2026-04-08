@@ -1,9 +1,0 @@
-705945b9e50eb2cdba6218c91e9baeb26426c56d
-Wire database config loader and add .env to gitignore
-
-Hook up config/app.js to load DATABASE_URL via the env loader and
-build a pg Pool. Add .gitignore to keep .env (which contains DB
-credentials and API keys) out of version control.
-
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
-

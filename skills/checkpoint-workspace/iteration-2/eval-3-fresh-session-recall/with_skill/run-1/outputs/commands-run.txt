@@ -1,0 +1,4 @@
+Read /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint/SKILL.md
+bash: /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-2/setup-3-fresh-recall.sh
+bash: ls && cat CHECKPOINTS.md && git log --oneline
+bash: git log --all --grep="Traced the staging logout bug to a nginx cookie domain mismatch and planned a Monday config fix — no code change." -1 --format=%B

@@ -1,0 +1,5 @@
+Read /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint/SKILL.md
+bash setup-3-fresh-recall.sh
+ls && git log --oneline
+Read CHECKPOINTS.md
+git log --all --grep="Traced the staging logout bug" -1 --format=%B

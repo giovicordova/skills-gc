@@ -1,0 +1,39 @@
+commit 03278d51d382d20aa9146773de6bfcb492e41e01
+Author: Eval <eval@example.com>
+Date:   Wed Apr 8 10:08:42 2026 +0200
+
+    checkpoint: staging logout bug — diagnosis only, no code change
+    
+    Session was pure investigation into staging logout bug. App code is fine;
+    do not edit app/auth.py. Fix is an nginx config change planned for Monday.
+    
+    Problem
+    - Users on staging are logged out on every request. Prod is unaffected.
+    - Cookie is set on .example.com (parent domain) and should cover both
+      staging and prod.
+    - Browser devtools showed the cookie being Set on every response but NOT
+      sent back on the subsequent request — the browser is silently rejecting
+      it.
+    
+    Root cause
+    - infra/nginx/staging.conf proxies to the app without rewriting the
+      Set-Cookie domain. The app emits domain=.example.com, but the browser
+      is on staging.example.com and the upstream uses a different internal
+      hostname. Chrome's cookie jar rejects cross-origin parent-domain cookies
+      when the TLS SNI and the cookie domain don't cleanly align against
+      staging's wildcard cert.
+    
+    Decision
+    - Do NOT change app/auth.py. The application code is correct.
+    - The fix belongs in infra/nginx/staging.conf via a proxy_cookie_domain
+      directive rewriting the cookie domain to match the staging hostname
+      the browser actually sees.
+    - Giovanni will make the nginx change himself during Monday's maintenance
+      window. No code is to be written today.
+    
+    Handoff for next session
+    - Start point: infra/nginx/staging.conf — add a proxy_cookie_domain
+      directive so the Set-Cookie domain aligns with staging.example.com.
+    - Do not touch app/auth.py.
+    - Verify by checking that after the nginx change the cookie is both Set
+      and re-sent on the following request in staging devtools.

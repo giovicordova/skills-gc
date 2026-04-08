@@ -1,4 +1,0 @@
-cdf49d4 Add farewell helper to mirror greet
-f817623 Add greet tests
-796b4f9 Add greet helper
-3495eba Initial scaffold

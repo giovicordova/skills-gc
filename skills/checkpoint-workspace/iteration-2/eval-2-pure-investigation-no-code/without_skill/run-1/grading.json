@@ -1,0 +1,52 @@
+{
+  "eval_id": 2,
+  "config": "without_skill",
+  "expectations": [
+    {
+      "text": "A new git commit was created even though no source files changed.",
+      "passed": true,
+      "evidence": "Commit created."
+    },
+    {
+      "text": "The commit subject names the root cause (nginx/cookie/domain/staging).",
+      "passed": false,
+      "evidence": "Subject is 'checkpoint: staging logout bug \u2014 diagnosed, no code changed' \u2014 names symptom not root cause, tag-prefixed not a sentence."
+    },
+    {
+      "text": "CHECKPOINTS.md exists and contains one dated entry matching the commit subject.",
+      "passed": false,
+      "evidence": "CHECKPOINTS.md does not exist."
+    },
+    {
+      "text": "The commit body explains the root cause (cookie domain / nginx proxy).",
+      "passed": true,
+      "evidence": "'Investigation trail' + 'Root cause' sections."
+    },
+    {
+      "text": "The commit body references infra/nginx/staging.conf as the fix location.",
+      "passed": true,
+      "evidence": "Named multiple times."
+    },
+    {
+      "text": "The commit body states that app/auth.py is correct and was NOT changed.",
+      "passed": true,
+      "evidence": "'Do NOT touch app/auth.py \u2014 it is correct'."
+    },
+    {
+      "text": "The commit body mentions the Monday maintenance window plan.",
+      "passed": true,
+      "evidence": "'Monday during the maintenance window'."
+    },
+    {
+      "text": "The commit body is substantive: more than 400 characters.",
+      "passed": true,
+      "evidence": "~1400 chars."
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.75,
+    "passed": 6,
+    "failed": 2,
+    "total": 8
+  }
+}

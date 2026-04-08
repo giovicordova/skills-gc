@@ -1,0 +1,6 @@
+# Checkpoints
+
+One-sentence summary per session, newest first. For the full story of a
+session, run: `git log --all --grep="<the exact title>" -1`
+
+- 2026-04-08 — Traced the staging logout bug to a cookie domain mismatch handled in nginx — app/auth.py is correct, fix planned as a proxy_cookie_domain change in infra/nginx/staging.conf during Monday's maintenance window.

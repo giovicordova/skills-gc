@@ -1,0 +1,7 @@
+Morning. Picking up from Monday's plan:
+
+- Bug: staging logs users out on every request. Root cause was traced to nginx, not the app.
+- app/auth.py is fine — cookie is set with domain=.example.com correctly. Do NOT touch it.
+- Fix belongs in infra/nginx/staging.conf: add a proxy_cookie_domain directive so the Set-Cookie domain aligns with the public host (SNI/cookie mismatch is why Chrome drops it on staging but not prod).
+
+You'd said you'd do the nginx change yourself during Monday's maintenance window — happy to do it today instead. Want me to open infra/nginx/staging.conf and draft the proxy_cookie_domain line for you to review before applying? Also worth checking if staging has a maintenance window today or if we just push it.

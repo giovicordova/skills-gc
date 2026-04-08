@@ -1,0 +1,28 @@
+Traced the staging logout bug to a cookie domain mismatch handled in nginx — app/auth.py is correct, fix planned as a proxy_cookie_domain change in infra/nginx/staging.conf during Monday's maintenance window.
+
+Pure investigation session. No code was changed. The goal was to diagnose why users on staging are being logged out on every request while production is unaffected.
+
+What was done, in order:
+
+1. Started in app/auth.py to check how the session cookie is issued. The app sets the cookie on .example.com (parent domain), which in principle should cover both staging.example.com and prod.example.com. The application code looked correct on inspection — no obvious bug in how the cookie is constructed or how the session is validated.
+
+2. Walked through the browser behaviour with Giovanni describing devtools. Confirmed that the server is sending Set-Cookie on every response, but the browser is not sending the cookie back on the subsequent request. So the cookie is being silently rejected by Chrome's cookie jar rather than lost somewhere in transit.
+
+3. Moved up the stack to infra/nginx/staging.conf. This is where the mismatch lives: nginx proxies to the upstream app without rewriting the Set-Cookie domain. The upstream hostname used internally differs from the public staging hostname, and on staging the TLS SNI and the cookie's parent-domain scope don't cleanly line up against the wildcard certificate. Chrome is rejecting the cross-origin parent-domain cookie as a result. Prod is fine because its hostname alignment with the cert and upstream happens to be clean.
+
+Root cause: infra/nginx/staging.conf does not rewrite Set-Cookie domains coming back from the upstream, so the browser receives a cookie whose domain doesn't match the expectations Chrome applies to staging's wildcard TLS setup, and it drops it.
+
+What was tried and rejected:
+
+- Changing app/auth.py to narrow the cookie domain to staging.example.com. Rejected: the application code is correct and shared with prod; touching it to work around an infra issue would introduce environment-specific logic in the wrong layer and risk regressing prod.
+- Fixing it today. Rejected by Giovanni: he wants to make the nginx change himself during Monday's scheduled maintenance window, not ad-hoc on a Wednesday.
+
+Decision: the fix is a proxy_cookie_domain directive in infra/nginx/staging.conf, to be written by Giovanni on Monday. No code or config was modified in this session.
+
+State at end of session:
+
+- Diagnosis complete, documented here.
+- app/auth.py confirmed correct — do NOT modify it. Any future Claude picking this up should resist the temptation to "fix" the app layer.
+- The fix belongs in infra/nginx/staging.conf via proxy_cookie_domain (or equivalent rewriting of the upstream Set-Cookie domain). Planned for Monday's maintenance window by Giovanni himself.
+- No files were changed; the only diff in this commit is CHECKPOINTS.md.
+

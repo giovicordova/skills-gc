@@ -1,0 +1,4 @@
+/Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-1/setup-3-fresh-recall.sh
+cd <repo> && ls -la && git log --oneline
+Read CHECKPOINTS.md
+cd <repo> && git log --all --grep="logout bug" -1

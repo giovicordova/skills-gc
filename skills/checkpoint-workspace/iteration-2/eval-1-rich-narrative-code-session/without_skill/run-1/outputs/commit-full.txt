@@ -1,0 +1,23 @@
+Add sorted list_widgets() and colour filter module
+
+list_widgets() now returns widgets ordered by creation date, newest
+first. Added src/filters.py with by_colour() as a separate module, and
+tests/test_filters.py.
+
+Note on the debugging detour: sorted() initially appeared broken —
+reversed=True, then reversed(), then swapping the key all produced the
+same (unsorted) output. The real cause was that _load_from_db() returns
+a generator that had already been consumed by a debug print a few lines
+earlier in the session. Fix: wrap the call in list() before sorting.
+If you see 'sorted is broken' symptoms again, check whether the
+underlying iterable has already been walked.
+
+Rejected: adding @functools.lru_cache to _load_from_db() for perf.
+Widgets get mutated in the DB out-of-band, so a stale cache would be
+worse than no cache. Do NOT reintroduce caching here without solving
+invalidation first.
+
+Not committed intentionally: config.draft.yml — Giovanni is still
+drafting the DB connection config and wants to review it tomorrow
+before it lands. Left untracked on purpose.
+

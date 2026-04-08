@@ -1,0 +1,4 @@
+cd9a163 Added scripts/import_csv.py to batch-load supplier data and wrote a smoke test against the sample file.
+b34bb31 Traced the staging logout bug to a nginx cookie domain mismatch and planned a Monday config fix — no code change.
+8c20835 Polished the marketing landing page in web/styles.css and removed the unused hero animation.
+b8e97e2 Initial

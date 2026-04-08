@@ -1,0 +1,53 @@
+{
+  "eval_id": 3,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "Response shows evidence of reading CHECKPOINTS.md.",
+      "passed": true,
+      "evidence": "commands-run.txt lists 'Read CHECKPOINTS.md'."
+    },
+    {
+      "text": "Response identifies the nginx/cookie/staging session as 'the auth thing'.",
+      "passed": true,
+      "evidence": "Response references the 2026-04-06 staging logout session."
+    },
+    {
+      "text": "Response retrieves the full commit body via git log --grep or git show.",
+      "passed": true,
+      "evidence": "commands-run.txt: 'git log --all --grep=\"Traced the staging logout bug\" -1 --format=%B'."
+    },
+    {
+      "text": "Response mentions app/auth.py is correct and doesn't need changes.",
+      "passed": true,
+      "evidence": "'app/auth.py sets the cookie correctly'."
+    },
+    {
+      "text": "Response points to infra/nginx/staging.conf as the fix location.",
+      "passed": true,
+      "evidence": "'The hole is in infra/nginx/staging.conf'."
+    },
+    {
+      "text": "Response mentions proxy_cookie_domain or the Monday plan.",
+      "passed": true,
+      "evidence": "Both: 'proxy_cookie_domain directive' and 'maintenance window / Monday'."
+    },
+    {
+      "text": "Response summarises past session back to user before making changes.",
+      "passed": true,
+      "evidence": "Full 3-bullet recap, then 'Before I touch anything' question."
+    },
+    {
+      "text": "Response does NOT pull the wrong session (marketing or CSV).",
+      "passed": true,
+      "evidence": "No mention of styles.css or import_csv.py."
+    }
+  ],
+  "pass_rate": 1.0,
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 8,
+    "failed": 0,
+    "total": 8
+  }
+}

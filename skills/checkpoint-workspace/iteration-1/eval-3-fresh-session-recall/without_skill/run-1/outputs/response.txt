@@ -1,0 +1,13 @@
+Morning. Yes — picking up the staging logout thing.
+
+Recap from Monday's diagnosis session (2026-04-06):
+- Root cause: nginx on staging isn't rewriting the `Set-Cookie` domain. SNI + cookie domain alignment breaks on staging only, so Chrome silently drops the parent-domain cookie.
+- `app/auth.py` is correct — do NOT touch it. Cookie is set with `domain=.example.com`, which is right.
+- Fix belongs in `infra/nginx/staging.conf` via a `proxy_cookie_domain` directive.
+- You'd planned to do it Monday during the maintenance window; you now want to do it today instead.
+
+Before I propose the exact nginx change, two quick checks:
+1. Are we outside the maintenance window constraint, i.e. is it OK to touch staging nginx right now? Any users on it?
+2. Do you want me to read `infra/nginx/staging.conf` first and draft the `proxy_cookie_domain` line against the actual upstream/public host pair, then you apply it?
+
+Say go and I'll read the config and come back with the one-line diff.

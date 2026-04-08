@@ -1,0 +1,2 @@
+b45c7f4 checkpoint: staging logout bug — diagnosed, no code changed
+46ad988 Initial infra + auth

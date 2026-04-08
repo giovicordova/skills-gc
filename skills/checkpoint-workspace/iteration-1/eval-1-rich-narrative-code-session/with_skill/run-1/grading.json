@@ -1,0 +1,58 @@
+{
+  "eval_id": 1,
+  "config": "with_skill",
+  "expectations": [
+    {
+      "text": "A new checkpoint commit was created on top of the initial skeleton commit.",
+      "passed": true,
+      "evidence": "git-log-oneline.txt shows 2 commits: initial + the new checkpoint."
+    },
+    {
+      "text": "The commit subject is a single substantive sentence (not 'Updates', 'wip', or empty).",
+      "passed": true,
+      "evidence": "Subject: 'Added newest-first sorting to list_widgets() and a separate colour filter module, after tracing a sort bug to a consumed generator in _load_from_db().'"
+    },
+    {
+      "text": "CHECKPOINTS.md exists at the repo root and contains exactly one session entry matching the commit subject character-for-character.",
+      "passed": true,
+      "evidence": "CHECKPOINTS.md entry matches the commit subject verbatim."
+    },
+    {
+      "text": "The CHECKPOINTS.md entry is prefixed with today's date in YYYY-MM-DD format.",
+      "passed": true,
+      "evidence": "Entry starts with '2026-04-08 \u2014'."
+    },
+    {
+      "text": "The commit body mentions the rejected functools.lru_cache alternative and explains the reasoning.",
+      "passed": true,
+      "evidence": "Dedicated 'Rejected alternative' section covers lru_cache + out-of-band mutation reasoning."
+    },
+    {
+      "text": "The commit body mentions the sorted()/generator dead end.",
+      "passed": true,
+      "evidence": "Dedicated 'Dead end' section explains the consumed generator."
+    },
+    {
+      "text": "The commit body references specific file paths that were touched.",
+      "passed": true,
+      "evidence": "src/widgets.py, src/filters.py, tests/test_filters.py all named."
+    },
+    {
+      "text": "config.draft.yml was NOT added to the commit.",
+      "passed": true,
+      "evidence": "files-committed.txt: only CHECKPOINTS.md, src/filters.py, src/widgets.py, tests/test_filters.py. config.draft.yml still untracked."
+    },
+    {
+      "text": "The commit body is substantive: more than 400 characters.",
+      "passed": true,
+      "evidence": "Body is ~2500 chars."
+    }
+  ],
+  "pass_rate": 1.0,
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 9,
+    "failed": 0,
+    "total": 9
+  }
+}

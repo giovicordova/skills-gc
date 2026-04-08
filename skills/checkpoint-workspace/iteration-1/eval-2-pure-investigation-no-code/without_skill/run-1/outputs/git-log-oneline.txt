@@ -1,0 +1,2 @@
+03278d5 checkpoint: staging logout bug — diagnosis only, no code change
+b9913a1 Initial infra + auth

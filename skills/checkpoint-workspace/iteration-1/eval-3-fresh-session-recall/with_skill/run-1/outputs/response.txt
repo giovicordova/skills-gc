@@ -1,0 +1,7 @@
+Morning. Pulled the checkpoint from 2026-04-06 — quick recap so we're aligned before touching anything:
+
+- The bug: users on staging logged out on every request.
+- Diagnosis: not an app bug. app/auth.py sets the cookie correctly (domain=.example.com). The hole is in infra/nginx/staging.conf — nginx isn't rewriting Set-Cookie, and the SNI / upstream hostname mismatch makes Chrome silently drop the parent-domain cookie. Only breaks on staging, not prod.
+- Plan left for Monday: add a proxy_cookie_domain directive in infra/nginx/staging.conf. You were going to do it yourself during the maintenance window. No code change needed.
+
+You want to do it today instead. Before I touch anything — is that still the fix you want (proxy_cookie_domain in staging.conf), or do you want me to re-verify the diagnosis first? And is there a maintenance window concern with doing it today instead of Monday?

@@ -1,0 +1,6 @@
+# Checkpoints
+
+One-sentence summary per session, newest first. For the full story of a
+session, run: `git log --all --grep="<the exact title>" -1`
+
+- 2026-04-08 — Added newest-first sorting to list_widgets() and a separate colour filter module, after tracing a sort bug to a consumed generator in _load_from_db().

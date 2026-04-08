@@ -1,0 +1,2 @@
+61fc9cd Checkpoint 2026-04-08: sort list_widgets() newest-first, add colour filter module
+4a8aa78 Initial skeleton

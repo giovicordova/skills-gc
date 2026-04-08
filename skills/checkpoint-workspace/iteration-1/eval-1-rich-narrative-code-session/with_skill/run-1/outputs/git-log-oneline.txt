@@ -1,0 +1,2 @@
+3765419 Added newest-first sorting to list_widgets() and a separate colour filter module, after tracing a sort bug to a consumed generator in _load_from_db().
+aab4055 Initial skeleton

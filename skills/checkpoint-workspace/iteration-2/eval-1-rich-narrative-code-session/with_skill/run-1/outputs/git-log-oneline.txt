@@ -1,0 +1,2 @@
+837cbb8 Added newest-first sorting to list_widgets() and a separate colour-filter module, after tracing a sort bug to a consumed generator and rejecting lru_cache on _load_from_db().
+085c922 Initial skeleton

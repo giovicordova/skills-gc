@@ -1,0 +1,27 @@
+commit 837cbb8b09bb06541855d9c097ab215d39339ee1
+Author: Eval <eval@example.com>
+Date:   Wed Apr 8 10:24:11 2026 +0200
+
+    Added newest-first sorting to list_widgets() and a separate colour-filter module, after tracing a sort bug to a consumed generator and rejecting lru_cache on _load_from_db().
+    
+    What was done
+    - Updated `src/widgets.py` so `list_widgets()` returns widgets sorted by creation date, newest first.
+    - Added `src/filters.py` with a `by_colour()` helper, kept as a separate module per the user's request to not overload widgets.py.
+    - Added `tests/test_filters.py` covering the new filter.
+    
+    The sort bug (dead end worth remembering)
+    Initial implementation looked right but returned widgets in the wrong order. About 15 minutes were lost chasing the sort itself: added `reverse=True` to `sorted()`, then moved it to the inner call, then tried wrapping the result in `reversed()` — none of it changed the output. Root cause was nothing to do with sorting: `_load_from_db()` returns a generator, and a debug `print` statement a few lines above the sort had already consumed it, so `sorted()` was operating on an empty iterable and silently producing nothing useful. Fix was to materialise the generator with `list(_load_from_db())` before sorting. Lesson for next session: when a sort "doesn't work" on data from `_load_from_db()`, check for upstream iteration first — the function returns a generator, not a list.
+    
+    Rejected: lru_cache on _load_from_db()
+    The user suggested wrapping `_load_from_db()` in `@functools.lru_cache` for performance. We discussed and decided against it. Widgets are mutated in the database out-of-band (other processes / manual edits), so a cached result would go stale and return wrong data — worse than the current uncached cost. This decision should not be revisited without first solving the out-of-band mutation problem. Recording it explicitly so a future session doesn't reintroduce caching as an "obvious" optimisation.
+    
+    State at end of session
+    - `src/widgets.py`, `src/filters.py`, `tests/test_filters.py` are committed as part of this checkpoint.
+    - `config.draft.yml` exists in the working tree but is intentionally left untracked — Giovanni wants to review the DB connection config tomorrow before it goes in. Do not commit it next session without his sign-off.
+    - No other work in flight. Next session can pick up from the config review.
+
+ CHECKPOINTS.md        | 6 ++++++
+ src/filters.py        | 2 ++
+ src/widgets.py        | 7 ++++++-
+ tests/test_filters.py | 3 +++
+ 4 files changed, 17 insertions(+), 1 deletion(-)

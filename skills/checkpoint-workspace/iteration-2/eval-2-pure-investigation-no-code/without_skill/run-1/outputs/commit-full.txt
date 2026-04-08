@@ -1,0 +1,42 @@
+checkpoint: staging logout bug — diagnosed, no code changed
+
+Session date: 2026-04-08
+Status: investigation complete, fix deferred to Monday maintenance window
+
+## Problem
+Users on staging are logged out on every request. Prod is unaffected.
+
+## Investigation trail
+1. Checked app/auth.py — cookie is set on `.example.com` (parent domain),
+   which should cover both staging and prod. Code is correct.
+2. Inspected browser devtools behaviour (reported by user): the Set-Cookie
+   header is returned on every response, but the browser does not send the
+   cookie back on the next request. Chrome is silently rejecting it.
+3. Traced the path through infra/nginx/staging.conf. The staging nginx
+   proxies to the app without rewriting the Set-Cookie domain. The app
+   emits `domain=.example.com`, but the browser is on
+   `staging.example.com` and the upstream uses a different internal
+   hostname. Chrome's cookie jar rejects the parent-domain cookie because
+   the TLS SNI and the cookie domain do not cleanly align against
+   staging's wildcard cert.
+
+## Root cause
+infra/nginx/staging.conf is missing a `proxy_cookie_domain` directive.
+The app code is NOT the problem.
+
+## Decision
+Do NOT touch app/auth.py — it is correct.
+Fix belongs in infra/nginx/staging.conf via `proxy_cookie_domain`.
+Giovanni will apply the nginx change himself on Monday during the
+maintenance window. Today's session ends with diagnosis only; zero files
+were modified.
+
+## Handoff for tomorrow-Claude
+- The app code is fine. Do not go hunting in app/auth.py.
+- The fix is an nginx config change at infra/nginx/staging.conf.
+- Scheduled for Monday's maintenance window — do not apply early.
+- When the time comes, the directive needed is `proxy_cookie_domain`
+  rewriting the upstream internal hostname to `staging.example.com` (or
+  stripping the Domain attribute so the browser scopes the cookie to the
+  host it actually sees).
+

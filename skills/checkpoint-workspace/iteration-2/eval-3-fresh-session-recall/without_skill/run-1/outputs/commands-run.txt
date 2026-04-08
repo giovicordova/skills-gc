@@ -1,0 +1,13 @@
+1. Bash: /Users/giovannicordova/Documents/02_projects/skills-gc/skills/checkpoint-workspace/iteration-2/setup-3-fresh-recall.sh
+   -> printed repo path: /var/folders/s3/04pdsbn153xbkgl6vrvwcxd40000gn/T/checkpoint-e3-XXXXXX.iFfenG0pnx
+
+2. Bash: cd <repo> && ls -la && git log --oneline
+   -> saw CHECKPOINTS.md, README.md, scripts/, web/, and 4 commits
+
+3. Read: CHECKPOINTS.md
+   -> saw 3 one-line summaries, newest 2026-04-07 (import_csv.py), then 2026-04-06 (staging logout / nginx), then 2026-04-05 (landing page)
+
+4. Bash: git log --all --grep="logout" -1
+   -> retrieved the full body of the 2026-04-06 checkpoint commit (diagnosis-only session on the staging auth bug, fix queued for Monday in infra/nginx/staging.conf)
+
+No files edited. No skill invoked.

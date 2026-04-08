@@ -1,0 +1,57 @@
+{
+  "eval_id": 1,
+  "config": "without_skill",
+  "expectations": [
+    {
+      "text": "A new checkpoint commit was created on top of the initial skeleton commit.",
+      "passed": true,
+      "evidence": "Commit created."
+    },
+    {
+      "text": "The commit subject is a single substantive sentence (not 'Updates', 'wip', or empty).",
+      "passed": false,
+      "evidence": "Subject is 'Add sorted list_widgets() and colour filter module' \u2014 imperative fragment, no period, not a sentence."
+    },
+    {
+      "text": "CHECKPOINTS.md exists at the repo root and contains exactly one session entry matching the commit subject character-for-character.",
+      "passed": false,
+      "evidence": "CHECKPOINTS.md does not exist."
+    },
+    {
+      "text": "The CHECKPOINTS.md entry is prefixed with today's date in YYYY-MM-DD format.",
+      "passed": false,
+      "evidence": "No CHECKPOINTS.md."
+    },
+    {
+      "text": "The commit body mentions the rejected functools.lru_cache alternative and explains the reasoning.",
+      "passed": true,
+      "evidence": "'Rejected: adding @functools.lru_cache' paragraph."
+    },
+    {
+      "text": "The commit body mentions the sorted()/generator dead end.",
+      "passed": true,
+      "evidence": "'Note on the debugging detour' paragraph."
+    },
+    {
+      "text": "The commit body references specific file paths that were touched.",
+      "passed": true,
+      "evidence": "src/filters.py, tests/test_filters.py named; src/widgets.py implicit."
+    },
+    {
+      "text": "config.draft.yml was NOT added to the commit.",
+      "passed": true,
+      "evidence": "Body explicitly notes it was not committed."
+    },
+    {
+      "text": "The commit body is substantive: more than 400 characters.",
+      "passed": true,
+      "evidence": "~900 chars."
+    }
+  ],
+  "summary": {
+    "pass_rate": 0.6667,
+    "passed": 6,
+    "failed": 3,
+    "total": 9
+  }
+}

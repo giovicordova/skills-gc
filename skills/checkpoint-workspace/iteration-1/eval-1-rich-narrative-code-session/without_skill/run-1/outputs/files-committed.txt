@@ -1,0 +1,63 @@
+commit 61fc9cd7ad945b4b0302e2ed0bc6c54585ab2938
+Author: Eval <eval@example.com>
+Date:   Wed Apr 8 10:09:48 2026 +0200
+
+    Checkpoint 2026-04-08: sort list_widgets() newest-first, add colour filter module
+    
+    Session summary
+    ---------------
+    Implemented two related changes to the widgets module and captured a
+    design decision that must not be re-litigated in future sessions.
+    
+    1) list_widgets() now returns widgets sorted by creation date, newest
+       first (src/widgets.py). The obvious sorted(..., reverse=True) was
+       correct, but the output was initially wrong for a non-obvious reason
+       — see the debugging note below.
+    
+    2) Colour filtering extracted into its own module at src/filters.py
+       with a by_colour() helper, plus tests in tests/test_filters.py.
+       Kept separate from widgets.py on purpose so filter logic can grow
+       without bloating the core module.
+    
+    Debugging note — do not repeat this mistake
+    -------------------------------------------
+    ~15 minutes were lost chasing the sort order. sorted() was being called
+    on a generator returned by _load_from_db() that had already been
+    partially consumed by an earlier debug print. The fix was to wrap the
+    call in list() before sorting so the sequence is materialised exactly
+    once. If list_widgets() ever returns empty or wrong-ordered results
+    again, check first whether _load_from_db()'s generator is being
+    iterated somewhere upstream (logging, debug prints, assertions).
+    
+    Rejected: functools.lru_cache on _load_from_db()
+    ------------------------------------------------
+    User proposed adding @functools.lru_cache to _load_from_db() for
+    performance. We discussed and explicitly rejected it. Reason: widgets
+    are mutated in the database out-of-band (other processes write to the
+    same table), so a cached view would go stale and return incorrect data
+    — worse than the current uncached behaviour. Do NOT reintroduce
+    lru_cache here without first solving cache invalidation against
+    out-of-band writers. This decision is intentional, not an oversight.
+    
+    Work left uncommitted on purpose
+    --------------------------------
+    - config.draft.yml — Giovanni is drafting DB connection config and
+      wants to review it tomorrow before it lands. Left untracked
+      deliberately. Do not commit it in the next session without his
+      explicit sign-off.
+    - SESSION-NOTES.txt — scratch transcript, not part of the repo.
+    
+    Files in this commit
+    --------------------
+    - src/widgets.py       (modified: sort + list() wrapping fix)
+    - src/filters.py       (new: by_colour())
+    - tests/test_filters.py (new)
+    
+    Next session should: (a) review config.draft.yml with Giovanni and
+    decide whether to commit it, (b) consider whether by_colour() needs
+    to handle hex/RGB inputs in addition to named colours.
+
+ src/filters.py        | 2 ++
+ src/widgets.py        | 7 ++++++-
+ tests/test_filters.py | 3 +++
+ 3 files changed, 11 insertions(+), 1 deletion(-)

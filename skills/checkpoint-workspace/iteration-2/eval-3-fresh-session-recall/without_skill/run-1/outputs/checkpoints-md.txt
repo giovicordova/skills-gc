@@ -1,0 +1,8 @@
+# Checkpoints
+
+One-sentence summary per session, newest first. For the full story of a
+session, run: `git log --all --grep="<the exact title>" -1`
+
+- 2026-04-07 — Added scripts/import_csv.py to batch-load supplier data and wrote a smoke test against the sample file.
+- 2026-04-06 — Traced the staging logout bug to a nginx cookie domain mismatch and planned a Monday config fix — no code change.
+- 2026-04-05 — Polished the marketing landing page in web/styles.css and removed the unused hero animation.

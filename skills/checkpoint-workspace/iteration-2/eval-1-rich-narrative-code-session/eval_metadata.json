@@ -1,0 +1,16 @@
+{
+  "eval_id": 1,
+  "eval_name": "rich-narrative-code-session",
+  "prompt": "Run setup-1-rich-narrative.sh, cd into the directory, read SESSION-NOTES.txt, then do what the user asked (/checkpoint).",
+  "assertions": [
+    {"text": "A new checkpoint commit was created on top of the initial skeleton commit."},
+    {"text": "The commit subject is a single substantive sentence (not 'Updates', 'wip', or empty)."},
+    {"text": "CHECKPOINTS.md exists at the repo root and contains exactly one session entry matching the commit subject character-for-character."},
+    {"text": "The CHECKPOINTS.md entry is prefixed with today's date in YYYY-MM-DD format."},
+    {"text": "The commit body mentions the rejected functools.lru_cache alternative and explains the reasoning."},
+    {"text": "The commit body mentions the sorted()/generator dead end."},
+    {"text": "The commit body references specific file paths that were touched."},
+    {"text": "config.draft.yml was NOT added to the commit."},
+    {"text": "The commit body is substantive: more than 400 characters."}
+  ]
+}

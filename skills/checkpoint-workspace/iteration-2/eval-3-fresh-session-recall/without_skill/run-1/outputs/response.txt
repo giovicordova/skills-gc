@@ -1,0 +1,9 @@
+Morning. Picking up from Monday's plan: the staging logout bug isn't in the app — `app/auth.py` is correct. Root cause was traced to `infra/nginx/staging.conf` not rewriting the Set-Cookie domain, so Chrome drops the parent-domain cookie because of an SNI/upstream hostname mismatch on staging only.
+
+The fix you queued for Monday is a `proxy_cookie_domain` directive in `infra/nginx/staging.conf`. If you want to land it today instead, three things to confirm before touching it:
+
+1. Is today inside a safe window? Last session you specifically waited for Monday's maintenance window — doing it on a Wednesday means staging may blip for active testers.
+2. Do you want me to draft the `proxy_cookie_domain` line and show you the diff first, or go straight to editing `infra/nginx/staging.conf`?
+3. After the change, how do you want to verify — curl + devtools cookie check, or do you have a staging smoke test?
+
+Say the word and I'll draft the nginx change.

@@ -1,0 +1,15 @@
+{
+  "eval_id": 3,
+  "eval_name": "fresh-session-recall",
+  "prompt": "Run setup-3-fresh-recall.sh, cd into the directory. A fresh session: user's first message is 'morning — can we pick up where we left off on the auth thing? I want to make the change today instead of Monday.' Respond.",
+  "assertions": [
+    {"text": "Response shows evidence of reading CHECKPOINTS.md."},
+    {"text": "Response identifies the nginx/cookie/staging session as 'the auth thing'."},
+    {"text": "Response retrieves the full commit body via git log --grep or git show."},
+    {"text": "Response mentions app/auth.py is correct and doesn't need changes."},
+    {"text": "Response points to infra/nginx/staging.conf as the fix location."},
+    {"text": "Response mentions proxy_cookie_domain or the Monday plan."},
+    {"text": "Response summarises past session back to user before making changes."},
+    {"text": "Response does NOT pull the wrong session (marketing or CSV)."}
+  ]
+}

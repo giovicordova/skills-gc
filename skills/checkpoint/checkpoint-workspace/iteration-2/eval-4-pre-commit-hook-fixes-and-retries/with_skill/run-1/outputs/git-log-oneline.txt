@@ -1,4 +1,0 @@
-8f96f6a Add farewell helper to greet module and wire SessionStart hook
-05208e8 Add greet tests
-604f268 Add greet helper
-771bbfb Initial scaffold

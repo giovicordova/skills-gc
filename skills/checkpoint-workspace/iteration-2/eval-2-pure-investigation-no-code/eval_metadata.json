@@ -1,0 +1,15 @@
+{
+  "eval_id": 2,
+  "eval_name": "pure-investigation-no-code",
+  "prompt": "Run setup-2-investigation.sh, cd into the directory, read SESSION-NOTES.txt, then /checkpoint the session (pure investigation, no code changes).",
+  "assertions": [
+    {"text": "A new git commit was created even though no source files changed."},
+    {"text": "The commit subject names the root cause (nginx/cookie/domain/staging)."},
+    {"text": "CHECKPOINTS.md exists and contains one dated entry matching the commit subject."},
+    {"text": "The commit body explains the root cause (cookie domain / nginx proxy)."},
+    {"text": "The commit body references infra/nginx/staging.conf as the fix location."},
+    {"text": "The commit body states that app/auth.py is correct and was NOT changed."},
+    {"text": "The commit body mentions the Monday maintenance window plan."},
+    {"text": "The commit body is substantive: more than 400 characters."}
+  ]
+}

@@ -1,0 +1,423 @@
+{
+  "metadata": {
+    "skill_name": "checkpoint",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-04-08T08:13:21Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 66.08,
+        "tokens": 31397,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A new checkpoint commit was created on top of the initial skeleton commit.",
+          "passed": true,
+          "evidence": "git-log-oneline.txt shows 2 commits: initial + the new checkpoint."
+        },
+        {
+          "text": "The commit subject is a single substantive sentence (not 'Updates', 'wip', or empty).",
+          "passed": true,
+          "evidence": "Subject: 'Added newest-first sorting to list_widgets() and a separate colour filter module, after tracing a sort bug to a consumed generator in _load_from_db().'"
+        },
+        {
+          "text": "CHECKPOINTS.md exists at the repo root and contains exactly one session entry matching the commit subject character-for-character.",
+          "passed": true,
+          "evidence": "CHECKPOINTS.md entry matches the commit subject verbatim."
+        },
+        {
+          "text": "The CHECKPOINTS.md entry is prefixed with today's date in YYYY-MM-DD format.",
+          "passed": true,
+          "evidence": "Entry starts with '2026-04-08 \u2014'."
+        },
+        {
+          "text": "The commit body mentions the rejected functools.lru_cache alternative and explains the reasoning.",
+          "passed": true,
+          "evidence": "Dedicated 'Rejected alternative' section covers lru_cache + out-of-band mutation reasoning."
+        },
+        {
+          "text": "The commit body mentions the sorted()/generator dead end.",
+          "passed": true,
+          "evidence": "Dedicated 'Dead end' section explains the consumed generator."
+        },
+        {
+          "text": "The commit body references specific file paths that were touched.",
+          "passed": true,
+          "evidence": "src/widgets.py, src/filters.py, tests/test_filters.py all named."
+        },
+        {
+          "text": "config.draft.yml was NOT added to the commit.",
+          "passed": true,
+          "evidence": "files-committed.txt: only CHECKPOINTS.md, src/filters.py, src/widgets.py, tests/test_filters.py. config.draft.yml still untracked."
+        },
+        {
+          "text": "The commit body is substantive: more than 400 characters.",
+          "passed": true,
+          "evidence": "Body is ~2500 chars."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 53.72,
+        "tokens": 29678,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A new git commit was created even though no source files changed.",
+          "passed": true,
+          "evidence": "CHECKPOINTS.md was the staged diff \u2014 real commit, not --allow-empty."
+        },
+        {
+          "text": "The commit subject names the root cause (nginx/cookie/domain/staging).",
+          "passed": true,
+          "evidence": "Subject: 'Traced staging logout regression to an nginx cookie-domain mismatch in infra/nginx/staging.conf \u2014 no code change...'."
+        },
+        {
+          "text": "CHECKPOINTS.md exists and contains one dated entry matching the commit subject.",
+          "passed": true,
+          "evidence": "Entry matches the commit subject verbatim, dated 2026-04-08."
+        },
+        {
+          "text": "The commit body explains the root cause (cookie domain / nginx proxy).",
+          "passed": true,
+          "evidence": "Body explains SNI + parent-domain cookie rejection, nginx not rewriting Set-Cookie."
+        },
+        {
+          "text": "The commit body references infra/nginx/staging.conf as the fix location.",
+          "passed": true,
+          "evidence": "Named multiple times with proxy_cookie_domain."
+        },
+        {
+          "text": "The commit body states that app/auth.py is correct and was NOT changed.",
+          "passed": true,
+          "evidence": "'Do NOT touch app/auth.py. The application code is correct.'"
+        },
+        {
+          "text": "The commit body mentions the Monday maintenance window plan.",
+          "passed": true,
+          "evidence": "'defer the fix to Monday's maintenance window'."
+        },
+        {
+          "text": "The commit body is substantive: more than 400 characters.",
+          "passed": true,
+          "evidence": "Body is ~2500 chars."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 43.29,
+        "tokens": 29124,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Response shows evidence of reading CHECKPOINTS.md.",
+          "passed": true,
+          "evidence": "commands-run.txt lists 'Read CHECKPOINTS.md'."
+        },
+        {
+          "text": "Response identifies the nginx/cookie/staging session as 'the auth thing'.",
+          "passed": true,
+          "evidence": "Response references the 2026-04-06 staging logout session."
+        },
+        {
+          "text": "Response retrieves the full commit body via git log --grep or git show.",
+          "passed": true,
+          "evidence": "commands-run.txt: 'git log --all --grep=\"Traced the staging logout bug\" -1 --format=%B'."
+        },
+        {
+          "text": "Response mentions app/auth.py is correct and doesn't need changes.",
+          "passed": true,
+          "evidence": "'app/auth.py sets the cookie correctly'."
+        },
+        {
+          "text": "Response points to infra/nginx/staging.conf as the fix location.",
+          "passed": true,
+          "evidence": "'The hole is in infra/nginx/staging.conf'."
+        },
+        {
+          "text": "Response mentions proxy_cookie_domain or the Monday plan.",
+          "passed": true,
+          "evidence": "Both: 'proxy_cookie_domain directive' and 'maintenance window / Monday'."
+        },
+        {
+          "text": "Response summarises past session back to user before making changes.",
+          "passed": true,
+          "evidence": "Full 3-bullet recap, then 'Before I touch anything' question."
+        },
+        {
+          "text": "Response does NOT pull the wrong session (marketing or CSV).",
+          "passed": true,
+          "evidence": "No mention of styles.css or import_csv.py."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6667,
+        "passed": 6,
+        "failed": 3,
+        "total": 9,
+        "time_seconds": 45.84,
+        "tokens": 25431,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A new checkpoint commit was created on top of the initial skeleton commit.",
+          "passed": true,
+          "evidence": "Commit 61fc9cd created."
+        },
+        {
+          "text": "The commit subject is a single substantive sentence (not 'Updates', 'wip', or empty).",
+          "passed": false,
+          "evidence": "Subject is 'Checkpoint 2026-04-08: sort list_widgets() newest-first, add colour filter module' \u2014 colon-separated tag + comma list, not a natural single sentence. Not retrievable by semantic grep the way a sentence would be."
+        },
+        {
+          "text": "CHECKPOINTS.md exists at the repo root and contains exactly one session entry matching the commit subject character-for-character.",
+          "passed": false,
+          "evidence": "CHECKPOINTS.md does not exist. No index was created."
+        },
+        {
+          "text": "The CHECKPOINTS.md entry is prefixed with today's date in YYYY-MM-DD format.",
+          "passed": false,
+          "evidence": "No CHECKPOINTS.md exists."
+        },
+        {
+          "text": "The commit body mentions the rejected functools.lru_cache alternative and explains the reasoning.",
+          "passed": true,
+          "evidence": "Dedicated 'Rejected: functools.lru_cache' section covers it."
+        },
+        {
+          "text": "The commit body mentions the sorted()/generator dead end.",
+          "passed": true,
+          "evidence": "'Debugging note' section covers generator exhaustion."
+        },
+        {
+          "text": "The commit body references specific file paths that were touched.",
+          "passed": true,
+          "evidence": "src/widgets.py, src/filters.py, tests/test_filters.py all named."
+        },
+        {
+          "text": "config.draft.yml was NOT added to the commit.",
+          "passed": true,
+          "evidence": "files-committed.txt shows only 3 files staged."
+        },
+        {
+          "text": "The commit body is substantive: more than 400 characters.",
+          "passed": true,
+          "evidence": "Body is ~2000 chars."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 6,
+        "failed": 2,
+        "total": 8,
+        "time_seconds": 38.21,
+        "tokens": 24961,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A new git commit was created even though no source files changed.",
+          "passed": true,
+          "evidence": "Commit 03278d5 created (--allow-empty assumed since no files changed)."
+        },
+        {
+          "text": "The commit subject names the root cause (nginx/cookie/domain/staging).",
+          "passed": false,
+          "evidence": "Subject is 'checkpoint: staging logout bug \u2014 diagnosis only, no code change'. It names the symptom, not the root cause (nginx/cookie domain absent). Not a natural sentence \u2014 tag-prefixed like a conventional commit."
+        },
+        {
+          "text": "CHECKPOINTS.md exists and contains one dated entry matching the commit subject.",
+          "passed": false,
+          "evidence": "CHECKPOINTS.md does not exist. No index."
+        },
+        {
+          "text": "The commit body explains the root cause (cookie domain / nginx proxy).",
+          "passed": true,
+          "evidence": "'Root cause' section explains nginx not rewriting Set-Cookie."
+        },
+        {
+          "text": "The commit body references infra/nginx/staging.conf as the fix location.",
+          "passed": true,
+          "evidence": "Named in root cause and decision sections."
+        },
+        {
+          "text": "The commit body states that app/auth.py is correct and was NOT changed.",
+          "passed": true,
+          "evidence": "'Do NOT change app/auth.py. The application code is correct.'"
+        },
+        {
+          "text": "The commit body mentions the Monday maintenance window plan.",
+          "passed": true,
+          "evidence": "'during Monday's maintenance window'."
+        },
+        {
+          "text": "The commit body is substantive: more than 400 characters.",
+          "passed": true,
+          "evidence": "Body is ~1600 chars."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 46.04,
+        "tokens": 26026,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Response shows evidence of reading CHECKPOINTS.md.",
+          "passed": true,
+          "evidence": "commands-run.txt: 'Read CHECKPOINTS.md'. The baseline found the file on its own because it was obviously named."
+        },
+        {
+          "text": "Response identifies the nginx/cookie/staging session as 'the auth thing'.",
+          "passed": true,
+          "evidence": "'picking up the staging logout thing'."
+        },
+        {
+          "text": "Response retrieves the full commit body via git log --grep or git show.",
+          "passed": true,
+          "evidence": "commands-run.txt: 'git log --all --grep=\"logout bug\" -1'."
+        },
+        {
+          "text": "Response mentions app/auth.py is correct and doesn't need changes.",
+          "passed": true,
+          "evidence": "'app/auth.py is correct \u2014 do NOT touch it'."
+        },
+        {
+          "text": "Response points to infra/nginx/staging.conf as the fix location.",
+          "passed": true,
+          "evidence": "'Fix belongs in infra/nginx/staging.conf'."
+        },
+        {
+          "text": "Response mentions proxy_cookie_domain or the Monday plan.",
+          "passed": true,
+          "evidence": "Both mentioned."
+        },
+        {
+          "text": "Response summarises past session back to user before making changes.",
+          "passed": true,
+          "evidence": "Full recap, then 2 clarifying questions before acting."
+        },
+        {
+          "text": "Response does NOT pull the wrong session (marketing or CSV).",
+          "passed": true,
+          "evidence": "No mention of styles.css or import_csv.py."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 54.3633,
+        "stddev": 11.4086,
+        "min": 43.29,
+        "max": 66.08
+      },
+      "tokens": {
+        "mean": 30066.3333,
+        "stddev": 1185.2149,
+        "min": 29124,
+        "max": 31397
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.8056,
+        "stddev": 0.1735,
+        "min": 0.6667,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 43.3633,
+        "stddev": 4.464,
+        "min": 38.21,
+        "max": 46.04
+      },
+      "tokens": {
+        "mean": 25472.6667,
+        "stddev": 533.7212,
+        "min": 24961,
+        "max": 26026
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.19",
+      "time_seconds": "+11.0",
+      "tokens": "+4594"
+    }
+  },
+  "notes": []
+}
