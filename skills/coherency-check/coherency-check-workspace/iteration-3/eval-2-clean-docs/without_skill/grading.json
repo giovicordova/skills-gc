@@ -1,0 +1,74 @@
+{
+  "expectations": [
+    {
+      "text": "Report confirms no contradictions were found",
+      "passed": true,
+      "evidence": "Report states 'Verdict: Fully coherent' and 'No contradictions, no conflicting values, no missing connections.' Verified against source docs — BPM range, time signatures, tap tempo, presets all match across VISION, SPEC, ROADMAP."
+    },
+    {
+      "text": "Report does NOT fabricate issues that don't exist in the documents",
+      "passed": true,
+      "evidence": "The two 'minor observations' are both genuine: (1) Vision says 'tempo + time signature combinations' for presets while Spec additionally stores accent pattern — confirmed in VISION.md line 19 vs SPEC.md lines 28-32. (2) Roadmap v1.1/v2.0 features lack spec sections — confirmed by reading SPEC.md which only covers v1.0 scope. Neither observation is fabricated."
+    },
+    {
+      "text": "Report lists the files that were checked",
+      "passed": true,
+      "evidence": "The cross-document alignment table headers explicitly reference VISION, SPEC, and ROADMAP — the three source files. However, no explicit file paths are listed. Passing because the documents are clearly identified by name, though listing paths would be more rigorous."
+    },
+    {
+      "text": "Report is concise — does not pad a clean result with unnecessary detail",
+      "passed": true,
+      "evidence": "Report is 34 lines including the table. The alignment table provides value by showing exact cross-references. The two minor observations are genuine and non-blocking. The summary is three sentences. No filler or padding detected."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 41.5
+  },
+  "claims": [
+    {
+      "claim": "BPM range is 20-300 across all three documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "VISION: '20 to 300 BPM', SPEC: '20–300 BPM', ROADMAP: '20–300 BPM'"
+    },
+    {
+      "claim": "Time signature denominators are 4, 8, 16 across all three documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "VISION: 'Y is 4, 8, or 16', SPEC: 'Supported denominators: 4, 8, 16', ROADMAP: '4, 8, 16 denominators'"
+    },
+    {
+      "claim": "Tap tempo averages last 4 intervals with outlier discarding",
+      "type": "factual",
+      "verified": true,
+      "evidence": "SPEC line 15: 'averages the last 4 tap intervals, discards outliers > 2 standard deviations'"
+    },
+    {
+      "claim": "Presets max is 20 across all documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "SPEC: 'Maximum 20 presets', ROADMAP: 'up to 20 presets'. VISION doesn't specify a number."
+    },
+    {
+      "claim": "Vision says presets store tempo + time signature; Spec additionally stores accent pattern",
+      "type": "factual",
+      "verified": true,
+      "evidence": "VISION: 'save and recall tempo + time signature combinations'. SPEC: saves 'Name, BPM, Time signature, Accent pattern'."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report lists the files that were checked",
+        "reason": "A report that simply mentions 'VISION, SPEC, ROADMAP' in a table header passes this. Consider requiring explicit file paths to ensure the agent actually read the files rather than guessing document names from context."
+      }
+    ],
+    "overall": "Solid eval set for a clean-docs scenario. The 'no fabrication' assertion is the strongest discriminator — it requires verifying every claim against source material."
+  }
+}

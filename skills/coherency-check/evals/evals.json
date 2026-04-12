@@ -57,6 +57,29 @@
         "Report lists the files that were checked",
         "Report is concise — does not pad a clean result with unnecessary detail"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm about to share the Pulse project docs with a new dev joining the team. Can you check these three files are consistent? /coherency-check evals/files/test-4-research-resolve/",
+      "expected_output": "Report finds contradictions in two categories: (1) factual contradictions about real technologies — getServerSideProps vs Server Components in App Router, Tailwind v4 config format, useEffect timing — each resolved by researching official docs and citing the source URL, and (2) preference contradictions — package manager (pnpm vs yarn), deployment target (Amplify vs Vercel), API design (REST vs Server Actions), rate limit (200 vs 100) — presented to the user for decision.",
+      "files": [
+        "evals/files/test-4-research-resolve/SETUP.md",
+        "evals/files/test-4-research-resolve/ARCHITECTURE.md",
+        "evals/files/test-4-research-resolve/STYLE-GUIDE.md"
+      ],
+      "expectations": [
+        "Report identifies the getServerSideProps vs Server Components contradiction",
+        "Skill researches official Next.js docs to resolve the App Router data-fetching contradiction",
+        "Report identifies the Tailwind v4 config format contradiction (JS file vs CSS @theme)",
+        "Skill researches official Tailwind docs to resolve the config format contradiction",
+        "Report identifies the useEffect timing contradiction (before vs after paint)",
+        "Skill researches official React docs to resolve the useEffect timing contradiction",
+        "Each researched resolution includes a source URL from official documentation",
+        "Report identifies the package manager contradiction (pnpm vs yarn) as a preference",
+        "Report identifies the deployment target contradiction (Amplify vs Vercel) as a preference",
+        "Preference contradictions are presented to the user for decision, not auto-resolved",
+        "Factual and preference contradictions are clearly separated in the output"
+      ]
     }
   ]
 }

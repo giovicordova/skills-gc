@@ -1,0 +1,16 @@
+{
+  "eval_id": 0,
+  "eval_name": "project-docs",
+  "prompt": "I've been putting together docs for TaskFlow and I want to make sure they're all telling the same story before I share them with the team. Can you check these three files for me? /coherency-check evals/files/test-1-project-docs/",
+  "assertions": [
+    "Report identifies the Node.js version contradiction (18 vs 20)",
+    "Report identifies the framework contradiction (Express vs Fastify)",
+    "Report identifies the authentication method contradiction (JWT vs session-based)",
+    "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+    "Report identifies the rate limit contradiction (100/min vs 60/min)",
+    "Report identifies the deployment target contradiction (AWS vs GCP)",
+    "Each contradiction includes specific file names and quoted values",
+    "Report assigns severity levels to contradictions",
+    "After the report, the skill offers to walk through resolution of each contradiction"
+  ]
+}

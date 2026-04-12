@@ -1,0 +1,88 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+      "passed": true,
+      "evidence": "Contradiction #1 in table: 'Token expiry duration — routes.md: expires_in: 3600 (1 hour) — sdk-docs.md: Token is valid for 24 hours'"
+    },
+    {
+      "text": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+      "passed": true,
+      "evidence": "Contradiction #2: 'Account deletion behaviour — routes.md: Soft-deletes the user account + 30-day recovery window — sdk-docs.md: permanent and immediate, cannot be undone'"
+    },
+    {
+      "text": "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+      "passed": true,
+      "evidence": "Contradiction #4: 'Login rate limit — routes.md: 5 attempts per minute — sdk-docs.md: max 10 per minute'"
+    },
+    {
+      "text": "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+      "passed": true,
+      "evidence": "Contradiction #6: 'Free-tier project limit — routes.md: Max 10 projects per free-tier user — sdk-docs.md: Free tier: unlimited projects'"
+    },
+    {
+      "text": "Report uses the changelog to inform which contradictions have a clear resolution",
+      "passed": true,
+      "evidence": "Section 'Temporal analysis (using changelog as timeline)' resolves #3, #5, pagination, and colour via changelog. Section 'Resolved via changelog (temporal authority)' provides explicit fixes. Section 'Needs your call' separates unresolved items."
+    },
+    {
+      "text": "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+      "passed": true,
+      "evidence": "Under 'Temporal analysis': 'Colour field: Changelog says changed to hex-only in v2.3.0. Routes.md says valid hex code — current. SDK-docs says accepts any CSS color value — stale since v2.3.0.' Also in 'Terminology Drift' section."
+    },
+    {
+      "text": "Each finding includes specific file references and quoted values",
+      "passed": true,
+      "evidence": "Every contradiction in the table cites the source file (routes.md, sdk-docs.md, changelog.md) and quotes the conflicting values (e.g., 'expires_in: 3600', 'Token is valid for 24 hours', '5 attempts per minute', 'max 10 per minute')."
+    },
+    {
+      "text": "After the report, the skill offers to resolve contradictions interactively",
+      "passed": true,
+      "evidence": "Final line of report: 'Want me to update the files to resolve these? (Pending your answers to the preference questions above.)' — interactive resolution offer with pending questions listed."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 84.2
+  },
+  "claims": [
+    {
+      "claim": "6 contradictions found across 3 files",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The table lists 6 numbered contradictions, each citing specific file pairs"
+    },
+    {
+      "claim": "Changelog resolves several contradictions with temporal authority",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The report correctly identifies that changelog v2.3.0 entries provide a timeline that resolves #3 (recovery window), #5 (email verification), pagination, and colour format"
+    },
+    {
+      "claim": "All contradictions are classified as 'preference' type",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Classification table shows all 6 as 'Preference' — correct since these are internal project decisions with no external standard"
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+        "reason": "The report actually splits this into two separate contradictions (#2 soft vs permanent, #3 recovery window duration). The assertion passes either way, but a tighter assertion could check that the report distinguishes these as separate issues."
+      },
+      {
+        "reason": "No assertion checks whether the report correctly identifies the email verification contradiction (routes.md says required, changelog removed it). The skill found this as contradiction #5 — a valuable catch that goes untested."
+      },
+      {
+        "reason": "No assertion checks the quality of the resolution suggestions (e.g., whether proposed fixes are actionable and correct). The report provides specific fix instructions for changelog-resolved items — worth verifying."
+      }
+    ],
+    "overall": "Strong eval set. All 8 assertions are discriminating — they require genuine analysis, not surface compliance. The two gaps noted above (email verification detection and fix quality) are minor since the core contradictions are well covered."
+  }
+}

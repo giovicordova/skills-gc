@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "api-spec",
+  "prompt": "We've got an API spec, SDK docs, and a changelog that might have gotten out of sync. Can you cross-check them? /coherency-check evals/files/test-2-api-spec/",
+  "assertions": [
+    "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+    "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+    "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+    "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+    "Report uses the changelog to inform which contradictions have a clear resolution",
+    "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+    "Each finding includes specific file references and quoted values",
+    "After the report, the skill offers to resolve contradictions interactively"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "expectations": [
+    {
+      "text": "Report confirms no contradictions were found",
+      "passed": true,
+      "evidence": "Report opens with '3 files checked. No contradictions or inconsistencies found.' and the cross-reference table confirms all values align across documents."
+    },
+    {
+      "text": "Report does NOT fabricate issues that don't exist in the documents",
+      "passed": true,
+      "evidence": "Verified every claim in the report against the source files (VISION.md, SPEC.md, ROADMAP.md). All values (20–300 BPM, denominators 4/8/16, 20 presets, tap tempo, accent patterns) match the originals. The note about preset scope difference between VISION and SPEC is real — VISION says 'tempo + time signature combinations', SPEC adds name and accent pattern. Correctly labelled as enrichment, not contradiction."
+    },
+    {
+      "text": "Report lists the files that were checked",
+      "passed": true,
+      "evidence": "Report states 'Files: VISION.md, SPEC.md, ROADMAP.md' and the title references all three. These match the actual input files."
+    },
+    {
+      "text": "Report is concise — does not pad a clean result with unnecessary detail",
+      "passed": true,
+      "evidence": "Report is 27 lines including the table. Opens with a one-line verdict, provides a focused cross-reference table of key values, and closes with brief notes. No filler paragraphs, no restating obvious facts, no unnecessary caveats."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 45.4
+  },
+  "claims": [
+    {
+      "claim": "Tempo range is 20–300 BPM across all three documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "VISION: '20 to 300 BPM', SPEC: '20–300 BPM', ROADMAP: '20–300 BPM'"
+    },
+    {
+      "claim": "Time signature denominators are 4, 8, 16 across all three documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "VISION: 'Y is 4, 8, or 16', SPEC: 'Supported denominators: 4, 8, 16', ROADMAP: '4, 8, 16 denominators'"
+    },
+    {
+      "claim": "Maximum 20 presets is consistent across documents",
+      "type": "factual",
+      "verified": true,
+      "evidence": "SPEC: 'Maximum 20 presets', ROADMAP: 'up to 20 presets'. VISION does not specify a number."
+    },
+    {
+      "claim": "VISION.md preset scope is narrower than SPEC.md (enrichment, not contradiction)",
+      "type": "quality",
+      "verified": true,
+      "evidence": "VISION: 'save and recall tempo + time signature combinations'. SPEC: saves name, BPM, time signature, and accent pattern. The spec adds fields the vision omitted — genuinely enrichment."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report is concise — does not pad a clean result with unnecessary detail",
+        "reason": "Subjective and hard to fail consistently. A report with a useful table (like this one) could be called 'padded' or 'well-structured' depending on the grader. Consider a concrete threshold like 'Report is under 40 lines' or 'No section exceeds 5 sentences'."
+      },
+      {
+        "reason": "No assertion checks that the report correctly identifies the cross-document enrichment (VISION preset scope vs SPEC preset scope). This is the most interesting analytical finding and goes unverified by the current assertions."
+      }
+    ],
+    "overall": "Assertions cover the core outcomes well. The main gap is that nothing tests whether the report identifies genuine nuances (like the preset scope difference) — a report that simply said 'no issues' with no analysis would also pass all four assertions."
+  }
+}

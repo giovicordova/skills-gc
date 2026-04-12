@@ -1,0 +1,101 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the getServerSideProps vs Server Components contradiction",
+      "passed": true,
+      "evidence": "Section '1. Data Fetching Pattern (Critical)' clearly identifies the contradiction: SETUP.md says 'uses getServerSideProps' while ARCHITECTURE.md says 'Pages are React Server Components by default'."
+    },
+    {
+      "text": "Skill researches official Next.js docs to resolve the App Router data-fetching contradiction",
+      "passed": false,
+      "evidence": "The report states 'ARCHITECTURE.md is correct for Next.js 14 App Router' but provides no source URL or evidence of consulting official Next.js documentation. The resolution appears based on the model's training knowledge, not active research."
+    },
+    {
+      "text": "Report identifies the Tailwind v4 config format contradiction (JS file vs CSS @theme)",
+      "passed": true,
+      "evidence": "Section '2. Tailwind CSS v4 Configuration (Critical)' identifies SETUP.md claiming 'config lives in tailwind.config.js' vs ARCHITECTURE.md stating 'configured via the new CSS-based @theme directive... No JavaScript config file needed in v4'."
+    },
+    {
+      "text": "Skill researches official Tailwind docs to resolve the config format contradiction",
+      "passed": false,
+      "evidence": "The report states 'Tailwind v4 removed the JS config file. SETUP.md and STYLE-GUIDE.md describe v3 behaviour; ARCHITECTURE.md describes v4 correctly' but provides no source URL or evidence of consulting official Tailwind documentation."
+    },
+    {
+      "text": "Report identifies the useEffect timing contradiction (before vs after paint)",
+      "passed": true,
+      "evidence": "Section '7. useEffect Timing (Minor but dangerous for devs)' identifies ARCHITECTURE.md claiming 'useEffect fires before the browser paints' vs STYLE-GUIDE.md saying 'useEffect for post-render side effects — it runs after the browser has painted'."
+    },
+    {
+      "text": "Skill researches official React docs to resolve the useEffect timing contradiction",
+      "passed": false,
+      "evidence": "The report states 'STYLE-GUIDE.md is correct. useEffect runs after paint; useLayoutEffect runs before paint' but provides no source URL or evidence of consulting official React documentation."
+    },
+    {
+      "text": "Each researched resolution includes a source URL from official documentation",
+      "passed": false,
+      "evidence": "No source URLs appear anywhere in the report. All resolutions are stated as assertions without citation."
+    },
+    {
+      "text": "Report identifies the package manager contradiction (pnpm vs yarn) as a preference",
+      "passed": true,
+      "evidence": "Section '3. Package Manager (Critical)' identifies SETUP.md using pnpm vs STYLE-GUIDE.md using yarn. The recommendation says 'Pick one and fix the other file' — implying it's a choice, not a factual matter."
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (Amplify vs Vercel) as a preference",
+      "passed": true,
+      "evidence": "Section '4. Deployment Platform (Major)' identifies SETUP.md saying AWS Amplify vs ARCHITECTURE.md saying Vercel. The recommendation says 'Pick one and fix the other file' — implying it's a choice."
+    },
+    {
+      "text": "Preference contradictions are presented to the user for decision, not auto-resolved",
+      "passed": true,
+      "evidence": "For package manager and deployment platform, the report says 'Pick one and fix the other file' rather than declaring one correct. It defers the decision to the user."
+    },
+    {
+      "text": "Factual and preference contradictions are clearly separated in the output",
+      "passed": false,
+      "evidence": "All contradictions are listed in a single flat numbered list under 'Conflicts Found'. There is no explicit grouping or labelling that separates factual contradictions (resolvable via docs) from preference contradictions (requiring user decision). The distinction is only implicit in the recommendation wording."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 5,
+    "total": 11,
+    "pass_rate": 0.55
+  },
+  "timing": {
+    "total_duration_seconds": 65.8
+  },
+  "claims": [
+    {
+      "claim": "getServerSideProps is a Pages Router pattern; App Router uses Server Components",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is correct per Next.js documentation, though the report doesn't cite the source"
+    },
+    {
+      "claim": "Tailwind v4 removed the JS config file",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is correct per Tailwind v4 release, though the report doesn't cite the source"
+    },
+    {
+      "claim": "useEffect runs after paint; useLayoutEffect runs before paint",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is correct per React documentation, though the report doesn't cite the source"
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Factual and preference contradictions are clearly separated in the output",
+        "reason": "This assertion tests for explicit structural separation. The report does implicitly distinguish them (different recommendation language). Consider whether 'clearly separated' should require section headers or just discernible treatment — the current wording is appropriately strict."
+      },
+      {
+        "reason": "No assertion checks whether the report correctly resolves factual contradictions (i.e. picks the right answer). The model did get all three correct, which matters for quality but goes untested."
+      }
+    ],
+    "overall": "The eval effectively tests the key differentiator of this eval scenario: research-backed resolution with citations. The without-skill run correctly identifies all contradictions but fails on the research/citation requirements, which is exactly the gap this eval is designed to measure."
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I just finished the PRD and the technical spec for our billing rewrite. Before I send them to engineering, can you cross-check them and make sure nothing contradicts? The PRD is at docs/PRD.md and the spec is at docs/TECH-SPEC.md",
+    "should_trigger": true
+  },
+  {
+    "query": "we've got three config files — .env.production, docker-compose.prod.yml, and terraform/variables.tf — and I'm pretty sure the database port is different in at least two of them. can you check all three and tell me what doesn't match?",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to hand off these onboarding docs to a new hire on Monday. There's a README, a CONTRIBUTING guide, and a SETUP doc in the repo root. Can you make sure they're all telling the same story about how to get the project running?",
+    "should_trigger": true
+  },
+  {
+    "query": "our design system has tokens in tokens.json, some CSS custom properties in globals.css, and then the tailwind config also defines colours. I bet they've drifted. Can you check if the colour values actually match across all three?",
+    "should_trigger": true
+  },
+  {
+    "query": "the API routes file says the rate limit is 100/min but I swear the SDK docs say 60. And the changelog might have changed it again. Can you look at routes.md, sdk-docs.md, and changelog.md and figure out which values are current?",
+    "should_trigger": true
+  },
+  {
+    "query": "I've been writing the architecture doc and the deployment runbook separately and I have a feeling they might disagree about which cloud provider we're on. Check docs/ARCHITECTURE.md and docs/DEPLOY.md for me?",
+    "should_trigger": true
+  },
+  {
+    "query": "before we ship this feature, can you verify that the openapi.yaml spec, the handler code in src/routes/, and the user-facing docs in docs/api/ all describe the same endpoints with the same request/response shapes?",
+    "should_trigger": true
+  },
+  {
+    "query": "i think our CLAUDE.md and the project README might be saying different things about the tech stack. also the package.json dependencies tell yet another story. can you cross-reference all three and flag anything that doesn't line up?",
+    "should_trigger": true
+  },
+  {
+    "query": "we just merged like 4 PRs into the planning docs folder and I want to make sure nobody introduced contradictions. can you scan everything in docs/planning/ and check they're all coherent?",
+    "should_trigger": true
+  },
+  {
+    "query": "the VISION.md says we support 5 languages but the ROADMAP.md only lists 3 in the v1 milestone and the SPEC.md says 4. which is it? check docs/VISION.md docs/ROADMAP.md docs/SPEC.md",
+    "should_trigger": true
+  },
+  {
+    "query": "can you review my pull request? it's PR #47 on the main repo. I changed the auth middleware and want to make sure the code looks good before I merge",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to write a migration script that moves data from the old users table to the new one. The schema is in prisma/schema.prisma. Can you help me write it?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you read through src/utils/parser.ts and explain what the transformPayload function does? I inherited this code and I'm having trouble following the logic",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to refactor our error handling — right now we have try/catch blocks everywhere but I want a centralised error handler. Can you help restructure the code in src/middleware/?",
+    "should_trigger": false
+  },
+  {
+    "query": "we need to add dark mode support to the dashboard. The design tokens are in tokens.json and the components are in src/components/. Can you implement the theme toggle?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you check if our eslint config and prettier config have any conflicting rules? I keep getting formatting fights when I save. Files are .eslintrc.json and .prettierrc",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to debug why the login endpoint returns 500 sometimes. Can you look at the error logs in logs/api.log and the handler at src/routes/auth.ts and figure out what's going wrong?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you generate a changelog from the last 20 commits? I need it for the release notes. Use conventional commit format if possible",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to compare our current API response times against the SLOs we defined. The SLO targets are in docs/SLOs.md and the latest metrics are in monitoring/dashboard-export.json. Are we meeting them?",
+    "should_trigger": false
+  },
+  {
+    "query": "can you write unit tests for the calculateDiscount function in src/pricing.ts? It takes a cart object and a coupon code and should apply percentage or fixed discounts based on the coupon type",
+    "should_trigger": false
+  }
+]

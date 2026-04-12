@@ -1,6 +1,6 @@
 ---
 name: coherency-check
-description: "Cross-document and cross-code coherency analysis. Reads a set of documents, code files, configs, or design tokens and finds contradictions, conflicting values, overlapping definitions, and inconsistencies across them — then helps resolve each conflict interactively. Use when the user says 'coherency check', 'check these docs are consistent', 'do these files contradict each other', 'make sure everything aligns', 'find inconsistencies', 'check for contradictions', or any request to verify that multiple files tell the same story. Also use when the user has assembled specs, plans, configs, CSS/design tokens, or documentation and wants to catch places where they point in different directions. Works for markdown docs, code files, config files, stylesheets, and any mix of these."
+description: "Cross-document and cross-code coherency analysis — finds contradictions, conflicting values, and inconsistencies across multiple files, then researches official sources to resolve factual errors and asks the user only about preference decisions. MUST use this skill whenever the user asks to compare, cross-check, cross-reference, or verify consistency between 2+ files of any type — docs, configs, code, specs, design tokens, changelogs, READMEs. Trigger phrases include but are not limited to: 'check these are consistent', 'do these contradict', 'make sure everything aligns', 'find inconsistencies', 'cross-check', 'cross-reference', 'telling the same story', 'out of sync', 'gotten out of date', 'don't match', 'disagree', 'drifted'. Also trigger when the user names specific files and asks if they conflict, even without using the word coherency. If the user mentions multiple files and wants to know whether they agree — that's this skill. Do NOT skip this skill just because you could read the files yourself; the skill provides structured claim extraction, severity classification, factual-vs-preference triage, official-source research, and interactive resolution that ad-hoc comparison misses."
 argument-hint: "[path, glob, or file list — e.g. 'docs/' or '*.md' or 'SPEC.md PLAN.md README.md']"
 ---
 
@@ -125,25 +125,49 @@ Files: [list]
 - Group related issues. If three files all disagree about the same setting, that's one contradiction with three sources, not three separate contradictions.
 - Lead with contradictions — they're the ones that cause real damage. Overlaps and terminology drift are maintenance concerns, not emergencies.
 
-## Step 5: Resolve
+## Step 5: Classify and research
 
-After presenting the report, if there are contradictions:
+After presenting the report, if there are contradictions, classify each one before asking the user anything:
 
-> "There are [X] contradictions to resolve. I'll walk through each one — tell me which version should be the source of truth, or if you'd like a different value entirely."
+### Factual vs preference
 
-Then for each contradiction, present it clearly:
+Every contradiction falls into one of two buckets:
 
-> **Contradiction #1: [topic]**
-> - **Option A** ([file]): [what it says]
-> - **Option B** ([file]): [what it says]
+- **Factual** — one side is objectively correct and an authoritative external source can settle it. Think: how a framework API actually works, what a library's default config is, what a protocol specifies, what a standard mandates. The hallmark: an official doc page exists that resolves the disagreement.
+- **Preference** — a project-specific choice no external authority can arbitrate. Think: which framework to use, what timeout value, naming conventions, deployment target, team workflow. The hallmark: the decision depends on the user's intent or constraints, not on what's technically correct.
+
+Some contradictions look factual but are actually preference (e.g. "should we use PostgreSQL 14 or 15?" — both exist, the project just needs to pick one). Only classify as factual when one side is **demonstrably wrong** according to official sources.
+
+### Research factual contradictions
+
+For each factual contradiction, use WebSearch to find the official documentation, then WebFetch to read the relevant page. Extract the definitive answer with a direct source URL.
+
+Present researched resolutions grouped together:
+
+> **Resolved via official sources:**
 >
-> Which should we go with — A, B, or something else?
+> **#1: [topic]**
+> - [file A] says: "[quote]"
+> - [file B] says: "[quote]"
+> - **Source**: [what the official docs say] — [URL]
+> - **Fix**: update [file] to [correct value].
+>
+> **#2: [topic]**
+> ...
 
-If the answer is obvious from context (e.g. one file is clearly more authoritative, like a config file vs. a README approximation), say so:
+If a search comes back inconclusive (no clear official answer, conflicting sources, or the technology is too niche/new), reclassify that contradiction as preference and move it to the user questions below. Don't guess — research or ask, never both.
 
-> The config file is likely authoritative here since it's what the code actually reads. Want me to update the README to match?
+### Ask about preference contradictions
 
-Wait for the user's response before moving to the next contradiction. Don't batch all questions at once — resolve sequentially so earlier decisions can inform later ones.
+After presenting all researched resolutions, present the preference contradictions that need the user's call. Use AskUserQuestion to batch them (up to 4 at a time if there are many):
+
+> **Needs your call:**
+>
+> **#3: [topic]**
+> - Option A ([file]): [what it says]
+> - Option B ([file]): [what it says]
+
+If the answer is obvious from context (e.g. one file is clearly more authoritative, like a config file vs. a README approximation), say so — but still let the user confirm.
 
 For overlaps and terminology drift, don't ask one-by-one. Instead, summarise recommendations:
 

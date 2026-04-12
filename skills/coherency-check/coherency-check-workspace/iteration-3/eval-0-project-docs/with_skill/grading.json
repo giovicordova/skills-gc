@@ -1,0 +1,90 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the Node.js version contradiction (18 vs 20)",
+      "passed": true,
+      "evidence": "Row #2 in the contradictions table: 'Node.js version | README: \"Node.js 18\" | SPEC: \"Node.js 20\" | High'"
+    },
+    {
+      "text": "Report identifies the framework contradiction (Express vs Fastify)",
+      "passed": true,
+      "evidence": "Row #3 in the contradictions table: 'Web framework | README: \"Express\" | SPEC: \"Fastify\" | High'"
+    },
+    {
+      "text": "Report identifies the authentication method contradiction (JWT vs session-based)",
+      "passed": true,
+      "evidence": "Row #5: 'Authentication mechanism | README: \"JWT authentication with 24-hour token expiry\" | SPEC: \"Session-based authentication with 8-hour session duration\" | High'"
+    },
+    {
+      "text": "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+      "passed": true,
+      "evidence": "Row #6 lists all three: README: open/in_progress/review/done, SPEC: todo/doing/review/complete, CONTRIBUTING: open/in_progress/done (review removed in v2.1)"
+    },
+    {
+      "text": "Report identifies the rate limit contradiction (100/min vs 60/min)",
+      "passed": true,
+      "evidence": "Row #7: 'Rate limit | README: \"100 requests per minute per user\" / CONTRIBUTING: \"100 requests per minute per user\" | SPEC: \"60 requests per minute per API key\" | Medium'"
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (AWS vs GCP)",
+      "passed": true,
+      "evidence": "Row #8: 'Deployment target | README: \"AWS ECS Fargate behind an ALB\" / CONTRIBUTING: \"AWS ECS\" | SPEC: \"Google Cloud Run with Cloud SQL\" | High'"
+    },
+    {
+      "text": "Each contradiction includes specific file names and quoted values",
+      "passed": true,
+      "evidence": "Every row in the table cites file names (README, SPEC, CONTRIBUTING) and quotes specific values (e.g. 'Node.js 18', 'Fastify', '60 requests per minute per API key')"
+    },
+    {
+      "text": "Report assigns severity levels to contradictions",
+      "passed": true,
+      "evidence": "The table has a 'Severity' column with values High, Medium, and Low assigned to each contradiction"
+    },
+    {
+      "text": "After the report, the skill offers to walk through resolution of each contradiction",
+      "passed": true,
+      "evidence": "Final line of report: 'Want me to update the files to resolve these once you've made your calls on the preference decisions above?' Additionally the 'Needs Your Call' section presents grouped options for resolution."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 90.5
+  },
+  "claims": [
+    {
+      "claim": "3 files checked — 10 contradictions found",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The table lists 10 numbered contradictions plus 2 additional ones noted below the table, from 3 files (README.md, SPEC.md, CONTRIBUTING.md)"
+    },
+    {
+      "claim": "README and CONTRIBUTING agree on most points while SPEC disagrees",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Rows 2,3,7,8,9,10 all show README+CONTRIBUTING aligned against SPEC"
+    },
+    {
+      "claim": "All contradictions are preference-based (none factual)",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Classification table in Step 5 marks all as 'Preference' — correct since these are all project-specific architectural/business decisions"
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "After the report, the skill offers to walk through resolution of each contradiction",
+        "reason": "This assertion is weak — a single sentence like 'want me to fix these?' passes it. A stronger assertion would check whether the resolution offer is structured (e.g. grouped by theme, with options per contradiction), which this report actually does well."
+      },
+      {
+        "reason": "No assertion checks whether the report provides a recommended resolution path or identifies which file is likely authoritative. This report does both (recommending SPEC may be outdated based on README+CONTRIBUTING agreement) — that's a valuable output worth testing."
+      }
+    ],
+    "overall": "Strong eval set — covers all planted contradictions individually. Minor gap: no assertion tests analytical quality (e.g. pattern recognition across contradictions, grouping, or root-cause hypothesis)."
+  }
+}

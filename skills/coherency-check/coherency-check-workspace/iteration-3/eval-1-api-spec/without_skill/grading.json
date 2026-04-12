@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the token expiry contradiction (1 hour vs 24 hours)",
+      "passed": true,
+      "evidence": "Finding #1: 'routes.md | expires_in: 3600 (1 hour)' vs 'sdk-docs.md | Token is valid for 24 hours'. Verdict: 'Direct contradiction.'"
+    },
+    {
+      "text": "Report identifies the account deletion behaviour contradiction (soft-delete vs permanent)",
+      "passed": true,
+      "evidence": "Finding #2: 'routes.md | Soft-delete, 30-day recovery window' vs 'sdk-docs.md | permanent and immediate, cannot be undone'. Also cross-references changelog versions."
+    },
+    {
+      "text": "Report identifies the login rate limit contradiction (5 vs 10 attempts per minute)",
+      "passed": true,
+      "evidence": "Finding #3: 'routes.md | 5 attempts per minute' vs 'sdk-docs.md | max 10 per minute'. Verdict identifies SDK docs as the outlier."
+    },
+    {
+      "text": "Report identifies the project limit contradiction (10 free-tier vs unlimited)",
+      "passed": true,
+      "evidence": "Finding #7: 'routes.md | Max 10 projects per free-tier user' vs 'sdk-docs.md | Free tier: unlimited projects'. Notes no changelog entry for resolution."
+    },
+    {
+      "text": "Report uses the changelog to inform which contradictions have a clear resolution",
+      "passed": true,
+      "evidence": "Multiple findings use changelog: #2 cites v2.2.0 and v2.3.0 to determine 14-day is current; #3 cites v2.2.0 confirming 5/min; #5 cites v2.3.0 confirming hex-only. Summary table has 'Which is current?' column citing changelog as authority."
+    },
+    {
+      "text": "Report identifies the colour/color format contradiction (hex-only vs any CSS value)",
+      "passed": true,
+      "evidence": "Finding #5: 'routes.md | Must be a valid hex code' vs 'sdk-docs.md | accepts any CSS color value'. Uses changelog v2.3.0 to confirm hex-only is correct."
+    },
+    {
+      "text": "Each finding includes specific file references and quoted values",
+      "passed": true,
+      "evidence": "Every finding uses a table with Source column (routes.md, sdk-docs.md, changelog vX.X.X) and Value column with quoted strings like 'expires_in: 3600', 'Token is valid for 24 hours', 'permanent and immediate, cannot be undone', etc."
+    },
+    {
+      "text": "After the report, the skill offers to resolve contradictions interactively",
+      "passed": false,
+      "evidence": "The report ends with summary statistics. No offer to resolve contradictions interactively — no prompt like 'Would you like me to help resolve these?' or similar."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  },
+  "timing": {
+    "total_duration_seconds": 58.8
+  },
+  "claims": [
+    {
+      "claim": "7 total conflicts were found",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Report lists 7 numbered findings and states 'Total conflicts: 7'"
+    },
+    {
+      "claim": "Changelog v2.3.0 changed deletion window to 14 days",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Report cites 'changelog v2.3.0 | Changed to 14-day recovery window (was immediate)' — this is from the source material"
+    },
+    {
+      "claim": "Two items have no changelog entry and need human verification",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Token expiry and free-tier limit both show '—' in the Changelog column of the summary table, with 'Unknown — needs verification' status"
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "After the report, the skill offers to resolve contradictions interactively",
+        "reason": "This tests skill-specific behaviour (the interactive resolution flow). Without the skill loaded, vanilla Claude has no reason to offer this. The assertion is useful for measuring skill value but will always fail in the 'without_skill' baseline — consider separating skill-behaviour assertions from content-quality assertions."
+      },
+      {
+        "reason": "No assertion checks whether the report found the pagination contradiction (50 vs 100) or the email verification contradiction — the report found 7 issues total but only 6 are tested. Adding these would ensure completeness detection is measured."
+      }
+    ],
+    "overall": "Strong assertion set. The 'without_skill' run performed well on content detection (7/8 pass). The single failure is expected for a baseline run since interactive resolution is a skill-specific feature."
+  }
+}

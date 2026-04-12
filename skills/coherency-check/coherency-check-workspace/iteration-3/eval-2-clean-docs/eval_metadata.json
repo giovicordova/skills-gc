@@ -1,0 +1,11 @@
+{
+  "eval_id": 2,
+  "eval_name": "clean-docs",
+  "prompt": "Just finished writing the vision, spec, and roadmap for Metronome. Before I hand these off, can you make sure they're all coherent? /coherency-check evals/files/test-3-clean-docs/",
+  "assertions": [
+    "Report confirms no contradictions were found",
+    "Report does NOT fabricate issues that don't exist in the documents",
+    "Report lists the files that were checked",
+    "Report is concise — does not pad a clean result with unnecessary detail"
+  ]
+}

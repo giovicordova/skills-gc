@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "skill_name": "coherency-check",
+    "timestamp": "2026-04-12T09:00:00Z",
+    "evals_run": ["eval-0-project-docs", "eval-1-api-spec", "eval-2-clean-docs", "eval-3-research-resolve"],
+    "runs_per_configuration": 1
+  },
+  "configurations": [
+    {
+      "name": "with_skill",
+      "evals": [
+        {
+          "eval_name": "project-docs",
+          "pass_rate": 1.0,
+          "passed": 9,
+          "total": 9,
+          "time_seconds": 90.5,
+          "tokens": 24994
+        },
+        {
+          "eval_name": "api-spec",
+          "pass_rate": 1.0,
+          "passed": 8,
+          "total": 8,
+          "time_seconds": 84.2,
+          "tokens": 24687
+        },
+        {
+          "eval_name": "clean-docs",
+          "pass_rate": 1.0,
+          "passed": 4,
+          "total": 4,
+          "time_seconds": 45.4,
+          "tokens": 21479
+        },
+        {
+          "eval_name": "research-resolve",
+          "pass_rate": 1.0,
+          "passed": 11,
+          "total": 11,
+          "time_seconds": 107.7,
+          "tokens": 29344
+        }
+      ],
+      "aggregate": {
+        "pass_rate": {"mean": 1.0, "stddev": 0.0},
+        "time_seconds": {"mean": 81.95, "stddev": 26.0},
+        "tokens": {"mean": 25126, "stddev": 3230}
+      }
+    },
+    {
+      "name": "without_skill",
+      "evals": [
+        {
+          "eval_name": "project-docs",
+          "pass_rate": 0.78,
+          "passed": 7,
+          "total": 9,
+          "time_seconds": 58.3,
+          "tokens": 19848
+        },
+        {
+          "eval_name": "api-spec",
+          "pass_rate": 0.875,
+          "passed": 7,
+          "total": 8,
+          "time_seconds": 58.8,
+          "tokens": 20005
+        },
+        {
+          "eval_name": "clean-docs",
+          "pass_rate": 1.0,
+          "passed": 4,
+          "total": 4,
+          "time_seconds": 41.5,
+          "tokens": 18493
+        },
+        {
+          "eval_name": "research-resolve",
+          "pass_rate": 0.55,
+          "passed": 6,
+          "total": 11,
+          "time_seconds": 65.8,
+          "tokens": 20043
+        }
+      ],
+      "aggregate": {
+        "pass_rate": {"mean": 0.80, "stddev": 0.19},
+        "time_seconds": {"mean": 56.1, "stddev": 10.5},
+        "tokens": {"mean": 19597, "stddev": 729}
+      }
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.20",
+      "time_seconds": "+25.9",
+      "tokens": "+5529"
+    }
+  },
+  "notes": [
+    "Eval 3 (research-resolve) is the key differentiator: with_skill scores 100% vs 55% without. The 45 percentage point gap comes entirely from the research and citation requirements — the baseline identifies contradictions but doesn't consult or cite official docs.",
+    "Evals 0 and 1 show a smaller gap (100% vs 78-87%) driven by severity labels and interactive resolution offers.",
+    "Eval 2 (clean docs) is 100% for both — expected since there are no contradictions to classify.",
+    "The skill costs ~26s more and ~5.5k more tokens on average, primarily due to web research in eval 3."
+  ]
+}

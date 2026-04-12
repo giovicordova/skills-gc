@@ -1,0 +1,85 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the Node.js version contradiction (18 vs 20)",
+      "passed": true,
+      "evidence": "Section 2 states: 'README.md: Node.js 18', 'SPEC.md: Node.js 20' with conflict note 'README pins Node 18, SPEC pins Node 20.'"
+    },
+    {
+      "text": "Report identifies the framework contradiction (Express vs Fastify)",
+      "passed": true,
+      "evidence": "Section 3 states: 'README.md: Express', 'SPEC.md: Fastify' with conflict note 'These are two different frameworks. Only one can be correct.'"
+    },
+    {
+      "text": "Report identifies the authentication method contradiction (JWT vs session-based)",
+      "passed": true,
+      "evidence": "Section 5 states: 'README.md: JWT with 24-hour token expiry', 'SPEC.md: Session-based with 8-hour duration, API key via X-API-Key header' with conflict note about three different auth stories."
+    },
+    {
+      "text": "Report identifies the task status values contradiction (at least 2 of the 3 conflicting definitions)",
+      "passed": true,
+      "evidence": "Section 6 lists all three: README ('open, in_progress, review, done'), SPEC ('todo, doing, review, complete'), CONTRIBUTING ('open, in_progress, done'). States 'Three different sets of status names across three files.'"
+    },
+    {
+      "text": "Report identifies the rate limit contradiction (100/min vs 60/min)",
+      "passed": true,
+      "evidence": "Section 7 states: 'README.md: 100 requests/min per user', 'SPEC.md: 60 requests/min per API key' with note that README and CONTRIBUTING agree at 100 but SPEC says 60."
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (AWS vs GCP)",
+      "passed": true,
+      "evidence": "Section 8 states: 'README.md: AWS ECS Fargate, Terraform', 'SPEC.md: Google Cloud Run, Cloud SQL, Pulumi' with conflict note 'These are fundamentally different deployment stories.'"
+    },
+    {
+      "text": "Each contradiction includes specific file names and quoted values",
+      "passed": true,
+      "evidence": "Every section uses a table with File and value columns, citing README.md, SPEC.md, and CONTRIBUTING.md with specific values (e.g., 'Node.js 18', 'Fastify', '60 requests/min per API key')."
+    },
+    {
+      "text": "Report assigns severity levels to contradictions",
+      "passed": false,
+      "evidence": "The report does not assign explicit severity levels (e.g., high/medium/low or critical/minor). The summary mentions 'most critical conflicts' but individual contradictions have no labelled severity. Only section 10 is called 'Minor conflict' — the rest have no severity designation."
+    },
+    {
+      "text": "After the report, the skill offers to walk through resolution of each contradiction",
+      "passed": false,
+      "evidence": "The report ends with a recommendation ('pick one source of truth... and update README and CONTRIBUTING to match it') but does not offer to walk through resolution interactively. No prompt like 'Would you like me to help resolve these?' appears."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.78
+  },
+  "timing": {
+    "total_duration_seconds": 58.3
+  },
+  "claims": [
+    {
+      "claim": "9 direct contradictions and 1 minor inconsistency found",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The report lists 9 numbered sections with conflicts plus 1 explicitly labelled 'Minor conflict' (Redis usage)."
+    },
+    {
+      "claim": "Three files were reviewed: README.md, SPEC.md, CONTRIBUTING.md",
+      "type": "process",
+      "verified": true,
+      "evidence": "The 'Files Reviewed' section lists all three, and each contradiction table references them."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Report assigns severity levels to contradictions",
+        "reason": "The report partially satisfies this by distinguishing 'Minor conflict' for one item and highlighting 'most critical conflicts' in the summary. The expectation could be more specific about what counts — e.g., 'each contradiction has an explicit severity label (high/medium/low)' — to avoid ambiguity about partial compliance."
+      },
+      {
+        "reason": "No assertion checks whether the report found contradictions beyond the 6 seeded ones (it found 10 total). This is a strength indicator — a thorough analysis catches more than the minimum — but no expectation rewards or measures it."
+      }
+    ],
+    "overall": "Assertions are well-targeted at the core detection task. The two failed assertions (severity levels, resolution offer) test UX polish rather than analytical accuracy. Consider whether those belong in a 'without_skill' baseline or only in the skill-enhanced variant."
+  }
+}

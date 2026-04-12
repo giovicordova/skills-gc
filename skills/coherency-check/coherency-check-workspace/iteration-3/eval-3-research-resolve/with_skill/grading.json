@@ -1,0 +1,107 @@
+{
+  "expectations": [
+    {
+      "text": "Report identifies the getServerSideProps vs Server Components contradiction",
+      "passed": true,
+      "evidence": "Contradiction #1 in the table: 'Data fetching method in App Router' — SETUP.md says 'uses getServerSideProps' vs ARCHITECTURE.md says 'data fetching happens directly inside async component functions, no need for getServerSideProps'"
+    },
+    {
+      "text": "Skill researches official Next.js docs to resolve the App Router data-fetching contradiction",
+      "passed": true,
+      "evidence": "Resolution #1 states: 'The Next.js App Router does NOT support getServerSideProps. That function is exclusive to the Pages Router.' and cites the Next.js App Router Migration Guide with URL."
+    },
+    {
+      "text": "Report identifies the Tailwind v4 config format contradiction (JS file vs CSS @theme)",
+      "passed": true,
+      "evidence": "Contradiction #2: SETUP.md says 'config lives in tailwind.config.js at the project root' vs ARCHITECTURE.md says 'configured via the new CSS-based @theme directive in app/globals.css. No JavaScript config file needed in v4.'"
+    },
+    {
+      "text": "Skill researches official Tailwind docs to resolve the config format contradiction",
+      "passed": true,
+      "evidence": "Resolution #2 references 'Tailwind CSS v4 moved to a CSS-first configuration model' and cites both the Tailwind CSS v4.0 announcement (tailwindcss.com/blog/tailwindcss-v4) and Theme variables docs (tailwindcss.com/docs/theme)."
+    },
+    {
+      "text": "Report identifies the useEffect timing contradiction (before vs after paint)",
+      "passed": true,
+      "evidence": "Contradiction #3: ARCHITECTURE.md says 'useEffect fires before the browser paints' vs STYLE-GUIDE.md says 'useEffect for post-render side effects — it runs after the browser has painted'"
+    },
+    {
+      "text": "Skill researches official React docs to resolve the useEffect timing contradiction",
+      "passed": true,
+      "evidence": "Resolution #3 quotes React docs: 'React will generally let the browser paint the updated screen first before running your Effect' and cites react.dev/reference/react/useEffect"
+    },
+    {
+      "text": "Each researched resolution includes a source URL from official documentation",
+      "passed": true,
+      "evidence": "Resolution #1 links to nextjs.org/docs/app/building-your-application/upgrading/app-router-migration. Resolution #2 links to tailwindcss.com/blog/tailwindcss-v4 and tailwindcss.com/docs/theme. Resolution #3 links to react.dev/reference/react/useEffect. All are official docs."
+    },
+    {
+      "text": "Report identifies the package manager contradiction (pnpm vs yarn) as a preference",
+      "passed": true,
+      "evidence": "Listed under 'Needs your call' section as #4: 'Package manager — pnpm vs yarn' with Option A (pnpm) and Option B (yarn), asking 'Which one does the project actually use?'"
+    },
+    {
+      "text": "Report identifies the deployment target contradiction (Amplify vs Vercel) as a preference",
+      "passed": true,
+      "evidence": "Listed under 'Needs your call' section as #5: 'Deployment target — AWS Amplify vs Vercel' with Options A and B, noting 'this is your call.'"
+    },
+    {
+      "text": "Preference contradictions are presented to the user for decision, not auto-resolved",
+      "passed": true,
+      "evidence": "Both #4 and #5 are under the heading 'Needs your call:' and explicitly ask the user to decide rather than prescribing an answer. #4 asks 'Which one does the project actually use?' and #5 says 'this is your call.'"
+    },
+    {
+      "text": "Factual and preference contradictions are clearly separated in the output",
+      "passed": true,
+      "evidence": "The report uses two distinct sections with clear headings: 'Resolved via official sources:' (for factual contradictions #1-3) and 'Needs your call:' (for preference contradictions #4-6). The separation is unambiguous."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 107.7
+  },
+  "claims": [
+    {
+      "claim": "6 contradictions found across 3 files",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The contradiction table lists exactly 6 numbered items, and the report header states '6 contradictions'."
+    },
+    {
+      "claim": "Rate limit contradiction (#6) is classified as a preference needing user decision",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Listed under 'Needs your call' — reasonable since two files say 200 and one says 100, and the skill cannot determine which is current without asking."
+    },
+    {
+      "claim": "getServerSideProps is exclusive to the Pages Router",
+      "type": "factual",
+      "verified": true,
+      "evidence": "This is correct per official Next.js documentation. The cited migration guide confirms this."
+    },
+    {
+      "claim": "useEffect runs after paint, useLayoutEffect runs before",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Correct per official React docs at react.dev/reference/react/useEffect."
+    }
+  ],
+  "user_notes_summary": null,
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Each researched resolution includes a source URL from official documentation",
+        "reason": "This assertion passes if URLs are present but doesn't verify they're valid or actually support the claim. The skill could hallucinate a plausible-looking URL. Consider adding a verification step that fetches the URL or checks known-good patterns."
+      },
+      {
+        "reason": "No assertion checks the rate-limit contradiction (#6). It's classified as a preference, which is debatable — two files agreeing on 200 vs one saying 100 could be treated as a factual majority. An assertion testing the skill's reasoning about when to auto-resolve vs defer would strengthen the eval."
+      }
+    ],
+    "overall": "Strong eval set — covers both detection and resolution of all major contradiction types, plus the critical separation between factual and preference issues. The two suggestions above are minor refinements."
+  }
+}
