@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "readme-intro-distill",
+  "prompt": "Distill a README project intro into shortest version preserving what/why/how.",
+  "assertions": [
+    {
+      "name": "compression_ratio",
+      "description": "Output is at least 60% shorter than input by word count",
+      "type": "programmatic"
+    },
+    {
+      "name": "what_preserved",
+      "description": "Answers 'what is it' — CLI for managing local dev services (databases, queues, caches)",
+      "type": "llm_judge"
+    },
+    {
+      "name": "why_preserved",
+      "description": "Answers 'why' — onboarding friction and environment drift",
+      "type": "llm_judge"
+    },
+    {
+      "name": "no_ambiguity",
+      "description": "One interpretation only — no vague or abstract phrasing",
+      "type": "llm_judge"
+    }
+  ]
+}

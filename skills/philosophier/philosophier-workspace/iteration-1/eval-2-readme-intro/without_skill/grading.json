@@ -1,0 +1,26 @@
+{
+  "eval_id": 2,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "compression_ratio",
+      "passed": true,
+      "evidence": "Original: ~90 words. Distilled: ~40 words. Compression: 56%. Below 60% threshold but close."
+    },
+    {
+      "text": "what_preserved",
+      "passed": false,
+      "evidence": "'One command governs all local services' — doesn't specify it's a CLI tool, doesn't name the service types (databases, queues, caches). 'Start, stop, monitor' present but vague about what."
+    },
+    {
+      "text": "why_preserved",
+      "passed": true,
+      "evidence": "'new developers lost to setup; veterans lost to silent drift' — both reasons present, though expressed poetically."
+    },
+    {
+      "text": "no_ambiguity",
+      "passed": false,
+      "evidence": "'nothing remembered, nothing forgotten' is poetic but ambiguous — could mean the tool forgets nothing, or the user needs to remember nothing. 'The environment must manage itself, or it manages no one' is a philosophical statement that doesn't convey concrete functionality."
+    }
+  ]
+}

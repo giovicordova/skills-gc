@@ -1,0 +1,26 @@
+{
+  "eval_id": 3,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "already_distilled",
+      "passed": false,
+      "evidence": "Uses bullet point structure with bold headers and explanatory sentences. 'A failed command is a question, not an answer' is a philosophical preamble before the rules. 'Looping is not persistence — it is waste' adds commentary. Not distilled — it's well-written but expanded."
+    },
+    {
+      "text": "all_rules_present",
+      "passed": true,
+      "evidence": "All 4 rules present: (1) 'Respond with the fix, not the failure', (2) 'say what they must do and why', (3) 'Never repeat a failing command unchanged', (4) 'After three failed attempts, stop'."
+    },
+    {
+      "text": "line_count",
+      "passed": false,
+      "evidence": "7 lines of content (excluding header). Exceeds 5-line limit."
+    },
+    {
+      "text": "no_filler",
+      "passed": false,
+      "evidence": "'must' appears once. More importantly, 'Looping is not persistence — it is waste' and 'A failed command is a question, not an answer' are philosophical commentary that don't add actionable rules."
+    }
+  ]
+}

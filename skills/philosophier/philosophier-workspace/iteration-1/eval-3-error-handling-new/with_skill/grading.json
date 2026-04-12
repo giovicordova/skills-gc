@@ -1,0 +1,26 @@
+{
+  "eval_id": 3,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "already_distilled",
+      "passed": true,
+      "evidence": "Written directly as compressed rules. No before/after format. 2 sentences total."
+    },
+    {
+      "text": "all_rules_present",
+      "passed": true,
+      "evidence": "(1) 'propose the fix, not the error' = propose fix immediately. (2) 'state what to do and why' = explain user actions with reason. (3) 'Never retry unchanged' = no blind retry. (4) 'Three failures without progress — stop and ask' = ask after 3 attempts."
+    },
+    {
+      "text": "line_count",
+      "passed": true,
+      "evidence": "2 lines of content (excluding the # header). Well under 5."
+    },
+    {
+      "text": "no_filler",
+      "passed": true,
+      "evidence": "Zero hedging words. Pure imperative/declarative."
+    }
+  ]
+}

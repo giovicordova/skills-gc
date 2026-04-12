@@ -1,0 +1,78 @@
+[
+  {
+    "query": "I've got this CLAUDE.md that's like 400 lines long and half of it is repeating the same ideas in different ways. Can you go through it and cut it down to the essentials? I want every line to carry weight — if it doesn't change behaviour, remove it.",
+    "should_trigger": true
+  },
+  {
+    "query": "here's the README for my saas project, it's way too wordy. I need it compressed so someone scanning it for 10 seconds gets the full picture. Don't lose any of the setup steps though, those matter.",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm writing a new section for my CLAUDE.md about how the agent should handle API rate limits. The rules are: back off exponentially, log each retry, never exceed 5 retries, and alert the user if all retries fail. Write it as tight as possible.",
+    "should_trigger": true
+  },
+  {
+    "query": "distill this paragraph into something shorter but keep all the constraints: 'When working with the database migration system, always create a backup before running any migration. If a migration fails, do not attempt to re-run it without first checking the migration log. Failed migrations should be rolled back manually, not automatically, because automatic rollback has caused data loss in the past.'",
+    "should_trigger": true
+  },
+  {
+    "query": "I have three markdown files — CONTRIBUTING.md, CODE_OF_CONDUCT.md, and SECURITY.md — and they all overlap. Can you tighten them up so each one says only what it needs to say, no repeated content across files?",
+    "should_trigger": true
+  },
+  {
+    "query": "my project description in package.json is a paragraph long. make it one sentence that captures everything",
+    "should_trigger": true
+  },
+  {
+    "query": "compress this error message for the CLI output: 'The configuration file at ~/.config/myapp/settings.json could not be loaded because it contains invalid JSON syntax. Please check the file for missing commas, brackets, or quotation marks, and try again.'",
+    "should_trigger": true
+  },
+  {
+    "query": "I want to rewrite my entire AGENTS.md file — it's 200 lines of verbose instructions that could probably be 40. Each agent persona has a full paragraph where two sentences would do. Tighten every section.",
+    "should_trigger": true
+  },
+  {
+    "query": "take this commit message and make it shorter without losing meaning: 'Refactored the authentication middleware to use JWT tokens instead of session-based authentication, which reduces server-side state management overhead and improves horizontal scalability across our Kubernetes cluster'",
+    "should_trigger": true
+  },
+  {
+    "query": "can you review this pull request? there are about 15 files changed across the auth module and I want to make sure nothing's broken. here's the PR link: github.com/myorg/myapp/pull/247",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to write unit tests for my UserService class. It handles registration, login, password reset, and session management. Can you generate a comprehensive test suite with edge cases?",
+    "should_trigger": false
+  },
+  {
+    "query": "debug this — my Next.js app builds fine locally but throws a hydration mismatch error in production. I think it's something with how dates are rendered server-side vs client-side. Here's the component: components/EventCard.tsx",
+    "should_trigger": false
+  },
+  {
+    "query": "help me set up a CI/CD pipeline with GitHub Actions for my monorepo. We have a React frontend in packages/web and a Node API in packages/api. Both need separate build and deploy steps.",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to refactor my database queries to use an ORM instead of raw SQL. We're on PostgreSQL 15 with about 40 tables. What would the migration path look like with Drizzle?",
+    "should_trigger": false
+  },
+  {
+    "query": "explain how React's useEffect cleanup function works — I keep getting stale closure bugs and I don't understand why my state values are old inside the effect.",
+    "should_trigger": false
+  },
+  {
+    "query": "can you write a Python script that reads a CSV of customer emails, validates each one, deduplicates them, and exports the clean list? the CSV is at data/customers_raw.csv with columns name,email,signup_date",
+    "should_trigger": false
+  },
+  {
+    "query": "I want to add dark mode to my Tailwind site. Right now everything is hardcoded to light colours. What's the best approach — CSS variables, Tailwind's dark: prefix, or a theme provider?",
+    "should_trigger": false
+  },
+  {
+    "query": "translate my app's UI strings to Spanish — there's an en.json locale file at src/locales/en.json with about 120 keys. Keep the same structure and keys, just translate the values.",
+    "should_trigger": false
+  },
+  {
+    "query": "write documentation for my API endpoints. I have 12 REST endpoints in src/routes/ and I want OpenAPI/Swagger docs generated from the code. The routes use Express with zod validation.",
+    "should_trigger": false
+  }
+]

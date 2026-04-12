@@ -1,0 +1,1 @@
+Never commit secrets (.env, credentials, tokens, keys). If a sensitive file is staged, warn and unstage it immediately. In examples, use obvious placeholders (YOUR_API_KEY_HERE) — never realistic-looking fakes (Kerckhoffs's principle: assume anything committed will be read; the principle of least surprise: fake keys that look real cause real confusion).

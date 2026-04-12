@@ -1,0 +1,26 @@
+{
+  "eval_id": 1,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "compression_ratio",
+      "passed": true,
+      "evidence": "Original: ~107 words. Distilled: ~37 words. Compression: 65%. Passes 60% threshold."
+    },
+    {
+      "text": "constraint_preservation",
+      "passed": true,
+      "evidence": "All 4 constraints present: (1) 'Speak plain. Speak short.' = concise+plain, (2) 'Link what cannot be shortened' = link context, (3) 'The machine reads the documents; the human reads the summary' = you think/user reads, (4) implied plain terms via 'speak plain'."
+    },
+    {
+      "text": "no_ambiguity",
+      "passed": false,
+      "evidence": "'Brevity is respect for the reader's time' is a philosophical aphorism — poetic but not actionable. 'Many sessions, one day — each word must earn its place' is motivational rather than instructional. A reader might appreciate the sentiment without knowing the concrete rules."
+    },
+    {
+      "text": "no_filler",
+      "passed": true,
+      "evidence": "No hedging words found. However the style is aphoristic rather than directive."
+    }
+  ]
+}

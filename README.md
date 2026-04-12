@@ -12,6 +12,7 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | [perspective](skills/perspective/SKILL.md) | Strategic reality check — checks whether the solution already exists, whether there's a better approach, against live docs not stale training data |
 | [cc-audit](skills/cc-audit/SKILL.md) | Audits a project's Claude Code setup against official Anthropic docs across 9 areas, produces a scored AUDIT-REPORT.md |
 | [coherency-check](skills/coherency-check/SKILL.md) | Cross-document and cross-code coherency analysis — finds contradictions, conflicting values, and overlapping definitions, resolves each interactively |
+| [philosophier](skills/philosophier/SKILL.md) | Compresses verbose text into the shortest precise phrasing that preserves every constraint. Searches for established philosophical principles (YAGNI, Chesterton's Fence, Occam's Razor) when they're exact matches; falls back to raw distillation otherwise |
 | [website-audit](skills/website-audit/SKILL.md) | SEO, AEO, GEO, and structured-data audit. Crawls with Playwright, runs Lighthouse, checks Perplexity citations, scores deterministically |
 
 ## Install

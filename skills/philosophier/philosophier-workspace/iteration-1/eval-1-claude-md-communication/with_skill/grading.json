@@ -1,0 +1,26 @@
+{
+  "eval_id": 1,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "compression_ratio",
+      "passed": true,
+      "evidence": "Original: ~107 words. Distilled: 33 words. Compression: 69%. Exceeds 60% threshold."
+    },
+    {
+      "text": "constraint_preservation",
+      "passed": true,
+      "evidence": "All 4 constraints present: (1) 'seconds to read, plain language' = concise+plain, (2) 'Link out for depth' = link context, (3) 'no jargon' = plain terms, (4) 'You do the deep reading; the user sees only the conclusion' = you think/user reads."
+    },
+    {
+      "text": "no_ambiguity",
+      "passed": true,
+      "evidence": "Each sentence is a direct instruction. 'Replies: seconds to read' is unambiguous. 'Link out for depth — never inline it' is a clear rule. No dual interpretations possible."
+    },
+    {
+      "text": "no_filler",
+      "passed": true,
+      "evidence": "Zero instances of: should, might, perhaps, consider, important, ensure. All declarative/imperative."
+    }
+  ]
+}

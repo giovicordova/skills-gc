@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "skill_name": "philosophier",
+    "timestamp": "2026-04-12T07:35:39Z",
+    "evals_run": ["claude-md-communication-distill", "readme-intro-distill", "error-handling-new-section"],
+    "runs_per_configuration": 1
+  },
+  "configurations": [
+    {
+      "name": "with_skill",
+      "pass_rate": {"mean": 1.0, "stddev": 0.0},
+      "time_seconds": {"mean": 40.2, "stddev": 11.8},
+      "tokens": {"mean": 18298, "stddev": 384}
+    },
+    {
+      "name": "without_skill",
+      "pass_rate": {"mean": 0.583, "stddev": 0.0},
+      "time_seconds": {"mean": 23.5, "stddev": 3.1},
+      "tokens": {"mean": 16449, "stddev": 550}
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+0.417",
+      "time_seconds": "+16.7",
+      "tokens": "+1849"
+    }
+  },
+  "per_eval": [
+    {
+      "eval_name": "claude-md-communication-distill",
+      "with_skill": {"pass_rate": 1.0, "assertions_passed": 4, "assertions_total": 4},
+      "without_skill": {"pass_rate": 0.75, "assertions_passed": 3, "assertions_total": 4}
+    },
+    {
+      "eval_name": "readme-intro-distill",
+      "with_skill": {"pass_rate": 1.0, "assertions_passed": 4, "assertions_total": 4},
+      "without_skill": {"pass_rate": 0.5, "assertions_passed": 2, "assertions_total": 4}
+    },
+    {
+      "eval_name": "error-handling-new-section",
+      "with_skill": {"pass_rate": 1.0, "assertions_passed": 4, "assertions_total": 4},
+      "without_skill": {"pass_rate": 0.25, "assertions_passed": 1, "assertions_total": 4}
+    }
+  ],
+  "notes": [
+    "Without-skill runs produce poetic/aphoristic output — sounds good but loses precision and introduces ambiguity.",
+    "With-skill runs consistently produce directive, actionable output — every sentence is an instruction, not a sentiment.",
+    "Key discriminator: the skill's verification step catches ambiguity that pure 'make it short' prompting misses.",
+    "Trade-off: with-skill runs take ~70% longer due to reading skill + following structured steps. Worth it for quality."
+  ]
+}

@@ -1,0 +1,1 @@
+Apply Chesterton's Fence: never remove, overwrite, or alter anything you don't fully understand — investigate its purpose first. Unknown state (files, branches, configs, locks) likely reflects in-progress work. Resolve conflicts; don't discard them.

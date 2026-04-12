@@ -1,0 +1,26 @@
+{
+  "eval_id": 2,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "compression_ratio",
+      "passed": true,
+      "evidence": "Original: ~90 words. Distilled: 30 words. Compression: 67%. Exceeds 60% threshold."
+    },
+    {
+      "text": "what_preserved",
+      "passed": true,
+      "evidence": "'CLI tool that manages local dev services — databases, queues, caches — through one interface. Starts, stops, and monitors them automatically.' Covers what it is and what it does precisely."
+    },
+    {
+      "text": "why_preserved",
+      "passed": true,
+      "evidence": "'Built to eliminate onboarding friction and silent environment drift.' Both reasons named explicitly."
+    },
+    {
+      "text": "no_ambiguity",
+      "passed": true,
+      "evidence": "Every clause is concrete — specific services named, specific actions listed, specific problems identified. One reading only."
+    }
+  ]
+}

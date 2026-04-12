@@ -1,0 +1,27 @@
+{
+  "eval_id": 3,
+  "eval_name": "error-handling-new-section",
+  "prompt": "Write a new CLAUDE.md error handling section from scratch, already distilled.",
+  "assertions": [
+    {
+      "name": "already_distilled",
+      "description": "Written short from the start — no verbose-then-compressed pattern, no before/after structure",
+      "type": "llm_judge"
+    },
+    {
+      "name": "all_rules_present",
+      "description": "All 4 rules present: (1) propose fix immediately, (2) explain user actions with reason, (3) never blind retry, (4) ask user after 3 attempts",
+      "type": "llm_judge"
+    },
+    {
+      "name": "line_count",
+      "description": "5 lines or fewer (excluding header)",
+      "type": "programmatic"
+    },
+    {
+      "name": "no_filler",
+      "description": "Zero hedging words: should, might, perhaps, consider, important, ensure",
+      "type": "programmatic"
+    }
+  ]
+}

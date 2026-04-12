@@ -1,0 +1,27 @@
+{
+  "eval_id": 1,
+  "eval_name": "claude-md-communication-distill",
+  "prompt": "Distill this CLAUDE.md section about communication style into the shortest possible version preserving all constraints.",
+  "assertions": [
+    {
+      "name": "compression_ratio",
+      "description": "Output is at least 60% shorter than input by word count",
+      "type": "programmatic"
+    },
+    {
+      "name": "constraint_preservation",
+      "description": "All 4 constraints survive: (1) concise replies, (2) plain terms, (3) link context elsewhere, (4) you do the thinking — user reads the result",
+      "type": "llm_judge"
+    },
+    {
+      "name": "no_ambiguity",
+      "description": "A reader unfamiliar with the original would interpret the distilled version identically",
+      "type": "llm_judge"
+    },
+    {
+      "name": "no_filler",
+      "description": "Zero hedging words: should, might, perhaps, consider, important, ensure",
+      "type": "programmatic"
+    }
+  ]
+}
