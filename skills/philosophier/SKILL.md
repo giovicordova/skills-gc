@@ -37,7 +37,30 @@ Read the input. For each paragraph or section, answer: **what does the reader ne
 
 What remains is the structural meaning — the bones.
 
-### Step 2: Compress to declarative statements
+### Step 2: Search for philosophical precedent
+
+Before compressing from scratch, check whether philosophy, logic, or established principles already express the concept better than you could. Many ideas that appear in technical writing were solved centuries ago in fewer words.
+
+**How to search:** For each core concept extracted in Step 1, ask: has a philosopher, scientist, or established principle already distilled this? Use web search if needed. Look across:
+- **Named principles** — Occam's Razor ("do not multiply entities beyond necessity"), Chesterton's Fence ("do not remove what you do not understand"), the Pareto Principle, YAGNI, DRY
+- **Philosophical formulations** — Wittgenstein's "Whereof one cannot speak, thereof one must be silent", Epictetus' "We have two ears and one mouth so that we can listen twice as much as we speak"
+- **Established maxims** — "The map is not the territory" (Korzybski), "Premature optimisation is the root of all evil" (Knuth), "What can be asserted without evidence can be dismissed without evidence" (Hitchens)
+
+**When to use a philosophical phrase:**
+- It expresses the *exact same constraint* as the original text — not approximately, exactly
+- It's widely recognised enough that the reader won't need to look it up
+- It's *shorter or equal* to what raw compression would produce
+- It adds precision, not decoration
+
+**When NOT to use one:**
+- The match is thematic but not precise (the concept *resembles* the principle but has different constraints)
+- The phrase is obscure — if the reader needs a footnote, it's not compression
+- The original text has specific technical conditions that the philosophical phrase would obscure
+- You're forcing a fit. If nothing matches, nothing matches — move to Step 3.
+
+**Format when used:** State the principle by name, then the specific application in parentheses if the mapping isn't obvious. Example: "Occam's Razor — the simplest explanation that fits all constraints wins." or "Chesterton's Fence: understand before you remove."
+
+### Step 3: Compress to declarative statements
 
 Rewrite each meaning unit as a single declarative statement. Techniques:
 
@@ -49,7 +72,7 @@ Rewrite each meaning unit as a single declarative statement. Techniques:
 
 **Cut the obvious** — if a reader can infer it from context, it doesn't need saying. A CLAUDE.md file doesn't need to explain what CLAUDE.md is.
 
-### Step 3: Verify nothing was lost
+### Step 4: Verify nothing was lost
 
 Compare each distilled line against the original. Check:
 - Does every constraint survive? (languages, formats, conditions)
@@ -58,7 +81,7 @@ Compare each distilled line against the original. Check:
 
 If a distilled line fails this check, it's too compressed. Add back the minimum words needed to restore the meaning.
 
-### Step 4: Test for ambiguity
+### Step 5: Test for ambiguity
 
 Read each distilled line as if you've never seen the original. Ask: **could a reasonable person read this differently than intended?** If yes, rephrase until there's only one reading.
 
@@ -73,6 +96,9 @@ Read each distilled line as if you've never seen the original. Ask: **could a re
 ### After
 [distilled text]
 
+### Source
+[If a philosophical principle was used, name it and its origin. If raw compression, say "Raw distillation." This lets the reader verify the mapping.]
+
 ### Dropped
 [anything removed that might matter — ask the user if unsure]
 ```
@@ -85,11 +111,39 @@ If multiple sections are distilled, use this format per section. Group them unde
 
 ## Calibration examples
 
+### Philosophical match
+
+**Verbose:**
+> "Don't add extra features, abstractions, or configuration options unless the user explicitly asked for them. Build exactly what's needed now. You don't know what will be needed later, and guessing usually creates waste."
+
+**Distilled:**
+> "YAGNI — build what's asked, not what might be needed."
+
+The principle already exists, is universally known in software, and carries the exact constraint. One word replaces a paragraph.
+
+---
+
+### Philosophical match with clarification
+
+**Verbose:**
+> "Before removing or changing code you don't understand, first figure out why it was added. There might be a reason that isn't obvious, and removing it could break something you didn't anticipate."
+
+**Distilled:**
+> "Chesterton's Fence: understand before you remove."
+
+The named principle is precise and well-known. The parenthetical isn't needed here because the mapping is self-evident.
+
+---
+
+### No philosophical match — raw distillation
+
 **Verbose:**
 > "Whenever you are sure about something but you evaluate that it is something that might have changed in the last few months, use real-time sources to update and look for solutions that might not be part of your training. This, of course, doesn't apply to unchangeable things. But mostly when we are talking about technology and things that are growing fast, this is the case."
 
 **Distilled:**
 > "Verify fast-moving claims with live sources. Stable knowledge needs no check."
+
+No established principle maps cleanly to "check your training data staleness." Raw compression is the right path.
 
 ---
 
