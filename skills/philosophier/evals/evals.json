@@ -1,0 +1,23 @@
+{
+  "skill_name": "philosophier",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Distill this CLAUDE.md section:\n\n\"Communication thorugh the claude code sessions should be extremely concise for the user to be able to read in a few seconds and clearly understand what is happening in plain terms. If more context is required to be shown, link it through different documents or URLs. It is vital information that you don't reply using a long or monolithic or too technical approach. This will waste the user's time and make it difficult to have productive sessions. You are the one who is responsible for doing all the thinking and controlling that all the official and full documentation is organised and considered and read, but whenever you talk with a user, you focus on being understandable in literally the least amount of time possible. The user works on a large number of Claude Code sessions during the day, so every extra minute that he requires to read something that can be avoided is a loss in productivity.\"",
+      "expected_output": "A distilled version that's 2-3 sentences max, preserving all constraints: concise, plain terms, link for context, no technical jargon, you do the thinking — user reads the result.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Distill this README intro:\n\n\"This project is a command-line tool that helps developers manage their local development environments. It provides a unified interface for starting, stopping, and monitoring various services that are needed during development, such as databases, message queues, and cache servers. Instead of having to remember different commands for each service and manually check if they're running, this tool handles all of that automatically. It was built because we found that new team members were spending too much time just getting their local environment set up, and experienced developers were losing time to environment drift when services would silently stop or get misconfigured.\"",
+      "expected_output": "A distilled version that preserves: what it is (CLI for local dev environments), what it does (unified start/stop/monitor for services), and why (onboarding time + environment drift). Should be 2-4 sentences max.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need a new CLAUDE.md section about error handling. The rules are: when a command fails, don't just report the error — propose the fix immediately. If the fix requires user action (like logging in to a service), explain what they need to do and why. Never retry the same failing command without changing something. If you're stuck after three attempts, ask the user instead of looping.",
+      "expected_output": "A fresh section written in distilled form from the start — should be 3-5 lines max, each line a direct rule. No verbose explanation.",
+      "files": []
+    }
+  ]
+}
