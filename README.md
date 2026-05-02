@@ -7,6 +7,7 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | Skill | What it does |
 |-------|-------------|
 | [checkpoint](skills/checkpoint/SKILL.md) | End-of-session handoff — writes a one-line entry to `CHECKPOINTS.md` plus a matching git commit (subject = same line, body = full narrative). Next session reads the index first, opens full commit bodies only for the matches |
+| [wrap](skills/wrap/SKILL.md) | End-of-session routine — saves durable signal from the session to the project's auto-memory directory, commits the working tree with a session-narrative message, and pushes to upstream. Manual-only (`/wrap`); pre-approves git tools while active |
 | [verify](skills/verify/SKILL.md) | Audits Claude's own output against the user's original request. PASS/PARTIAL/FAIL per requirement, flags scope creep |
 | [plan-challenger](skills/plan-challenger/SKILL.md) | Stress-tests implementation plans before execution — researches alternatives, challenges complexity, returns a revised plan |
 | [perspective](skills/perspective/SKILL.md) | Strategic reality check — checks whether the solution already exists, whether there's a better approach, against live docs not stale training data |
