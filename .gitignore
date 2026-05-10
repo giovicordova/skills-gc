@@ -5,6 +5,3 @@ logs/
 
 # macOS noise
 .DS_Store
-
-# Personal session notes — do not publish
-agent-company/harness/knowledge/

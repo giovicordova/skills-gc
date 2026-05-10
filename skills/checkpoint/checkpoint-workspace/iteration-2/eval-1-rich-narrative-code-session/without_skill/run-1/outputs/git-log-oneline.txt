@@ -1,2 +1,0 @@
-971f68c Add sorted list_widgets() and colour filter module
-6d882fc Initial skeleton
