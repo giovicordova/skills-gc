@@ -19,5 +19,8 @@ Skip anything derivable from code, git log, or the commit message. Update existi
 ## 2. Commit + push
 `git status` → stage → commit (message explains *why*) → push.
 
-## 3. Report
-2–3 lines: count of memories + topics, and the commit ref. No session recap.
+## 3. Session log
+Append one line to `memory/sessions.log`: `YYYY-MM-DD HH:MM — <one-sentence digest of what this session did> — <short-hash>`. Create the file if missing and add a pointer to `MEMORY.md` (`- [Session log](sessions.log) — chronological one-liners of past sessions`). One line per wrap, ever. No multi-line entries.
+
+## 4. Report
+2–3 lines: count of memories + topics, commit ref, and session log line added. No session recap.
