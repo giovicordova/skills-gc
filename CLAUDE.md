@@ -1,32 +1,19 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code in this repo: custom skills built with skill-creator. Each triggers from context or as a slash command (`/wrap`, `/verify`).
 
-Claude Code skills, built with skill-creator. Each skill triggers from context or as a slash command (`/wrap`, `/verify`).
+User is not a developer. Reply in seconds, plain language, what and why not how. Link out for depth.
 
-User is not a developer. Replies in seconds, plain language, what and why not how. Link out for depth.
+## Editing prose
+For markdown with existing signal (README, SKILL.md, CLAUDE.md), dispatch `hermetic-distiller`: distill, don't regenerate.
 
-# Editing prose
+## Repo layout
+Each skill at `skills/<name>/`. Required: `SKILL.md` (frontmatter `description:` is the trigger contract; `allowed-tools:` pre-approves tools; body is instructions). Optional: `evals/evals.json` (test cases), `references/`, `agents/`, `modules/`, `scripts/`, `<skill>-workspace/` (eval output, gitignored). `README.md` is the public skills table: keep in sync with each `SKILL.md` `description:`.
 
-For markdown with existing signal (README, SKILL.md, CLAUDE.md), dispatch `hermetic-distiller` — distill, don't regenerate.
-
-# Repo layout
-
-Each skill at `skills/<name>/`:
-
-- `SKILL.md` — required. Frontmatter `description:` is the trigger contract (controls auto-invocation); `allowed-tools:` pre-approves tools. Body is instructions.
-- `evals/evals.json` — optional test cases (`prompt` + `expected_output`), run by skill-creator.
-- `references/`, `agents/`, `modules/`, `scripts/` — optional on-demand assets.
-- `<skill>-workspace/` or `workspace/` — skill-creator eval output. Gitignored; delete when stale.
-
-`README.md` is the public skills table — keep in sync with `SKILL.md` `description:` (triggers and outputs must agree).
-
-# Installing
-
+## Install
 ```bash
 ln -s /path/to/skills-gc/skills/<name> ~/.claude/skills/<name>
 ```
 
-# Editing SKILL.md
-
-`description:` is load-bearing — it decides invocation. Cover trigger phrases, output, and negative scope ("NOT for X"). When you change it, update the README row (use `coherency-check` if multiple files moved).
+## Editing SKILL.md
+`description:` is load-bearing: it decides invocation. Cover triggers, output, negative scope ("NOT for X"). When changed, update the README row (use `coherency-check` if multiple files moved).
