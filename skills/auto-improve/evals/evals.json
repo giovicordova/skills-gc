@@ -1,0 +1,23 @@
+{
+  "skill_name": "auto-improve",
+  "evals": [
+    {
+      "id": 0,
+      "name": "skill-md-verify",
+      "prompt": "Auto-improve skills/verify/SKILL.md with one focused pass. Mode: findings doc. Interval: once. Verify external claims against authoritative sources and tighten prose where worth doing. Output the findings to AUTO-IMPROVE-FINDINGS.md.",
+      "expected_output": "A findings file with at least one verified claim (citing a source) and a deliberate decision about prose tightening (either applied or explained-skip)."
+    },
+    {
+      "id": 1,
+      "name": "readme-claims",
+      "prompt": "Auto-improve README.md at repo root with one pass. Mode: findings doc. Interval: once. Verify every external URL and reference. Output findings.",
+      "expected_output": "Findings file noting URL verification results and any stale/missing references."
+    },
+    {
+      "id": 2,
+      "name": "philosophier-skill",
+      "prompt": "Auto-improve skills/philosophier/SKILL.md with one pass. Mode: findings doc. Interval: once. Output findings.",
+      "expected_output": "Findings file with verified claims and tightening notes (or stable-exit if file is saturated)."
+    }
+  ]
+}

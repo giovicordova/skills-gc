@@ -5,3 +5,8 @@ logs/
 
 # macOS noise
 .DS_Store
+
+# auto-improve runtime state
+.auto-improve.state
+.auto-improve.log
+AUTO-IMPROVE-FINDINGS.md

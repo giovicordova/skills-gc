@@ -13,6 +13,7 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | [philosophier](skills/philosophier/SKILL.md) | Compresses text to shortest precise phrasing; cites principles (YAGNI, Occam) on match |
 | [website-audit](skills/website-audit/SKILL.md) | SEO/AEO/GEO and structured-data audit: Playwright, Lighthouse, Perplexity citations |
 | [interactive-qa](skills/interactive-qa/SKILL.md) | Q&A to collect your decisions when agents disagree; output briefs Plan Mode or agent |
+| [auto-improve](skills/auto-improve/SKILL.md) | Loop that incrementally improves a target (agent/skill/doc/folder): verifies external claims, tightens prose. Mode + interval chosen at start; findings reviewed via `/interactive-qa` after |
 ## Install
 ```bash
 ln -s /path/to/skills-gc/skills/verify ~/.claude/skills/verify
