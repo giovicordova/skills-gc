@@ -8,13 +8,13 @@ allowed-tools: Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git stat
 Memory first, git second. The sweep is where wraps usually under-save.
 
 ## 1. Memory sweep
-Read `MEMORY.md`. For each type, ask "anything from this session?" — write a file + a MEMORY.md line per yes.
-- **user** — new role, skill, preference signals.
-- **feedback** — corrections AND validated approaches (second half is easy to miss); workflow signals count. Format: rule, **Why:**, **How to apply:**.
-- **project** — non-code-derivable decisions, trade-offs, rejected alternatives. Skip ephemeral status.
-- **reference** — pointers outside the diff (dashboards, docs, systems).
+Read `MEMORY.md`. Scan the session against four prompts; write a file + MEMORY.md line per hit:
+- **user** — new role, skill, or preference signal.
+- **feedback** — a correction OR a validated approach (the second is easy to miss).
+- **project** — a decision, trade-off, or rejected alternative not derivable from code.
+- **reference** — a pointer outside the diff (dashboard, doc, system).
 
-Skip anything derivable from code, git log, or the commit message. Update existing files instead of duplicating; remove memories this session contradicts.
+Rules: skip anything in code, git log, or the commit message. Update an existing file rather than duplicate; delete any memory this session contradicts.
 
 ## 2. Commit + push
 `git status` → stage → commit (message explains *why*) → push.
