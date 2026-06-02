@@ -14,6 +14,7 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | [website-audit](skills/website-audit/SKILL.md) | SEO/AEO/GEO and structured-data audit: Playwright, Lighthouse, Perplexity citations |
 | [interactive-qa](skills/interactive-qa/SKILL.md) | Q&A to collect your decisions when agents disagree; output briefs Plan Mode or agent |
 | [auto-improve](skills/auto-improve/SKILL.md) | Loop that incrementally improves a target (agent/skill/doc/folder): verifies external claims, tightens prose. Mode + interval chosen at start; findings reviewed via `/interactive-qa` after |
+| [cut](skills/cut/SKILL.md) | `/cut` forces a concise redo of Claude's own last wall-of-text reply, then holds short mode for the session |
 ## Install
 ```bash
 ln -s /path/to/skills-gc/skills/verify ~/.claude/skills/verify
