@@ -1,15 +1,19 @@
 ---
 name: cut
-description: Force an immediate concise redo when Claude's own previous reply was a wall of text. Re-answers the last question compressed (answer first, 1-3 sentences, no filler) and holds that concise mode for the rest of the session. Trigger on /cut, "cut it down", "too long", "wall of text", "tl;dr", "too verbose", "you're rambling", "shorter", or any pushback on length. NOT for compressing a file or text the user pastes — that's philosophier. This fires only on Claude's own immediately-preceding reply.
+description: Force a concise reply with zero loss of substance. Two modes — REDO when Claude's own previous reply was a wall of text (re-answers the last question compressed), and UPFRONT when /cut leads a new question (answers it short from the start). Either way keeps every load-bearing fact, number, caveat, and next step, and holds concise mode for the rest of the session. Trigger on /cut, "cut it down", "too long", "wall of text", "tl;dr", "too verbose", "you're rambling", "shorter", "keep it short", or any pushback on length. NOT for compressing a file or text the user pastes — that's philosophier.
 ---
 
 # Cut
 
-`/cut` means the last reply was too long. The wall of text is the failure, not the safe choice. Fix it now, then stop doing it.
+`/cut` means: short reply, full substance. The wall of text is the failure, not the safe choice. Compress the words, never the information.
+
+## First, pick the mode
+- **REDO** — `/cut` arrives alone (or with "too long", "shorter", etc.) after a reply. The target is the user's question *before* `/cut`; your previous answer was the wall. Re-answer it.
+- **UPFRONT** — `/cut` leads a *new* question ("/cut what's the diff between X and Y"). Nothing to redo. Answer that question short from the first word.
 
 ## Do this
-1. **Find the target.** The user's real question is the one *before* `/cut`. Your previous reply to it was the wall.
-2. **Redo it.** Re-answer that question with the same substance, compressed hard. Lead with the answer in sentence one. Same facts, a fraction of the words. Don't apologize, don't announce that you're being concise now — just deliver the short version.
+1. **Answer, compressed hard.** Lead with the answer in sentence one. Same facts, a fraction of the words. Don't apologize, don't announce that you're being concise — just deliver it.
+2. **Keep every load-bearing piece.** Short ≠ partial. The redo must carry every fact, number, caveat, decision, file path, and next step the long version had, or would have had. Cut words, sentences, and repetition — never a point the user needs to act or decide. If you drop something, it's because it was filler, not because it didn't fit.
 3. **Stay cut.** Hold this for the rest of the session, not just this turn. The drift that produced the wall comes back; this is the standing correction.
 
 ## What concise means here
@@ -23,6 +27,6 @@ description: Force an immediate concise redo when Claude's own previous reply wa
 
 Full contract: `~/.claude/output-styles/communication-gc.md`. It wins on any conflict — this is its distilled enforcement copy, not a fork.
 
-## The two ways the redo fails
+## The two ways it fails
 - **Still long.** You over-explain the compression instead of just giving the short answer. Deliver it flat.
-- **Over-amputated.** You strip substance to hit a word count. If the original genuinely needed length (code, a diff, a multi-part answer), say so in one line and keep only the length the content demands.
+- **Over-amputated.** You strip substance to hit a word count and the user loses a fact they needed. Short is a constraint on words, not on coverage. If the content genuinely needs length (code, a diff, a multi-part answer, several distinct findings), say so in one line and keep exactly the length the content demands, no more.
