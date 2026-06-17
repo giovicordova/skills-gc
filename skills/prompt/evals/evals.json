@@ -1,0 +1,29 @@
+{
+  "skill_name": "prompt",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ok so the landing page feels kinda slow when it loads especially on mobile and i think images maybe? just make it faster /prompt",
+      "expected_output": "Shows a 'Rewritten prompt:' fenced block restructuring the ask into goal (speed up landing page load), context (slow on mobile, images suspected), and a constraint/output expectation — preserving every detail given (mobile, images) and adding NO new requirements. Then immediately begins executing the rewritten prompt (e.g. routing to frontend-gc / web-perf). Does not wait for approval.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/prompt fix it please",
+      "expected_output": "Too vague to rewrite faithfully — 'it' and the desired outcome are gaps that change what gets built. Routes through interactive-qa to ask what 'it' refers to and what 'fixed' means, with a best-guess answer flagged, instead of inventing a target. Does not fabricate a prompt or execute before the gap is closed.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "i want to email my list about the new feature, like a short announcement, sound excited but not spammy, and include a link to the changelog /prompt",
+      "expected_output": "Shows a 'Rewritten prompt:' block with goal (announcement email to list re: new feature), constraints (short, excited-not-spammy tone, include changelog link), and output format (email copy). Keeps the tone and link requirements verbatim, adds no extra constraints (no invented subject-line rules, length limits, etc.). Then executes — drafting the email.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "This paragraph is too wordy, make it shorter: \"In order to facilitate the onboarding of new users we have decided to implement a streamlined process.\"",
+      "expected_output": "Does NOT trigger the prompt skill. This is compressing finished text the user pasted — philosophier's job. The prompt skill restructures a rambling ASK into a prompt; it does not shorten supplied prose.",
+      "files": []
+    }
+  ]
+}
