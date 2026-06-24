@@ -15,7 +15,6 @@ Custom skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 | [interactive-qa](skills/interactive-qa/SKILL.md) | Q&A to collect your decisions when agents disagree; output briefs Plan Mode or agent |
 | [auto-improve](skills/auto-improve/SKILL.md) | Loop that incrementally improves a target (agent/skill/doc/folder): verifies external claims, tightens prose. Mode + interval chosen at start; findings reviewed via `/interactive-qa` after |
 | [cut](skills/cut/SKILL.md) | `/cut` forces a concise reply with no loss of substance — redoes Claude's last wall, or answers a new question short upfront — then holds short mode for the session |
-| [prompt](skills/prompt/SKILL.md) | `/prompt` rewrites your rough spoken-style ask into a structured prompt — interprets faithfully, never invents; closes real gaps via `interactive-qa` — then executes it |
 ## Install
 ```bash
 ln -s /path/to/skills-gc/skills/verify ~/.claude/skills/verify
